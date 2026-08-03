@@ -1,0 +1,143 @@
+import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Folder, Loader2, Lock, Search } from "lucide-react";
+import { fetchFolders } from "@/lib/content.functions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+export const Route = createFileRoute("/etudiant")({
+  head: () => ({
+    meta: [
+      { title: "Espace étudiant — Cours & Documents" },
+      { name: "description", content: "Consultez les dossiers de formation, tutoriels, images, PDF et documents." },
+      { property: "og:title", content: "Espace étudiant — Cours & Documents" },
+      { property: "og:description", content: "Tous vos cours et tutoriels dans une seule application." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: StudentHome,
+});
+
+function StudentHome() {
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [locked, setLocked] = useState<{ id: string; name: string } | null>(null);
+  const [codeValue, setCodeValue] = useState("");
+
+  const { data, isLoading, error } = useQuery({ queryKey: ["folders"], queryFn: () => fetchFolders() });
+  const folders = (data ?? []).filter((f) => f.name.toLowerCase().includes(search.toLowerCase()));
+
+  const open = (f: { id: string; name: string; protected: boolean }) => {
+    if (f.protected) {
+      setCodeValue("");
+      setLocked({ id: f.id, name: f.name });
+    } else {
+      navigate({ to: "/etudiant/$folderId", params: { folderId: f.id } });
+    }
+  };
+
+  return (
+    <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
+      <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
+        <ArrowLeft className="size-4" /> Accueil
+      </Link>
+      <h1 className="text-2xl font-bold">Mes formations</h1>
+      <p className="text-sm text-muted-foreground">Choisissez un dossier pour consulter les cours.</p>
+
+      <div className="relative my-4">
+        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          className="pl-9"
+          placeholder="Rechercher un dossier"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-16">
+          <Loader2 className="size-7 animate-spin text-primary" />
+        </div>
+      ) : error ? (
+        <p className="text-sm text-destructive">Impossible de charger les dossiers.</p>
+      ) : folders.length === 0 ? (
+        <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+          Aucun dossier disponible.
+        </p>
+      ) : (
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {folders.map((f) => (
+            <li key={f.id}>
+              <button
+                onClick={() => open(f)}
+                className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left transition-transform active:scale-[0.98]"
+                style={{ boxShadow: "var(--shadow-card)" }}
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+                  <Folder className="size-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate font-semibold">{f.name}</span>
+                  <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                    {f.protected ? (
+                      <>
+                        <Lock className="size-3" /> Code requis
+                      </>
+                    ) : (
+                      "Accès libre"
+                    )}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <Dialog open={!!locked} onOpenChange={(o) => !o && setLocked(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Saisissez le code d'accès</DialogTitle>
+            <DialogDescription>Dossier protégé : {locked?.name}</DialogDescription>
+          </DialogHeader>
+          <Input
+            autoFocus
+            type="password"
+            inputMode="numeric"
+            placeholder="Code du dossier"
+            value={codeValue}
+            onChange={(e) => setCodeValue(e.target.value)}
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setLocked(null)}>
+              Annuler
+            </Button>
+            <Button
+              disabled={!codeValue.trim()}
+              onClick={() =>
+                locked &&
+                navigate({
+                  to: "/etudiant/$folderId",
+                  params: { folderId: locked.id },
+                  search: { code: codeValue.trim() },
+                })
+              }
+            >
+              Ouvrir
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </main>
+  );
+}
