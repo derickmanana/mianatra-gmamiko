@@ -4,16 +4,16 @@ import { GraduationCap, ShieldCheck, BookOpen } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Cours & Documents — Formations Pinduoduo, Taobao, 1688" },
+      { title: "GMAMIKO33" },
       {
         name: "description",
         content:
           "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants.",
       },
-      { property: "og:title", content: "Cours & Documents — Plateforme de formation" },
+      { property: "og:title", content: "GMAMIKO33" },
       {
         property: "og:description",
-        content: "Consultez vos cours, tutoriels et documents. Espace administrateur et espace étudiant.",
+        content: "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
