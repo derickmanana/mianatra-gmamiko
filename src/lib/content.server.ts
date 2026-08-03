@@ -184,8 +184,11 @@ export async function updateItem(input: {
   content: string | null;
   url: string | null;
 }) {
-  const patch: Record<string, unknown> = { title: input.title, content: input.content };
-  if (input.url !== null) patch['url'] = input.url;
+  const patch: { title: string | null; content: string | null; url?: string | null } = {
+    title: input.title,
+    content: input.content,
+  };
+  if (input.url !== null) patch.url = input.url;
   const { error } = await supabaseAdmin.from("items").update(patch).eq("id", input.id);
   if (error) throw new Error(error.message);
 }
