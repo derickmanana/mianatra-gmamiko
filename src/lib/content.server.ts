@@ -120,3 +120,80 @@ export async function nextPosition(table: "folders" | "blocks" | "items", parent
   const { data } = await query;
   return ((data?.[0]?.position ?? -1) as number) + 1;
 }
+
+export async function createFolder(name: string, accessCode: string) {
+  const position = await nextPosition("folders");
+  const { error } = await supabaseAdmin
+    .from("folders")
+    .insert({ name, access_code: accessCode || null, position });
+  if (error) throw new Error(error.message);
+}
+
+export async function updateFolder(id: string, name: string, accessCode: string) {
+  const { error } = await supabaseAdmin
+    .from("folders")
+    .update({ name, access_code: accessCode || null })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function removeRow(table: "folders" | "blocks" | "items", id: string) {
+  const { error } = await supabaseAdmin.from(table).delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function createBlock(folderId: string, name: string) {
+  const position = await nextPosition("blocks", { column: "folder_id", value: folderId });
+  const { error } = await supabaseAdmin.from("blocks").insert({ folder_id: folderId, name, position });
+  if (error) throw new Error(error.message);
+}
+
+export async function renameBlock(id: string, name: string) {
+  const { error } = await supabaseAdmin.from("blocks").update({ name }).eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function reorder(table: "folders" | "blocks" | "items", ids: string[]) {
+  for (let i = 0; i < ids.length; i++) {
+    await supabaseAdmin.from(table).update({ position: i }).eq("id", ids[i]!);
+  }
+}
+
+export async function createItem(input: {
+  blockId: string;
+  type: ItemType;
+  title: string | null;
+  content: string | null;
+  url: string | null;
+}) {
+  const position = await nextPosition("items", { column: "block_id", value: input.blockId });
+  const { error } = await supabaseAdmin.from("items").insert({
+    block_id: input.blockId,
+    type: input.type,
+    title: input.title,
+    content: input.content,
+    url: input.url,
+    position,
+  });
+  if (error) throw new Error(error.message);
+}
+
+export async function updateItem(input: {
+  id: string;
+  title: string | null;
+  content: string | null;
+  url: string | null;
+}) {
+  const patch: Record<string, unknown> = { title: input.title, content: input.content };
+  if (input.url !== null) patch['url'] = input.url;
+  const { error } = await supabaseAdmin.from("items").update(patch).eq("id", input.id);
+  if (error) throw new Error(error.message);
+}
+
+export async function createUpload(fileName: string) {
+  const safe = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const path = `${crypto.randomUUID()}-${safe}`;
+  const { data, error } = await supabaseAdmin.storage.from("media").createSignedUploadUrl(path);
+  if (error || !data) throw new Error(error?.message ?? "Upload impossible.");
+  return { path, token: data.token, signedUrl: data.signedUrl };
+}
