@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as EtudiantRouteImport } from './routes/etudiant'
+import { Route as AdminFolderIdRouteImport } from './routes/admin_.$folderId'
+import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folderId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +25,65 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EtudiantRoute = EtudiantRouteImport.update({
+  id: '/etudiant',
+  path: '/etudiant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFolderIdRoute = AdminFolderIdRouteImport.update({
+  id: '/admin_/$folderId',
+  path: '/admin/$folderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EtudiantFolderIdRoute = EtudiantFolderIdRouteImport.update({
+  id: '/etudiant_/$folderId',
+  path: '/etudiant/$folderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/etudiant': typeof EtudiantRoute
+  '/admin/$folderId': typeof AdminFolderIdRoute
+  '/etudiant/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/etudiant': typeof EtudiantRoute
+  '/admin/$folderId': typeof AdminFolderIdRoute
+  '/etudiant/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/etudiant': typeof EtudiantRoute
+  '/admin_/$folderId': typeof AdminFolderIdRoute
+  '/etudiant_/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin'
+  fullPaths:
+    '/' | '/admin' | '/etudiant' | '/admin/$folderId' | '/etudiant/$folderId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin'
-  id: '__root__' | '/' | '/admin'
+  to: '/' | '/admin' | '/etudiant' | '/admin/$folderId' | '/etudiant/$folderId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/etudiant'
+    | '/admin_/$folderId'
+    | '/etudiant_/$folderId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  EtudiantRoute: typeof EtudiantRoute
+  AdminFolderIdRoute: typeof AdminFolderIdRoute
+  EtudiantFolderIdRoute: typeof EtudiantFolderIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +102,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/etudiant': {
+      id: '/etudiant'
+      path: '/etudiant'
+      fullPath: '/etudiant'
+      preLoaderRoute: typeof EtudiantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/$folderId': {
+      id: '/admin_/$folderId'
+      path: '/admin/$folderId'
+      fullPath: '/admin/$folderId'
+      preLoaderRoute: typeof AdminFolderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/etudiant_/$folderId': {
+      id: '/etudiant_/$folderId'
+      path: '/etudiant/$folderId'
+      fullPath: '/etudiant/$folderId'
+      preLoaderRoute: typeof EtudiantFolderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  EtudiantRoute: EtudiantRoute,
+  AdminFolderIdRoute: AdminFolderIdRoute,
+  EtudiantFolderIdRoute: EtudiantFolderIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
