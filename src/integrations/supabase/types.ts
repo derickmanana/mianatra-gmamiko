@@ -46,11 +46,41 @@ export type Database = {
           },
         ]
       }
+      folder_students: {
+        Row: {
+          created_at: string
+          folder_id: string
+          id: string
+          student_name: string
+        }
+        Insert: {
+          created_at?: string
+          folder_id: string
+          id?: string
+          student_name: string
+        }
+        Update: {
+          created_at?: string
+          folder_id?: string
+          id?: string
+          student_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folder_students_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       folders: {
         Row: {
           access_code: string | null
           created_at: string
           id: string
+          max_users: number | null
           name: string
           position: number
         }
@@ -58,6 +88,7 @@ export type Database = {
           access_code?: string | null
           created_at?: string
           id?: string
+          max_users?: number | null
           name: string
           position?: number
         }
@@ -65,6 +96,7 @@ export type Database = {
           access_code?: string | null
           created_at?: string
           id?: string
+          max_users?: number | null
           name?: string
           position?: number
         }
@@ -110,6 +142,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      messages: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          is_admin: boolean
+        }
+        Insert: {
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          is_admin?: boolean
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          is_admin?: boolean
+        }
+        Relationships: []
       }
     }
     Views: {
