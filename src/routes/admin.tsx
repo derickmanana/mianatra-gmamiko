@@ -116,14 +116,17 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [editing, setEditing] = useState<{ id?: string; name: string; accessCode: string } | null>(null);
+  const [editing, setEditing] = useState<{ id?: string; name: string; accessCode: string; maxUsers: string } | null>(
+    null,
+  );
   const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
 
   const { data, isLoading } = useQuery({ queryKey: ["folders"], queryFn: () => fetchFolders() });
 
   const saveMutation = useMutation({
-    mutationFn: (v: { id?: string; name: string; accessCode: string }) =>
+    mutationFn: (v: { id?: string; name: string; accessCode: string; maxUsers: number | null }) =>
       saveFolder({ data: { adminCode, ...v } }),
+
     onSuccess: () => {
       toast.success("Dossier enregistré");
       setEditing(null);
