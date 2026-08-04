@@ -153,3 +153,11 @@ export const requestUpload = createServerFn({ method: "POST" })
     m.assertAdmin(data.adminCode);
     return m.createUpload(data.fileName);
   });
+
+export const fetchFolderSecurity = createServerFn({ method: "POST" })
+  .inputValidator((d: { adminCode: string; folderId: string }) => d)
+  .handler(async ({ data }) => {
+    const m = await import("./content.server");
+    m.assertAdmin(data.adminCode);
+    return m.folderSecurity(data.folderId);
+  });

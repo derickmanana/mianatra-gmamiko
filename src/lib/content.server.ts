@@ -286,3 +286,21 @@ export async function createUpload(fileName: string) {
   if (error || !data) throw new Error(error?.message ?? "Upload impossible.");
   return { path, token: data.token, signedUrl: data.signedUrl };
 }
+
+export async function folderSecurity(folderId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("folders")
+    .select("id, name, access_code, max_users")
+    .eq("id", folderId)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("Dossier introuvable.");
+  const students = await folderStudents(folderId);
+  return {
+    accessCode: data.access_code ?? "",
+    maxUsers: data.max_users,
+    used: students.length,
+    remaining: data.max_users === null ? null : Math.max(0, data.max_users - students.length),
+    students,
+  };
+}
