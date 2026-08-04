@@ -49,6 +49,85 @@ export async function listFolders(): Promise<PublicFolder[]> {
   }));
 }
 
+export const QUOTA_MESSAGE =
+  "Le nombre maximal d'utilisateurs autorisés pour ce dossier a été atteint.";
+
+export async function folderStudents(folderId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("folder_students")
+    .select("id, student_name, created_at")
+    .eq("folder_id", folderId)
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+export async function removeFolderStudent(id: string) {
+  const { error } = await supabaseAdmin.from("folder_students").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function resetFolderStudents(folderId: string) {
+  const { error } = await supabaseAdmin.from("folder_students").delete().eq("folder_id", folderId);
+  if (error) throw new Error(error.message);
+}
+
+async function ensureStudentAccess(
+  folder: { id: string; access_code: string | null; max_users: number | null },
+  code: string | null,
+  studentName: string | null,
+) {
+  if (!folder.access_code) return;
+  const name = (studentName ?? "").trim();
+  if (!name) throw new Error("Veuillez d'abord créer votre profil étudiant.");
+
+  const existing = await folderStudents(folder.id);
+  const already = existing.find((s) => s.student_name.toLowerCase() === name.toLowerCase());
+  if (already) return;
+
+  if (folder.access_code !== code) throw new Error("Code incorrect.");
+  if (folder.max_users !== null && existing.length >= folder.max_users) {
+    throw new Error(QUOTA_MESSAGE);
+  }
+
+  const { error } = await supabaseAdmin
+    .from("folder_students")
+    .insert({ folder_id: folder.id, student_name: name });
+  if (error && !error.message.includes("duplicate")) throw new Error(error.message);
+}
+
+export async function listMessages() {
+  const { data, error } = await supabaseAdmin
+    .from("messages")
+    .select("id, author_name, is_admin, body, created_at")
+    .order("created_at", { ascending: true })
+    .limit(500);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+export async function postMessage(authorName: string, body: string, isAdmin: boolean) {
+  const text = body.trim().slice(0, 2000);
+  const name = authorName.trim().slice(0, 60);
+  if (!text) throw new Error("Message vide.");
+  if (!name) throw new Error("Nom requis.");
+  const { error } = await supabaseAdmin
+    .from("messages")
+    .insert({ author_name: name, body: text, is_admin: isAdmin });
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteMessage(id: string) {
+  const { error } = await supabaseAdmin.from("messages").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function clearMessages() {
+  const { error } = await supabaseAdmin.from("messages").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  if (error) throw new Error(error.message);
+}
+
+
 export async function signUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
   if (path.startsWith("http")) return path;
