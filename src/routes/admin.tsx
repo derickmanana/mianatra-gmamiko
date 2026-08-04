@@ -7,13 +7,14 @@ import {
   Folder,
   Loader2,
   Lock,
+  MessageCircle,
   Pencil,
   Plus,
   Search,
   ShieldCheck,
   Trash2,
 } from "lucide-react";
-import { checkAdminCode, deleteRow, fetchFolders, saveFolder } from "@/lib/content.functions";
+import { checkAdminCode, deleteRow, fetchFolderSecurity, fetchFolders, saveFolder } from "@/lib/content.functions";
 import { useAdminCode } from "@/hooks/use-admin-code";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -154,9 +155,14 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
           <h1 className="text-2xl font-bold">Tableau de bord</h1>
           <p className="text-sm text-muted-foreground">Gérez vos dossiers de formation</p>
         </div>
-        <Button variant="ghost" size="sm" onClick={onLogout}>
-          Quitter
-        </Button>
+        <div className="flex items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/messages" })}>
+            <MessageCircle className="mr-1 size-4" /> Messagerie
+          </Button>
+          <Button variant="ghost" size="sm" onClick={onLogout}>
+            Quitter
+          </Button>
+        </div>
       </header>
 
       <div className="relative mb-4">
@@ -240,7 +246,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
       <Button
         className="fixed bottom-6 left-1/2 h-14 -translate-x-1/2 rounded-full px-6 text-base"
         style={{ boxShadow: "var(--shadow-card)" }}
-        onClick={() => setEditing({ name: "", accessCode: "" })}
+        onClick={() => setEditing({ name: "", accessCode: "", maxUsers: "" })}
       >
         <Plus className="mr-1 size-5" /> Nouveau dossier
       </Button>
