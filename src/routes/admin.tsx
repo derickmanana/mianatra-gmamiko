@@ -207,10 +207,23 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                 variant="ghost"
                 size="icon"
                 aria-label="Modifier"
-                onClick={() => setEditing({ id: f.id, name: f.name, accessCode: "" })}
+                onClick={async () => {
+                  try {
+                    const sec = await fetchFolderSecurity({ data: { adminCode, folderId: f.id } });
+                    setEditing({
+                      id: f.id,
+                      name: f.name,
+                      accessCode: sec.accessCode,
+                      maxUsers: sec.maxUsers === null ? "" : String(sec.maxUsers),
+                    });
+                  } catch (e) {
+                    toast.error((e as Error).message);
+                  }
+                }}
               >
                 <Pencil className="size-4" />
               </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
