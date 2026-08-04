@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Folder, Loader2, Lock, Search } from "lucide-react";
+import { ArrowLeft, Folder, Loader2, Lock, MessageCircle, Search, UserRound } from "lucide-react";
 import { fetchFolders } from "@/lib/content.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useStudentProfile } from "@/hooks/use-student-profile";
 import {
   Dialog,
   DialogContent,
@@ -29,6 +31,59 @@ export const Route = createFileRoute("/etudiant")({
 });
 
 function StudentHome() {
+  const { name, ready, save, clear } = useStudentProfile();
+  const [profileInput, setProfileInput] = useState("");
+
+  if (!ready) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="size-7 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!name) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center px-5">
+        <div
+          className="w-full max-w-sm rounded-3xl border border-border bg-card p-6"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-accent text-primary">
+            <UserRound className="size-6" />
+          </div>
+          <h1 className="text-xl font-semibold">Créer votre profil</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Votre nom devient votre identifiant dans l'application.
+          </p>
+          <form
+            className="mt-5 space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (profileInput.trim()) save(profileInput);
+            }}
+          >
+            <Label>Nom ou pseudo</Label>
+            <Input
+              autoFocus
+              placeholder="Ex : Miora"
+              value={profileInput}
+              maxLength={60}
+              onChange={(e) => setProfileInput(e.target.value)}
+            />
+            <Button type="submit" className="w-full" disabled={!profileInput.trim()}>
+              Continuer
+            </Button>
+          </form>
+        </div>
+      </main>
+    );
+  }
+
+  return <StudentFolders studentName={name} onSwitchProfile={clear} />;
+}
+
+function StudentFolders({ studentName, onSwitchProfile }: { studentName: string; onSwitchProfile: () => void }) {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [locked, setLocked] = useState<{ id: string; name: string } | null>(null);
@@ -51,8 +106,22 @@ function StudentHome() {
       <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
         <ArrowLeft className="size-4" /> Accueil
       </Link>
-      <h1 className="text-2xl font-bold">Mes formations</h1>
-      <p className="text-sm text-muted-foreground">Choisissez un dossier pour consulter les cours.</p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold">Mes formations</h1>
+          <p className="text-sm text-muted-foreground">
+            Connecté en tant que <span className="font-medium text-foreground">{studentName}</span>
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/etudiant/messages" })}>
+            <MessageCircle className="mr-1 size-4" /> Messagerie
+          </Button>
+          <Button variant="ghost" size="sm" onClick={onSwitchProfile}>
+            Changer
+          </Button>
+        </div>
+      </div>
 
       <div className="relative my-4">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
