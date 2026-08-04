@@ -139,19 +139,21 @@ export async function getFolderContent(
   folderId: string,
   code: string | null,
   adminCode: string | null,
+  studentName: string | null = null,
 ) {
   const { data: folder, error } = await supabaseAdmin
     .from("folders")
-    .select("id, name, access_code")
+    .select("id, name, access_code, max_users")
     .eq("id", folderId)
     .maybeSingle();
   if (error) throw new Error(error.message);
   if (!folder) throw new Error("Dossier introuvable.");
 
   const isAdmin = adminCode === ADMIN_CODE;
-  if (!isAdmin && folder.access_code && folder.access_code !== code) {
-    throw new Error("Code incorrect.");
+  if (!isAdmin) {
+    await ensureStudentAccess(folder, code, studentName);
   }
+
 
   const { data: blocks } = await supabaseAdmin
     .from("blocks")
