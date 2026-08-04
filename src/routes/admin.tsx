@@ -7,13 +7,14 @@ import {
   Folder,
   Loader2,
   Lock,
+  MessageCircle,
   Pencil,
   Plus,
   Search,
   ShieldCheck,
   Trash2,
 } from "lucide-react";
-import { checkAdminCode, deleteRow, fetchFolders, saveFolder } from "@/lib/content.functions";
+import { checkAdminCode, deleteRow, fetchFolderSecurity, fetchFolders, saveFolder } from "@/lib/content.functions";
 import { useAdminCode } from "@/hooks/use-admin-code";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -116,14 +117,17 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [editing, setEditing] = useState<{ id?: string; name: string; accessCode: string } | null>(null);
+  const [editing, setEditing] = useState<{ id?: string; name: string; accessCode: string; maxUsers: string } | null>(
+    null,
+  );
   const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
 
   const { data, isLoading } = useQuery({ queryKey: ["folders"], queryFn: () => fetchFolders() });
 
   const saveMutation = useMutation({
-    mutationFn: (v: { id?: string; name: string; accessCode: string }) =>
+    mutationFn: (v: { id?: string; name: string; accessCode: string; maxUsers: number | null }) =>
       saveFolder({ data: { adminCode, ...v } }),
+
     onSuccess: () => {
       toast.success("Dossier enregistré");
       setEditing(null);
@@ -151,9 +155,14 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
           <h1 className="text-2xl font-bold">Tableau de bord</h1>
           <p className="text-sm text-muted-foreground">Gérez vos dossiers de formation</p>
         </div>
-        <Button variant="ghost" size="sm" onClick={onLogout}>
-          Quitter
-        </Button>
+        <div className="flex items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/messages" })}>
+            <MessageCircle className="mr-1 size-4" /> Messagerie
+          </Button>
+          <Button variant="ghost" size="sm" onClick={onLogout}>
+            Quitter
+          </Button>
+        </div>
       </header>
 
       <div className="relative mb-4">
@@ -204,10 +213,23 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                 variant="ghost"
                 size="icon"
                 aria-label="Modifier"
-                onClick={() => setEditing({ id: f.id, name: f.name, accessCode: "" })}
+                onClick={async () => {
+                  try {
+                    const sec = await fetchFolderSecurity({ data: { adminCode, folderId: f.id } });
+                    setEditing({
+                      id: f.id,
+                      name: f.name,
+                      accessCode: sec.accessCode,
+                      maxUsers: sec.maxUsers === null ? "" : String(sec.maxUsers),
+                    });
+                  } catch (e) {
+                    toast.error((e as Error).message);
+                  }
+                }}
               >
                 <Pencil className="size-4" />
               </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -224,7 +246,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
       <Button
         className="fixed bottom-6 left-1/2 h-14 -translate-x-1/2 rounded-full px-6 text-base"
         style={{ boxShadow: "var(--shadow-card)" }}
-        onClick={() => setEditing({ name: "", accessCode: "" })}
+        onClick={() => setEditing({ name: "", accessCode: "", maxUsers: "" })}
       >
         <Plus className="mr-1 size-5" /> Nouveau dossier
       </Button>
@@ -256,6 +278,22 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                 onChange={(e) => setEditing((s) => (s ? { ...s, accessCode: e.target.value } : s))}
               />
             </div>
+            {editing?.accessCode.trim() ? (
+              <div className="space-y-1.5">
+                <Label>Nombre maximum d'étudiants (facultatif)</Label>
+                <Input
+                  inputMode="numeric"
+                  value={editing?.maxUsers ?? ""}
+                  placeholder="Ex : 12"
+                  onChange={(e) =>
+                    setEditing((s) => (s ? { ...s, maxUsers: e.target.value.replace(/[^0-9]/g, "") } : s))
+                  }
+                />
+                <p className="text-xs text-muted-foreground">
+                  Laissez vide pour un nombre illimité d'étudiants.
+                </p>
+              </div>
+            ) : null}
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditing(null)}>
@@ -269,9 +307,11 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                   ...(editing.id ? { id: editing.id } : {}),
                   name: editing.name.trim(),
                   accessCode: editing.accessCode.trim(),
+                  maxUsers: editing.maxUsers.trim() ? Number(editing.maxUsers.trim()) : null,
                 })
               }
             >
+
               {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Enregistrer"}
             </Button>
           </DialogFooter>

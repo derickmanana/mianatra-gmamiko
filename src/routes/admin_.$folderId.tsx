@@ -17,7 +17,17 @@ import {
   Type,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { deleteRow, fetchFolderContent, reorderRows, requestUpload, saveBlock, saveItem } from "@/lib/content.functions";
+import {
+  deleteRow,
+  fetchFolderContent,
+  fetchFolderSecurity,
+  removeStudent,
+  reorderRows,
+  requestUpload,
+  resetStudents,
+  saveBlock,
+  saveItem,
+} from "@/lib/content.functions";
 import { useAdminCode } from "@/hooks/use-admin-code";
 import { ItemViewer } from "@/components/ItemViewer";
 import { Button } from "@/components/ui/button";
@@ -190,9 +200,8 @@ function AdminFolderPage() {
         <ArrowLeft className="size-4" /> Dossiers
       </Link>
       <h1 className="text-2xl font-bold">{data?.folder.name ?? "Dossier"}</h1>
-      <p className="text-sm text-muted-foreground">
-        {data?.folder.accessCode ? `Code du dossier : ${data.folder.accessCode}` : "Dossier public"}
-      </p>
+
+      <SecurityPanel folderId={folderId} adminCode={code} />
 
       <Input
         className="mt-4"
@@ -437,5 +446,115 @@ function AdminFolderPage() {
         </AlertDialogContent>
       </AlertDialog>
     </main>
+  );
+}
+
+function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: string }) {
+  const qc = useQueryClient();
+  const [showList, setShowList] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["folder-security", folderId],
+    queryFn: () => fetchFolderSecurity({ data: { adminCode, folderId } }),
+  });
+
+  const invalidate = () => qc.invalidateQueries({ queryKey: ["folder-security", folderId] });
+
+  const removeOne = useMutation({
+    mutationFn: (id: string) => removeStudent({ data: { adminCode, id } }),
+    onSuccess: () => {
+      toast.success("Étudiant retiré, place libérée");
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const resetAll = useMutation({
+    mutationFn: () => resetStudents({ data: { adminCode, folderId } }),
+    onSuccess: () => {
+      toast.success("Compteur réinitialisé");
+      setConfirmReset(false);
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  if (!data) return null;
+  if (!data.accessCode)
+    return <p className="text-sm text-muted-foreground">Dossier public — aucun code d'accès.</p>;
+
+  return (
+    <section className="mt-3 rounded-3xl border border-border bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Sécurité du dossier</h2>
+      <dl className="mt-2 grid grid-cols-2 gap-2 text-sm">
+        <div>
+          <dt className="text-muted-foreground">Code</dt>
+          <dd className="font-semibold">{data.accessCode}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Limite</dt>
+          <dd className="font-semibold">{data.maxUsers === null ? "Illimitée" : `${data.maxUsers} étudiants`}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Déjà inscrits</dt>
+          <dd className="font-semibold">{data.used}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Places restantes</dt>
+          <dd className="font-semibold">{data.remaining === null ? "—" : data.remaining}</dd>
+        </div>
+      </dl>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Button variant="secondary" size="sm" onClick={() => setShowList(true)}>
+          Voir la liste des étudiants
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => setConfirmReset(true)}>
+          Réinitialiser le compteur
+        </Button>
+      </div>
+
+      <Dialog open={showList} onOpenChange={setShowList}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Étudiants autorisés ({data.students.length})</DialogTitle>
+          </DialogHeader>
+          <ul className="max-h-[60vh] space-y-2 overflow-y-auto">
+            {data.students.length === 0 ? (
+              <li className="text-sm text-muted-foreground">Aucun étudiant n'a encore activé ce dossier.</li>
+            ) : (
+              data.students.map((st) => (
+                <li key={st.id} className="flex items-center justify-between gap-3 rounded-xl border border-border p-3">
+                  <div className="min-w-0">
+                    <p className="truncate font-medium">{st.student_name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(st.created_at).toLocaleString("fr-FR")}
+                    </p>
+                  </div>
+                  <Button variant="ghost" size="icon" aria-label="Retirer" onClick={() => removeOne.mutate(st.id)}>
+                    <Trash2 className="size-4 text-destructive" />
+                  </Button>
+                </li>
+              ))
+            )}
+          </ul>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={confirmReset} onOpenChange={setConfirmReset}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Réinitialiser la liste des étudiants ?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tous les étudiants devront saisir à nouveau le code pour accéder au dossier.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction onClick={() => resetAll.mutate()}>Réinitialiser</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </section>
   );
 }

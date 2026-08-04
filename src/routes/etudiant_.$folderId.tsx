@@ -6,6 +6,7 @@ import { fetchFolderContent } from "@/lib/content.functions";
 import { ItemViewer } from "@/components/ItemViewer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useStudentProfile } from "@/hooks/use-student-profile";
 
 export const Route = createFileRoute("/etudiant_/$folderId")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -27,12 +28,15 @@ export const Route = createFileRoute("/etudiant_/$folderId")({
 function StudentFolder() {
   const { folderId } = Route.useParams();
   const { code } = Route.useSearch();
+  const { name, ready } = useStudentProfile();
   const [fontScale, setFontScale] = useState(1);
   const [search, setSearch] = useState("");
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["folder", folderId, code],
-    queryFn: () => fetchFolderContent({ data: { folderId, ...(code ? { code } : {}) } }),
+    queryKey: ["folder", folderId, code, name],
+    enabled: ready,
+    queryFn: () =>
+      fetchFolderContent({ data: { folderId, ...(code ? { code } : {}), ...(name ? { studentName: name } : {}) } }),
     retry: false,
   });
 
@@ -49,7 +53,7 @@ function StudentFolder() {
         <ArrowLeft className="size-4" /> Dossiers
       </Link>
 
-      {isLoading ? (
+      {isLoading || !ready ? (
         <div className="flex justify-center py-16">
           <Loader2 className="size-7 animate-spin text-primary" />
         </div>
