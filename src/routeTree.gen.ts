@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as EtudiantRouteImport } from './routes/etudiant'
 import { Route as AdminFolderIdRouteImport } from './routes/admin_.$folderId'
+import { Route as AdminMessagesRouteImport } from './routes/admin_.messages'
 import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folderId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const AdminFolderIdRoute = AdminFolderIdRouteImport.update({
   path: '/admin/$folderId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/admin_/messages',
+  path: '/admin/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EtudiantFolderIdRoute = EtudiantFolderIdRouteImport.update({
   id: '/etudiant_/$folderId',
   path: '/etudiant/$folderId',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin/$folderId': typeof AdminFolderIdRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin/$folderId': typeof AdminFolderIdRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRoutesById {
@@ -61,20 +69,33 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin_/$folderId': typeof AdminFolderIdRoute
+  '/admin_/messages': typeof AdminMessagesRoute
   '/etudiant_/$folderId': typeof EtudiantFolderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/admin' | '/etudiant' | '/admin/$folderId' | '/etudiant/$folderId'
+    | '/'
+    | '/admin'
+    | '/etudiant'
+    | '/admin/$folderId'
+    | '/admin/messages'
+    | '/etudiant/$folderId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/etudiant' | '/admin/$folderId' | '/etudiant/$folderId'
+  to:
+    | '/'
+    | '/admin'
+    | '/etudiant'
+    | '/admin/$folderId'
+    | '/admin/messages'
+    | '/etudiant/$folderId'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/etudiant'
     | '/admin_/$folderId'
+    | '/admin_/messages'
     | '/etudiant_/$folderId'
   fileRoutesById: FileRoutesById
 }
@@ -83,6 +104,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   EtudiantRoute: typeof EtudiantRoute
   AdminFolderIdRoute: typeof AdminFolderIdRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
   EtudiantFolderIdRoute: typeof EtudiantFolderIdRoute
 }
 
@@ -116,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFolderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/messages': {
+      id: '/admin_/messages'
+      path: '/admin/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/etudiant_/$folderId': {
       id: '/etudiant_/$folderId'
       path: '/etudiant/$folderId'
@@ -131,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   EtudiantRoute: EtudiantRoute,
   AdminFolderIdRoute: AdminFolderIdRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
   EtudiantFolderIdRoute: EtudiantFolderIdRoute,
 }
 export const routeTree = rootRouteImport
