@@ -184,12 +184,16 @@ export async function getFolderContent(
     items: items.filter((i) => i.block_id === b.id),
   }));
 
+  const used = folder.access_code ? (await folderStudents(folderId)).length : 0;
+
   return {
     folder: {
       id: folder.id,
       name: folder.name,
       protected: Boolean(folder.access_code),
       accessCode: isAdmin ? (folder.access_code ?? "") : undefined,
+      maxUsers: isAdmin ? folder.max_users : undefined,
+      used: isAdmin ? used : undefined,
     },
     blocks: blocksWithItems,
   };
@@ -202,21 +206,22 @@ export async function nextPosition(table: "folders" | "blocks" | "items", parent
   return ((data?.[0]?.position ?? -1) as number) + 1;
 }
 
-export async function createFolder(name: string, accessCode: string) {
+export async function createFolder(name: string, accessCode: string, maxUsers: number | null) {
   const position = await nextPosition("folders");
   const { error } = await supabaseAdmin
     .from("folders")
-    .insert({ name, access_code: accessCode || null, position });
+    .insert({ name, access_code: accessCode || null, max_users: accessCode ? maxUsers : null, position });
   if (error) throw new Error(error.message);
 }
 
-export async function updateFolder(id: string, name: string, accessCode: string) {
+export async function updateFolder(id: string, name: string, accessCode: string, maxUsers: number | null) {
   const { error } = await supabaseAdmin
     .from("folders")
-    .update({ name, access_code: accessCode || null })
+    .update({ name, access_code: accessCode || null, max_users: accessCode ? maxUsers : null })
     .eq("id", id);
   if (error) throw new Error(error.message);
 }
+
 
 export async function removeRow(table: "folders" | "blocks" | "items", id: string) {
   const { error } = await supabaseAdmin.from(table).delete().eq("id", id);
