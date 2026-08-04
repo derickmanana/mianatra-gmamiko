@@ -259,6 +259,22 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                 onChange={(e) => setEditing((s) => (s ? { ...s, accessCode: e.target.value } : s))}
               />
             </div>
+            {editing?.accessCode.trim() ? (
+              <div className="space-y-1.5">
+                <Label>Nombre maximum d'étudiants (facultatif)</Label>
+                <Input
+                  inputMode="numeric"
+                  value={editing?.maxUsers ?? ""}
+                  placeholder="Ex : 12"
+                  onChange={(e) =>
+                    setEditing((s) => (s ? { ...s, maxUsers: e.target.value.replace(/[^0-9]/g, "") } : s))
+                  }
+                />
+                <p className="text-xs text-muted-foreground">
+                  Laissez vide pour un nombre illimité d'étudiants.
+                </p>
+              </div>
+            ) : null}
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditing(null)}>
@@ -272,9 +288,11 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                   ...(editing.id ? { id: editing.id } : {}),
                   name: editing.name.trim(),
                   accessCode: editing.accessCode.trim(),
+                  maxUsers: editing.maxUsers.trim() ? Number(editing.maxUsers.trim()) : null,
                 })
               }
             >
+
               {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Enregistrer"}
             </Button>
           </DialogFooter>
