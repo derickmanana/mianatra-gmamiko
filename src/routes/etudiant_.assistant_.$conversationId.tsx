@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Bot, Loader2, Plus, Send, Trash2 } from "lucide-react";
+import { ArrowLeft, Bot, Loader2, Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { askAi, fetchConversation } from "@/lib/ai.functions";
@@ -174,5 +174,3 @@ function AssistantThread() {
     </main>
   );
 }
-
-export { Plus, Trash2 };
