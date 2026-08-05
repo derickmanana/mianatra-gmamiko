@@ -97,7 +97,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
       setCodeValue("");
       setLocked({ id: f.id, name: f.name });
     } else {
-      navigate({ to: "/etudiant/$folderId", params: { folderId: f.id } });
+      navigate({ to: "/etudiant/$folderId", params: { folderId: f.id }, search: {} });
     }
   };
 
