@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Folder, Loader2, Lock, MessageCircle, Search, UserRound } from "lucide-react";
+import { ArrowLeft, Bot, Folder, Loader2, Lock, MessageCircle, Search, UserRound } from "lucide-react";
 import { fetchFolders } from "@/lib/content.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,7 +97,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
       setCodeValue("");
       setLocked({ id: f.id, name: f.name });
     } else {
-      navigate({ to: "/etudiant/$folderId", params: { folderId: f.id } });
+      navigate({ to: "/etudiant/$folderId", params: { folderId: f.id }, search: {} });
     }
   };
 
@@ -117,10 +117,28 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
           <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/etudiant/messages" })}>
             <MessageCircle className="mr-1 size-4" /> Messagerie
           </Button>
+
           <Button variant="ghost" size="sm" onClick={onSwitchProfile}>
             Changer
           </Button>
+      </div>
+
+      <button
+        onClick={() => navigate({ to: "/etudiant/assistant" })}
+        className="mt-4 flex w-full items-center gap-3 rounded-3xl border border-border bg-card p-4 text-left"
+        style={{ boxShadow: "var(--shadow-card)" }}
+      >
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-accent text-primary">
+          <Bot className="size-6" />
         </div>
+        <div className="min-w-0">
+          <p className="font-semibold">Assistant Import</p>
+          <p className="text-sm text-muted-foreground">
+            Posez vos questions sur l'importation Chine → Madagascar
+          </p>
+        </div>
+      </button>
+
       </div>
 
       <div className="relative my-4">

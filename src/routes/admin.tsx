@@ -7,7 +7,9 @@ import {
   Folder,
   Loader2,
   Lock,
+  BrainCircuit,
   MessageCircle,
+
   Pencil,
   Plus,
   Search,
@@ -156,9 +158,13 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
           <p className="text-sm text-muted-foreground">Gérez vos dossiers de formation</p>
         </div>
         <div className="flex items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/connaissances" })}>
+            <BrainCircuit className="mr-1 size-4" /> IA
+          </Button>
           <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/messages" })}>
             <MessageCircle className="mr-1 size-4" /> Messagerie
           </Button>
+
           <Button variant="ghost" size="sm" onClick={onLogout}>
             Quitter
           </Button>
