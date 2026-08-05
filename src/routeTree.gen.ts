@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as EtudiantRouteImport } from './routes/etudiant'
 import { Route as AdminFolderIdRouteImport } from './routes/admin_.$folderId'
+import { Route as AdminConnaissancesRouteImport } from './routes/admin_.connaissances'
 import { Route as AdminMessagesRouteImport } from './routes/admin_.messages'
 import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folderId'
 import { Route as EtudiantAssistantRouteImport } from './routes/etudiant_.assistant'
@@ -37,6 +38,11 @@ const EtudiantRoute = EtudiantRouteImport.update({
 const AdminFolderIdRoute = AdminFolderIdRouteImport.update({
   id: '/admin_/$folderId',
   path: '/admin/$folderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminConnaissancesRoute = AdminConnaissancesRouteImport.update({
+  id: '/admin_/connaissances',
+  path: '/admin/connaissances',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMessagesRoute = AdminMessagesRouteImport.update({
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin/$folderId': typeof AdminFolderIdRoute
+  '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin/$folderId': typeof AdminFolderIdRoute
+  '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/etudiant': typeof EtudiantRoute
   '/admin_/$folderId': typeof AdminFolderIdRoute
+  '/admin_/connaissances': typeof AdminConnaissancesRoute
   '/admin_/messages': typeof AdminMessagesRoute
   '/etudiant_/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant_/assistant': typeof EtudiantAssistantRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/etudiant'
     | '/admin/$folderId'
+    | '/admin/connaissances'
     | '/admin/messages'
     | '/etudiant/$folderId'
     | '/etudiant/assistant'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/etudiant'
     | '/admin/$folderId'
+    | '/admin/connaissances'
     | '/admin/messages'
     | '/etudiant/$folderId'
     | '/etudiant/assistant'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/etudiant'
     | '/admin_/$folderId'
+    | '/admin_/connaissances'
     | '/admin_/messages'
     | '/etudiant_/$folderId'
     | '/etudiant_/assistant'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   EtudiantRoute: typeof EtudiantRoute
   AdminFolderIdRoute: typeof AdminFolderIdRoute
+  AdminConnaissancesRoute: typeof AdminConnaissancesRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
   EtudiantFolderIdRoute: typeof EtudiantFolderIdRoute
   EtudiantAssistantRoute: typeof EtudiantAssistantRoute
@@ -176,6 +189,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/$folderId'
       fullPath: '/admin/$folderId'
       preLoaderRoute: typeof AdminFolderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/connaissances': {
+      id: '/admin_/connaissances'
+      path: '/admin/connaissances'
+      fullPath: '/admin/connaissances'
+      preLoaderRoute: typeof AdminConnaissancesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/messages': {
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   EtudiantRoute: EtudiantRoute,
   AdminFolderIdRoute: AdminFolderIdRoute,
+  AdminConnaissancesRoute: AdminConnaissancesRoute,
   AdminMessagesRoute: AdminMessagesRoute,
   EtudiantFolderIdRoute: EtudiantFolderIdRoute,
   EtudiantAssistantRoute: EtudiantAssistantRoute,
