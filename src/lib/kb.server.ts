@@ -91,9 +91,12 @@ export async function kbList(table: Table, search = "") {
 }
 
 export async function kbSave(table: Table, id: string | null, values: Record<string, unknown>) {
-  const { error } = id
-    ? await supabaseAdmin.from(table).update(values).eq("id", id)
-    : await supabaseAdmin.from(table).insert(values);
+  // Les colonnes varient selon la table : on contourne l'union de types générée.
+  const client = supabaseAdmin.from(table) as unknown as {
+    update: (v: Record<string, unknown>) => { eq: (c: string, v: string) => Promise<{ error: { message: string } | null }> };
+    insert: (v: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
+  };
+  const { error } = id ? await client.update(values).eq("id", id) : await client.insert(values);
   if (error) throw new Error(error.message);
 }
 
