@@ -117,6 +117,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
           <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/etudiant/messages" })}>
             <MessageCircle className="mr-1 size-4" /> Messagerie
           </Button>
+
           <Button variant="ghost" size="sm" onClick={onSwitchProfile}>
             Changer
           </Button>
