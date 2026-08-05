@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Folder, Loader2, Lock, MessageCircle, Search, UserRound } from "lucide-react";
+import { ArrowLeft, Bot, Folder, Loader2, Lock, MessageCircle, Search, UserRound } from "lucide-react";
 import { fetchFolders } from "@/lib/content.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
