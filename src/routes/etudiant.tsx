@@ -121,7 +121,24 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
           <Button variant="ghost" size="sm" onClick={onSwitchProfile}>
             Changer
           </Button>
+      </div>
+
+      <button
+        onClick={() => navigate({ to: "/etudiant/assistant" })}
+        className="mt-4 flex w-full items-center gap-3 rounded-3xl border border-border bg-card p-4 text-left"
+        style={{ boxShadow: "var(--shadow-card)" }}
+      >
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-accent text-primary">
+          <Bot className="size-6" />
         </div>
+        <div className="min-w-0">
+          <p className="font-semibold">Assistant Import</p>
+          <p className="text-sm text-muted-foreground">
+            Posez vos questions sur l'importation Chine → Madagascar
+          </p>
+        </div>
+      </button>
+
       </div>
 
       <div className="relative my-4">

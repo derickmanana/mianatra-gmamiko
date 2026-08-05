@@ -7,7 +7,9 @@ import {
   Folder,
   Loader2,
   Lock,
+  BrainCircuit,
   MessageCircle,
+
   Pencil,
   Plus,
   Search,
