@@ -21,6 +21,7 @@ import { Route as EtudiantAssistantRouteImport } from './routes/etudiant_.assist
 import { Route as EtudiantMessagesRouteImport } from './routes/etudiant_.messages'
 import { Route as EtudiantQuizRouteImport } from './routes/etudiant_.quiz'
 import { Route as EtudiantAssistantConversationIdRouteImport } from './routes/etudiant_.assistant_.$conversationId'
+import { Route as EtudiantQuizQuizIdRouteImport } from './routes/etudiant_.quiz_.$quizId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,6 +84,11 @@ const EtudiantAssistantConversationIdRoute =
     path: '/etudiant/assistant/$conversationId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const EtudiantQuizQuizIdRoute = EtudiantQuizQuizIdRouteImport.update({
+  id: '/etudiant_/quiz_/$quizId',
+  path: '/etudiant/quiz/$quizId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/etudiant/messages': typeof EtudiantMessagesRoute
   '/etudiant/quiz': typeof EtudiantQuizRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
+  '/etudiant/quiz/$quizId': typeof EtudiantQuizQuizIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/etudiant/messages': typeof EtudiantMessagesRoute
   '/etudiant/quiz': typeof EtudiantQuizRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
+  '/etudiant/quiz/$quizId': typeof EtudiantQuizQuizIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/etudiant_/messages': typeof EtudiantMessagesRoute
   '/etudiant_/quiz': typeof EtudiantQuizRoute
   '/etudiant_/assistant_/$conversationId': typeof EtudiantAssistantConversationIdRoute
+  '/etudiant_/quiz_/$quizId': typeof EtudiantQuizQuizIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/etudiant/messages'
     | '/etudiant/quiz'
     | '/etudiant/assistant/$conversationId'
+    | '/etudiant/quiz/$quizId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/etudiant/messages'
     | '/etudiant/quiz'
     | '/etudiant/assistant/$conversationId'
+    | '/etudiant/quiz/$quizId'
   id:
     | '__root__'
     | '/'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/etudiant_/messages'
     | '/etudiant_/quiz'
     | '/etudiant_/assistant_/$conversationId'
+    | '/etudiant_/quiz_/$quizId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -185,6 +197,7 @@ export interface RootRouteChildren {
   EtudiantMessagesRoute: typeof EtudiantMessagesRoute
   EtudiantQuizRoute: typeof EtudiantQuizRoute
   EtudiantAssistantConversationIdRoute: typeof EtudiantAssistantConversationIdRoute
+  EtudiantQuizQuizIdRoute: typeof EtudiantQuizQuizIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EtudiantAssistantConversationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/etudiant_/quiz_/$quizId': {
+      id: '/etudiant_/quiz_/$quizId'
+      path: '/etudiant/quiz/$quizId'
+      fullPath: '/etudiant/quiz/$quizId'
+      preLoaderRoute: typeof EtudiantQuizQuizIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -289,6 +309,7 @@ const rootRouteChildren: RootRouteChildren = {
   EtudiantMessagesRoute: EtudiantMessagesRoute,
   EtudiantQuizRoute: EtudiantQuizRoute,
   EtudiantAssistantConversationIdRoute: EtudiantAssistantConversationIdRoute,
+  EtudiantQuizQuizIdRoute: EtudiantQuizQuizIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
