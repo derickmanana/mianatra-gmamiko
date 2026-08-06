@@ -15,6 +15,7 @@ import { Route as EtudiantRouteImport } from './routes/etudiant'
 import { Route as AdminFolderIdRouteImport } from './routes/admin_.$folderId'
 import { Route as AdminConnaissancesRouteImport } from './routes/admin_.connaissances'
 import { Route as AdminMessagesRouteImport } from './routes/admin_.messages'
+import { Route as AdminQuizRouteImport } from './routes/admin_.quiz'
 import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folderId'
 import { Route as EtudiantAnalyseRouteImport } from './routes/etudiant_.analyse'
 import { Route as EtudiantAssistantRouteImport } from './routes/etudiant_.assistant'
@@ -51,6 +52,11 @@ const AdminConnaissancesRoute = AdminConnaissancesRouteImport.update({
 const AdminMessagesRoute = AdminMessagesRouteImport.update({
   id: '/admin_/messages',
   path: '/admin/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminQuizRoute = AdminQuizRouteImport.update({
+  id: '/admin_/quiz',
+  path: '/admin/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EtudiantFolderIdRoute = EtudiantFolderIdRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/admin/$folderId': typeof AdminFolderIdRoute
   '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/quiz': typeof AdminQuizRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/admin/$folderId': typeof AdminFolderIdRoute
   '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/quiz': typeof AdminQuizRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/admin_/$folderId': typeof AdminFolderIdRoute
   '/admin_/connaissances': typeof AdminConnaissancesRoute
   '/admin_/messages': typeof AdminMessagesRoute
+  '/admin_/quiz': typeof AdminQuizRoute
   '/etudiant_/$folderId': typeof EtudiantFolderIdRoute
   '/etudiant_/analyse': typeof EtudiantAnalyseRoute
   '/etudiant_/assistant': typeof EtudiantAssistantRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/admin/$folderId'
     | '/admin/connaissances'
     | '/admin/messages'
+    | '/admin/quiz'
     | '/etudiant/$folderId'
     | '/etudiant/analyse'
     | '/etudiant/assistant'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/admin/$folderId'
     | '/admin/connaissances'
     | '/admin/messages'
+    | '/admin/quiz'
     | '/etudiant/$folderId'
     | '/etudiant/analyse'
     | '/etudiant/assistant'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/admin_/$folderId'
     | '/admin_/connaissances'
     | '/admin_/messages'
+    | '/admin_/quiz'
     | '/etudiant_/$folderId'
     | '/etudiant_/analyse'
     | '/etudiant_/assistant'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   AdminFolderIdRoute: typeof AdminFolderIdRoute
   AdminConnaissancesRoute: typeof AdminConnaissancesRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminQuizRoute: typeof AdminQuizRoute
   EtudiantFolderIdRoute: typeof EtudiantFolderIdRoute
   EtudiantAnalyseRoute: typeof EtudiantAnalyseRoute
   EtudiantAssistantRoute: typeof EtudiantAssistantRoute
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/messages'
       fullPath: '/admin/messages'
       preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/quiz': {
+      id: '/admin_/quiz'
+      path: '/admin/quiz'
+      fullPath: '/admin/quiz'
+      preLoaderRoute: typeof AdminQuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/etudiant_/$folderId': {
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminFolderIdRoute: AdminFolderIdRoute,
   AdminConnaissancesRoute: AdminConnaissancesRoute,
   AdminMessagesRoute: AdminMessagesRoute,
+  AdminQuizRoute: AdminQuizRoute,
   EtudiantFolderIdRoute: EtudiantFolderIdRoute,
   EtudiantAnalyseRoute: EtudiantAnalyseRoute,
   EtudiantAssistantRoute: EtudiantAssistantRoute,
