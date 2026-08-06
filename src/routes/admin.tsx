@@ -8,6 +8,8 @@ import {
   Loader2,
   Lock,
   BrainCircuit,
+  GraduationCap,
+  Users,
   MessageCircle,
 
   Pencil,
