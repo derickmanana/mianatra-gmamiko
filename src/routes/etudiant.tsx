@@ -139,6 +139,32 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
         </div>
       </button>
 
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <button
+          onClick={() => navigate({ to: "/etudiant/analyse" })}
+          className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-accent text-primary">
+            <PackageSearch className="size-5" />
+          </div>
+          <p className="font-semibold">Analyse produit</p>
+          <p className="text-xs text-muted-foreground">Rentabilité et décision d'achat</p>
+        </button>
+        <button
+          onClick={() => navigate({ to: "/etudiant/quiz" })}
+          className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-accent text-primary">
+            <GraduationCap className="size-5" />
+          </div>
+          <p className="font-semibold">Évaluations</p>
+          <p className="text-xs text-muted-foreground">Testez vos connaissances</p>
+        </button>
+      </div>
+
+
       </div>
 
       <div className="relative my-4">
