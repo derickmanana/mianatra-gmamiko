@@ -8,6 +8,8 @@ import {
   Loader2,
   Lock,
   BrainCircuit,
+  GraduationCap,
+  Users,
   MessageCircle,
 
   Pencil,
@@ -157,13 +159,21 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
           <h1 className="text-2xl font-bold">Tableau de bord</h1>
           <p className="text-sm text-muted-foreground">Gérez vos dossiers de formation</p>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center justify-end gap-1">
           <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/connaissances" })}>
             <BrainCircuit className="mr-1 size-4" /> IA
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/quiz" })}>
+            <GraduationCap className="mr-1 size-4" /> Quiz
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/suivi" })}>
+            <Users className="mr-1 size-4" /> Suivi
           </Button>
           <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/messages" })}>
             <MessageCircle className="mr-1 size-4" /> Messagerie
           </Button>
+
+
 
           <Button variant="ghost" size="sm" onClick={onLogout}>
             Quitter
