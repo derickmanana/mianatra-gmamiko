@@ -19,6 +19,7 @@ import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folder
 import { Route as EtudiantAnalyseRouteImport } from './routes/etudiant_.analyse'
 import { Route as EtudiantAssistantRouteImport } from './routes/etudiant_.assistant'
 import { Route as EtudiantMessagesRouteImport } from './routes/etudiant_.messages'
+import { Route as EtudiantQuizRouteImport } from './routes/etudiant_.quiz'
 import { Route as EtudiantAssistantConversationIdRouteImport } from './routes/etudiant_.assistant_.$conversationId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -71,6 +72,11 @@ const EtudiantMessagesRoute = EtudiantMessagesRouteImport.update({
   path: '/etudiant/messages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EtudiantQuizRoute = EtudiantQuizRouteImport.update({
+  id: '/etudiant_/quiz',
+  path: '/etudiant/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EtudiantAssistantConversationIdRoute =
   EtudiantAssistantConversationIdRouteImport.update({
     id: '/etudiant_/assistant_/$conversationId',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
   '/etudiant/messages': typeof EtudiantMessagesRoute
+  '/etudiant/quiz': typeof EtudiantQuizRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
 }
 export interface FileRoutesByTo {
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
   '/etudiant/messages': typeof EtudiantMessagesRoute
+  '/etudiant/quiz': typeof EtudiantQuizRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
 }
 export interface FileRoutesById {
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/etudiant_/analyse': typeof EtudiantAnalyseRoute
   '/etudiant_/assistant': typeof EtudiantAssistantRoute
   '/etudiant_/messages': typeof EtudiantMessagesRoute
+  '/etudiant_/quiz': typeof EtudiantQuizRoute
   '/etudiant_/assistant_/$conversationId': typeof EtudiantAssistantConversationIdRoute
 }
 export interface FileRouteTypes {
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/etudiant/analyse'
     | '/etudiant/assistant'
     | '/etudiant/messages'
+    | '/etudiant/quiz'
     | '/etudiant/assistant/$conversationId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/etudiant/analyse'
     | '/etudiant/assistant'
     | '/etudiant/messages'
+    | '/etudiant/quiz'
     | '/etudiant/assistant/$conversationId'
   id:
     | '__root__'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/etudiant_/analyse'
     | '/etudiant_/assistant'
     | '/etudiant_/messages'
+    | '/etudiant_/quiz'
     | '/etudiant_/assistant_/$conversationId'
   fileRoutesById: FileRoutesById
 }
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   EtudiantAnalyseRoute: typeof EtudiantAnalyseRoute
   EtudiantAssistantRoute: typeof EtudiantAssistantRoute
   EtudiantMessagesRoute: typeof EtudiantMessagesRoute
+  EtudiantQuizRoute: typeof EtudiantQuizRoute
   EtudiantAssistantConversationIdRoute: typeof EtudiantAssistantConversationIdRoute
 }
 
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EtudiantMessagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/etudiant_/quiz': {
+      id: '/etudiant_/quiz'
+      path: '/etudiant/quiz'
+      fullPath: '/etudiant/quiz'
+      preLoaderRoute: typeof EtudiantQuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/etudiant_/assistant_/$conversationId': {
       id: '/etudiant_/assistant_/$conversationId'
       path: '/etudiant/assistant/$conversationId'
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   EtudiantAnalyseRoute: EtudiantAnalyseRoute,
   EtudiantAssistantRoute: EtudiantAssistantRoute,
   EtudiantMessagesRoute: EtudiantMessagesRoute,
+  EtudiantQuizRoute: EtudiantQuizRoute,
   EtudiantAssistantConversationIdRoute: EtudiantAssistantConversationIdRoute,
 }
 export const routeTree = rootRouteImport
