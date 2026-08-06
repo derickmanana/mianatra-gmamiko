@@ -406,6 +406,148 @@ export type Database = {
         }
         Relationships: []
       }
+      product_analyses: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          platform: string | null
+          product_name: string
+          purchase_price: string | null
+          quantity: number | null
+          report: string
+          student_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          platform?: string | null
+          product_name: string
+          purchase_price?: string | null
+          quantity?: number | null
+          report: string
+          student_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          platform?: string | null
+          product_name?: string
+          purchase_price?: string | null
+          quantity?: number | null
+          report?: string
+          student_name?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          created_at: string
+          id: string
+          quiz_id: string
+          score: number
+          student_name: string
+          total: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          quiz_id: string
+          score?: number
+          student_name: string
+          total?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          quiz_id?: string
+          score?: number
+          student_name?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          choices: string[]
+          correct_index: number
+          created_at: string
+          explanation: string | null
+          id: string
+          position: number
+          question: string
+          quiz_id: string
+        }
+        Insert: {
+          choices?: string[]
+          correct_index?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          position?: number
+          question: string
+          quiz_id: string
+        }
+        Update: {
+          choices?: string[]
+          correct_index?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          position?: number
+          question?: string
+          quiz_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          position: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          position?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          position?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
