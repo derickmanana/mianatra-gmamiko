@@ -16,6 +16,7 @@ import { Route as AdminFolderIdRouteImport } from './routes/admin_.$folderId'
 import { Route as AdminConnaissancesRouteImport } from './routes/admin_.connaissances'
 import { Route as AdminMessagesRouteImport } from './routes/admin_.messages'
 import { Route as EtudiantFolderIdRouteImport } from './routes/etudiant_.$folderId'
+import { Route as EtudiantAnalyseRouteImport } from './routes/etudiant_.analyse'
 import { Route as EtudiantAssistantRouteImport } from './routes/etudiant_.assistant'
 import { Route as EtudiantMessagesRouteImport } from './routes/etudiant_.messages'
 import { Route as EtudiantAssistantConversationIdRouteImport } from './routes/etudiant_.assistant_.$conversationId'
@@ -55,6 +56,11 @@ const EtudiantFolderIdRoute = EtudiantFolderIdRouteImport.update({
   path: '/etudiant/$folderId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EtudiantAnalyseRoute = EtudiantAnalyseRouteImport.update({
+  id: '/etudiant_/analyse',
+  path: '/etudiant/analyse',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EtudiantAssistantRoute = EtudiantAssistantRouteImport.update({
   id: '/etudiant_/assistant',
   path: '/etudiant/assistant',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
+  '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
   '/etudiant/messages': typeof EtudiantMessagesRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/admin/connaissances': typeof AdminConnaissancesRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/etudiant/$folderId': typeof EtudiantFolderIdRoute
+  '/etudiant/analyse': typeof EtudiantAnalyseRoute
   '/etudiant/assistant': typeof EtudiantAssistantRoute
   '/etudiant/messages': typeof EtudiantMessagesRoute
   '/etudiant/assistant/$conversationId': typeof EtudiantAssistantConversationIdRoute
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/admin_/connaissances': typeof AdminConnaissancesRoute
   '/admin_/messages': typeof AdminMessagesRoute
   '/etudiant_/$folderId': typeof EtudiantFolderIdRoute
+  '/etudiant_/analyse': typeof EtudiantAnalyseRoute
   '/etudiant_/assistant': typeof EtudiantAssistantRoute
   '/etudiant_/messages': typeof EtudiantMessagesRoute
   '/etudiant_/assistant_/$conversationId': typeof EtudiantAssistantConversationIdRoute
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin/connaissances'
     | '/admin/messages'
     | '/etudiant/$folderId'
+    | '/etudiant/analyse'
     | '/etudiant/assistant'
     | '/etudiant/messages'
     | '/etudiant/assistant/$conversationId'
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/admin/connaissances'
     | '/admin/messages'
     | '/etudiant/$folderId'
+    | '/etudiant/analyse'
     | '/etudiant/assistant'
     | '/etudiant/messages'
     | '/etudiant/assistant/$conversationId'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/admin_/connaissances'
     | '/admin_/messages'
     | '/etudiant_/$folderId'
+    | '/etudiant_/analyse'
     | '/etudiant_/assistant'
     | '/etudiant_/messages'
     | '/etudiant_/assistant_/$conversationId'
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   AdminConnaissancesRoute: typeof AdminConnaissancesRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
   EtudiantFolderIdRoute: typeof EtudiantFolderIdRoute
+  EtudiantAnalyseRoute: typeof EtudiantAnalyseRoute
   EtudiantAssistantRoute: typeof EtudiantAssistantRoute
   EtudiantMessagesRoute: typeof EtudiantMessagesRoute
   EtudiantAssistantConversationIdRoute: typeof EtudiantAssistantConversationIdRoute
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EtudiantFolderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/etudiant_/analyse': {
+      id: '/etudiant_/analyse'
+      path: '/etudiant/analyse'
+      fullPath: '/etudiant/analyse'
+      preLoaderRoute: typeof EtudiantAnalyseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/etudiant_/assistant': {
       id: '/etudiant_/assistant'
       path: '/etudiant/assistant'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminConnaissancesRoute: AdminConnaissancesRoute,
   AdminMessagesRoute: AdminMessagesRoute,
   EtudiantFolderIdRoute: EtudiantFolderIdRoute,
+  EtudiantAnalyseRoute: EtudiantAnalyseRoute,
   EtudiantAssistantRoute: EtudiantAssistantRoute,
   EtudiantMessagesRoute: EtudiantMessagesRoute,
   EtudiantAssistantConversationIdRoute: EtudiantAssistantConversationIdRoute,
