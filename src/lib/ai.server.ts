@@ -30,6 +30,29 @@ BASE DE CONNAISSANCES DU FORMATEUR
 ${knowledge || "(aucune donnée enregistrée pour le moment — préviens l'étudiant que tes réponses restent générales et prudentes)"}`;
 }
 
+/** Appel générique du modèle IA (utilisé aussi par l'analyse de produits). */
+export async function runModel(system: string, prompt: string) {
+  const apiKey = process.env["LOVABLE_API_KEY"];
+  if (!apiKey) throw new Error("Assistant indisponible : clé IA manquante.");
+  const gateway = createOpenAICompatible({
+    name: "lovable",
+    baseURL: "https://ai.gateway.lovable.dev/v1",
+    headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+  });
+  try {
+    const result = streamText({ model: gateway(MODEL), system, prompt });
+    return await result.text;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Erreur inconnue";
+    if (message.includes("429")) throw new Error("Trop de demandes. Réessayez dans un instant.");
+    if (message.includes("402")) throw new Error("Crédits IA épuisés. Contactez l'administrateur.");
+    throw new Error(`L'assistant n'a pas pu répondre : ${message}`);
+  }
+}
+
+/** Prompt système exporté pour les autres modules (analyse de produits). */
+export const assistantSystemPrompt = systemPrompt;
+
 export async function listConversations(studentName: string) {
   const { data, error } = await supabaseAdmin
     .from("ai_conversations")
