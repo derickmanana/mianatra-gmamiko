@@ -19,10 +19,10 @@ import {
 export const Route = createFileRoute("/etudiant")({
   head: () => ({
     meta: [
-      { title: "Espace étudiant — Cours & Documents" },
-      { name: "description", content: "Consultez les dossiers de formation, tutoriels, images, PDF et documents." },
-      { property: "og:title", content: "Espace étudiant — Cours & Documents" },
-      { property: "og:description", content: "Tous vos cours et tutoriels dans une seule application." },
+      { title: "Espace étudiant — Import Chine → Madagascar" },
+      { name: "description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie de la formation import." },
+      { property: "og:title", content: "Espace étudiant — Import Chine → Madagascar" },
+      { property: "og:description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -101,73 +101,80 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
     }
   };
 
+  const tiles = [
+    {
+      icon: Bot,
+      label: "Assistant Import",
+      hint: "Vos questions Chine → Mada",
+      go: () => navigate({ to: "/etudiant/assistant" }),
+    },
+    {
+      icon: PackageSearch,
+      label: "Analyse produit",
+      hint: "Rentabilité et décision",
+      go: () => navigate({ to: "/etudiant/analyse" }),
+    },
+    {
+      icon: GraduationCap,
+      label: "Évaluations",
+      hint: "Testez vos connaissances",
+      go: () => navigate({ to: "/etudiant/quiz" }),
+    },
+    {
+      icon: MessageCircle,
+      label: "Messagerie",
+      hint: "Groupe de la formation",
+      go: () => navigate({ to: "/etudiant/messages" }),
+    },
+  ];
+
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
         <ArrowLeft className="size-4" /> Accueil
       </Link>
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold">Mes formations</h1>
-          <p className="text-sm text-muted-foreground">
-            Connecté en tant que <span className="font-medium text-foreground">{studentName}</span>
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-1">
-          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/etudiant/messages" })}>
-            <MessageCircle className="mr-1 size-4" /> Messagerie
-          </Button>
 
-          <Button variant="ghost" size="sm" onClick={onSwitchProfile}>
-            Changer
-          </Button>
-      </div>
-
-      <button
-        onClick={() => navigate({ to: "/etudiant/assistant" })}
-        className="mt-4 flex w-full items-center gap-3 rounded-3xl border border-border bg-card p-4 text-left"
-        style={{ boxShadow: "var(--shadow-card)" }}
+      <header
+        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-3xl px-5 py-5 text-primary-foreground"
+        style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
       >
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-accent text-primary">
-          <Bot className="size-6" />
-        </div>
         <div className="min-w-0">
-          <p className="font-semibold">Assistant Import</p>
-          <p className="text-sm text-muted-foreground">
-            Posez vos questions sur l'importation Chine → Madagascar
-          </p>
+          <p className="text-xs uppercase tracking-wide opacity-80">Espace étudiant</p>
+          <h1 className="truncate text-2xl font-bold">Bonjour {studentName}</h1>
         </div>
-      </button>
+        <button
+          onClick={onSwitchProfile}
+          className="shrink-0 rounded-full bg-primary-foreground/15 px-3 py-1.5 text-xs font-medium"
+        >
+          Changer
+        </button>
+      </header>
 
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <button
-          onClick={() => navigate({ to: "/etudiant/analyse" })}
-          className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex size-10 items-center justify-center rounded-2xl bg-accent text-primary">
-            <PackageSearch className="size-5" />
-          </div>
-          <p className="font-semibold">Analyse produit</p>
-          <p className="text-xs text-muted-foreground">Rentabilité et décision d'achat</p>
-        </button>
-        <button
-          onClick={() => navigate({ to: "/etudiant/quiz" })}
-          className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex size-10 items-center justify-center rounded-2xl bg-accent text-primary">
-            <GraduationCap className="size-5" />
-          </div>
-          <p className="font-semibold">Évaluations</p>
-          <p className="text-xs text-muted-foreground">Testez vos connaissances</p>
-        </button>
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        {tiles.map(({ icon: Icon, label, hint, go }) => (
+          <button
+            key={label}
+            onClick={go}
+            className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left transition-transform active:scale-[0.98]"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <span
+              className="flex size-10 items-center justify-center rounded-2xl text-primary-foreground"
+              style={{ background: "var(--gradient-accent)" }}
+            >
+              <Icon className="size-5" />
+            </span>
+            <span className="text-sm font-semibold leading-tight">{label}</span>
+            <span className="text-xs leading-tight text-muted-foreground">{hint}</span>
+          </button>
+        ))}
       </div>
 
+      <h2 className="mt-7 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        Mes formations
+      </h2>
 
-      </div>
-
-      <div className="relative my-4">
+      <div className="relative my-3">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="pl-9"
@@ -176,6 +183,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
 
       {isLoading ? (
         <div className="flex justify-center py-16">

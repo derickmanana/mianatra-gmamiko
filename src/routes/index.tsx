@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, ShieldCheck, Ship } from "lucide-react";
+import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Ship, Sparkles } from "lucide-react";
 
 const DESCRIPTION =
   "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
@@ -20,45 +20,78 @@ export const Route = createFileRoute("/")({
 
 function Accueil() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-5 py-10">
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-5 py-12">
       <div
-        className="mb-8 flex size-20 items-center justify-center rounded-3xl text-primary-foreground"
-        style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-card)" }}
-      >
-        <Ship className="size-10" />
-      </div>
-      <h1 className="text-center text-3xl font-bold tracking-tight text-foreground">
-        Import Chine → Madagascar
-      </h1>
-      <p className="mt-3 max-w-sm text-center text-muted-foreground">
-        Formation, assistant IA spécialisé, quiz, analyse de produits et communauté.
-      </p>
+        aria-hidden
+        className="pointer-events-none absolute -top-40 left-1/2 size-[26rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
+        style={{ background: "var(--gradient-hero)" }}
+      />
 
+      <div className="relative w-full max-w-sm">
+        <div
+          className="flex size-20 items-center justify-center rounded-[1.75rem] text-primary-foreground"
+          style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
+        >
+          <Ship className="size-10" />
+        </div>
 
-      <div className="mt-10 grid w-full max-w-sm gap-4">
-        <Link
-          to="/admin"
-          className="flex items-center gap-4 rounded-3xl bg-primary px-5 py-5 text-primary-foreground transition-transform active:scale-[0.98]"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <ShieldCheck className="size-7 shrink-0" />
-          <span>
-            <span className="block text-lg font-semibold">Administrateur</span>
-            <span className="block text-sm opacity-80">Créer et gérer les contenus</span>
-          </span>
-        </Link>
-        <Link
-          to="/etudiant"
-          className="flex items-center gap-4 rounded-3xl border border-border bg-card px-5 py-5 text-foreground transition-transform active:scale-[0.98]"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <GraduationCap className="size-7 shrink-0 text-primary" />
-          <span>
-            <span className="block text-lg font-semibold">Étudiant</span>
-            <span className="block text-sm text-muted-foreground">Consulter les cours</span>
-          </span>
-        </Link>
+        <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+          <Sparkles className="size-3.5 text-primary" /> Assistant IA spécialisé
+        </p>
+        <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-foreground">
+          Import Chine
+          <span className="block text-primary">→ Madagascar</span>
+        </h1>
+        <p className="mt-3 text-muted-foreground">
+          Formation complète, assistant IA, analyse de produits, quiz et communauté — dans une seule
+          application.
+        </p>
+
+        <div className="mt-6 grid grid-cols-3 gap-2">
+          {[
+            { icon: Bot, label: "Assistant IA" },
+            { icon: PackageSearch, label: "Analyse produit" },
+            { icon: GraduationCap, label: "Évaluations" },
+          ].map(({ icon: Icon, label }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center gap-1.5 rounded-2xl border border-border bg-card px-2 py-3 text-center"
+              style={{ boxShadow: "var(--shadow-soft)" }}
+            >
+              <Icon className="size-5 text-primary" />
+              <span className="text-[11px] font-medium leading-tight text-muted-foreground">{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-3">
+          <Link
+            to="/etudiant"
+            className="flex items-center gap-4 rounded-3xl px-5 py-5 text-primary-foreground transition-transform active:scale-[0.98]"
+            style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
+          >
+            <GraduationCap className="size-7 shrink-0" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-lg font-semibold">Espace étudiant</span>
+              <span className="block text-sm opacity-85">Cours, IA, quiz et communauté</span>
+            </span>
+            <ArrowRight className="size-5 shrink-0 opacity-80" />
+          </Link>
+          <Link
+            to="/admin"
+            className="flex items-center gap-4 rounded-3xl border border-border bg-card px-5 py-5 text-foreground transition-transform active:scale-[0.98]"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <ShieldCheck className="size-7 shrink-0 text-primary" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-lg font-semibold">Administrateur</span>
+              <span className="block text-sm text-muted-foreground">Créer et gérer les contenus</span>
+            </span>
+            <ArrowRight className="size-5 shrink-0 text-muted-foreground" />
+          </Link>
+        </div>
       </div>
     </main>
   );
 }
+
