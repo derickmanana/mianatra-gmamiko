@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, ShieldCheck, Ship } from "lucide-react";
+import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Ship, Sparkles } from "lucide-react";
 
 const DESCRIPTION =
   "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
