@@ -1,0 +1,17 @@
+{
+  "name": "GMAMIKO33 — Formation Import Chine → Madagascar",
+  "short_name": "GMAMIKO33",
+  "description": "Plateforme de formation, assistant IA, quiz et analyse de produits pour l'importation Chine → Madagascar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1a56db",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

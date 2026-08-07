@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { InstallPrompt } from "@/components/InstallPrompt";
+
 
 function NotFoundComponent() {
   return (
@@ -77,17 +79,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GMAMIKO33" },
-      { name: "description", content: "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "GMAMIKO33" },
-      { property: "og:description", content: "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants." },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#1a56db" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "GMAMIKO33" },
+      { title: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { name: "description", content: "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et suivi des étudiants." },
+      { name: "author", content: "GMAMIKO33" },
+      { property: "og:title", content: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { property: "og:description", content: "Cours, assistant IA spécialisé, quiz, analyse de produits et suivi des étudiants." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "GMAMIKO33" },
-      { name: "twitter:description", content: "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants." },
+      { name: "twitter:title", content: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { name: "twitter:description", content: "Cours, assistant IA spécialisé, quiz, analyse de produits et suivi des étudiants." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/707bc076-063f-43ca-81d7-4a67e5cc8482" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/707bc076-063f-43ca-81d7-4a67e5cc8482" },
     ],
@@ -96,8 +102,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -106,7 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <HeadContent />
       </head>
@@ -121,11 +131,19 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+    if (window.location.hostname === "localhost") return;
+    navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <InstallPrompt />
       <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
+
