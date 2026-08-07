@@ -19,10 +19,10 @@ import {
 export const Route = createFileRoute("/etudiant")({
   head: () => ({
     meta: [
-      { title: "Espace étudiant — Cours & Documents" },
-      { name: "description", content: "Consultez les dossiers de formation, tutoriels, images, PDF et documents." },
-      { property: "og:title", content: "Espace étudiant — Cours & Documents" },
-      { property: "og:description", content: "Tous vos cours et tutoriels dans une seule application." },
+      { title: "Espace étudiant — Import Chine → Madagascar" },
+      { name: "description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie de la formation import." },
+      { property: "og:title", content: "Espace étudiant — Import Chine → Madagascar" },
+      { property: "og:description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
