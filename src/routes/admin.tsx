@@ -152,36 +152,60 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
 
   const folders = (data ?? []).filter((f) => f.name.toLowerCase().includes(search.toLowerCase()));
 
+  const tiles = [
+    { icon: BrainCircuit, label: "Base IA", hint: "Connaissances", go: () => navigate({ to: "/admin/connaissances" }) },
+    { icon: GraduationCap, label: "Quiz", hint: "Évaluations", go: () => navigate({ to: "/admin/quiz" }) },
+    { icon: Users, label: "Suivi", hint: "Étudiants", go: () => navigate({ to: "/admin/suivi" }) },
+    { icon: MessageCircle, label: "Messagerie", hint: "Groupe", go: () => navigate({ to: "/admin/messages" }) },
+  ];
+
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-28 pt-5">
-      <header className="mb-4 flex items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold">Tableau de bord</h1>
-          <p className="text-sm text-muted-foreground">Gérez vos dossiers de formation</p>
+      <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
+        <ArrowLeft className="size-4" /> Accueil
+      </Link>
+
+      <header
+        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-3xl px-5 py-5 text-primary-foreground"
+        style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
+      >
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-wide opacity-80">Administration</p>
+          <h1 className="truncate text-2xl font-bold">Tableau de bord</h1>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-1">
-          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/connaissances" })}>
-            <BrainCircuit className="mr-1 size-4" /> IA
-          </Button>
-          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/quiz" })}>
-            <GraduationCap className="mr-1 size-4" /> Quiz
-          </Button>
-          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/suivi" })}>
-            <Users className="mr-1 size-4" /> Suivi
-          </Button>
-          <Button variant="secondary" size="sm" onClick={() => navigate({ to: "/admin/messages" })}>
-            <MessageCircle className="mr-1 size-4" /> Messagerie
-          </Button>
-
-
-
-          <Button variant="ghost" size="sm" onClick={onLogout}>
-            Quitter
-          </Button>
-        </div>
+        <button
+          onClick={onLogout}
+          className="shrink-0 rounded-full bg-primary-foreground/15 px-3 py-1.5 text-xs font-medium"
+        >
+          Quitter
+        </button>
       </header>
 
-      <div className="relative mb-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {tiles.map(({ icon: Icon, label, hint, go }) => (
+          <button
+            key={label}
+            onClick={go}
+            className="flex flex-col items-start gap-2 rounded-3xl border border-border bg-card p-4 text-left transition-transform active:scale-[0.98]"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <span
+              className="flex size-10 items-center justify-center rounded-2xl text-primary-foreground"
+              style={{ background: "var(--gradient-accent)" }}
+            >
+              <Icon className="size-5" />
+            </span>
+            <span className="text-sm font-semibold leading-tight">{label}</span>
+            <span className="text-xs leading-tight text-muted-foreground">{hint}</span>
+          </button>
+        ))}
+      </div>
+
+      <h2 className="mt-7 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        Dossiers de formation
+      </h2>
+
+      <div className="relative my-3">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="pl-9"
@@ -190,6 +214,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
 
       {isLoading ? (
         <FullLoader />
