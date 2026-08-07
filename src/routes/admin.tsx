@@ -45,10 +45,10 @@ import {
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Espace administrateur — Cours & Documents" },
-      { name: "description", content: "Créez et organisez les dossiers, blocs et contenus de vos formations." },
-      { property: "og:title", content: "Espace administrateur — Cours & Documents" },
-      { property: "og:description", content: "Gestion des dossiers, blocs, images, PDF, documents et liens." },
+      { title: "Administration — Import Chine → Madagascar" },
+      { name: "description", content: "Gérez les dossiers, la base de connaissances IA, les quiz, le suivi des étudiants et la messagerie." },
+      { property: "og:title", content: "Administration — Import Chine → Madagascar" },
+      { property: "og:description", content: "Dossiers, base IA, quiz, suivi des étudiants et messagerie." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
