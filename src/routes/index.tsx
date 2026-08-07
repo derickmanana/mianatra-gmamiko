@@ -1,20 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, ShieldCheck, BookOpen } from "lucide-react";
+import { GraduationCap, ShieldCheck, Ship } from "lucide-react";
+
+const DESCRIPTION =
+  "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "GMAMIKO33" },
-      {
-        name: "description",
-        content:
-          "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants.",
-      },
-      { property: "og:title", content: "GMAMIKO33" },
-      {
-        property: "og:description",
-        content: "Application de gestion et consultation de cours : dossiers, tutoriels, images, PDF, documents Word et liens, pour administrateurs et étudiants.",
-      },
+      { title: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -29,12 +25,15 @@ function Accueil() {
         className="mb-8 flex size-20 items-center justify-center rounded-3xl text-primary-foreground"
         style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-card)" }}
       >
-        <BookOpen className="size-10" />
+        <Ship className="size-10" />
       </div>
-      <h1 className="text-center text-3xl font-bold tracking-tight text-foreground">Cours & Documents</h1>
+      <h1 className="text-center text-3xl font-bold tracking-tight text-foreground">
+        Import Chine → Madagascar
+      </h1>
       <p className="mt-3 max-w-sm text-center text-muted-foreground">
-        Gérez et consultez vos formations : dossiers, tutoriels, images, PDF, documents et liens.
+        Formation, assistant IA spécialisé, quiz, analyse de produits et communauté.
       </p>
+
 
       <div className="mt-10 grid w-full max-w-sm gap-4">
         <Link
