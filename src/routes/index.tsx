@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Ship, Sparkles } from "lucide-react";
+import heroAsset from "@/assets/gma-miko-hero.png.asset.json";
 
 const DESCRIPTION =
   "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
@@ -20,14 +21,19 @@ export const Route = createFileRoute("/")({
 
 function Accueil() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-5 py-12">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 size-[26rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
-        style={{ background: "var(--gradient-hero)" }}
-      />
+    <main className="min-h-screen overflow-hidden pb-12">
+      <section
+        aria-label="Présentation de GMAMIKO33"
+        className="relative isolate aspect-[720/295] w-full overflow-hidden bg-card"
+      >
+        <img
+          src={heroAsset.url}
+          alt="GMAMIKO33 — formation et accompagnement pour importer depuis la Chine vers Madagascar"
+          className="absolute inset-0 size-full object-cover"
+        />
+      </section>
 
-      <div className="relative w-full max-w-sm">
+      <div className="relative mx-auto w-full max-w-sm px-5 pt-8">
         <div
           className="flex size-20 items-center justify-center rounded-[1.75rem] text-primary-foreground"
           style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
@@ -94,4 +100,3 @@ function Accueil() {
     </main>
   );
 }
-
