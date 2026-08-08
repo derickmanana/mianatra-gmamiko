@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Ship, Sparkles } from "lucide-react";
+import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Sparkles } from "lucide-react";
+import heroAsset from "@/assets/gma-miko-hero.png.asset.json";
 
 const DESCRIPTION =
   "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
