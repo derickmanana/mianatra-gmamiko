@@ -54,7 +54,8 @@ async function speakChunk(
     body: JSON.stringify({
       model: MODEL,
       input,
-      voice: "alloy",
+      voice,
+      speed,
       response_format: "mp3",
       instructions:
         "Lis ce texte comme un formateur malgache : prononciation malgache naturelle pour les mots malgaches, française pour les mots français. Débit calme et pédagogique.",
@@ -70,15 +71,21 @@ async function speakChunk(
 }
 
 /** Génère l'audio MP3 (base64) d'une réponse de l'assistant. */
-export async function synthesizeSpeech(text: string): Promise<string> {
+export async function synthesizeSpeech(
+  text: string,
+  options?: { voice?: string; speed?: number },
+): Promise<string> {
   const clean = cleanForSpeech(text).slice(0, 6000);
   if (!clean) throw new Error("Rien à lire.");
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("Lecture audio indisponible : clé IA manquante.");
 
+  const voice = options?.voice && VOICES.includes(options.voice) ? options.voice : "alloy";
+  const speed = Math.min(2, Math.max(0.5, Number(options?.speed) || 1));
+
   const parts: Uint8Array[] = [];
   for (const chunk of chunkForTTS(clean)) {
-    parts.push(await speakChunk(chunk, apiKey));
+    parts.push(await speakChunk(chunk, apiKey, voice, speed));
   }
   const total = parts.reduce((n, p) => n + p.length, 0);
   const merged = new Uint8Array(total);
