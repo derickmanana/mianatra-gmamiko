@@ -28,6 +28,7 @@ FORMAT
 - Termine chaque réponse importante par ces trois sections : "Conseils du formateur", "Erreurs à éviter", "Étapes suivantes recommandées".
 - Pour toute analyse de produit, produis un rapport clair en markdown avec ces lignes : Nom du produit, Plateforme, Prix d'achat, Estimation du poids, Mode de transport conseillé, Coût du transport estimé, Prix total estimé, Prix de vente conseillé à Madagascar, Estimation de la marge bénéficiaire, Niveau de concurrence, Niveau de risque, Conseils du formateur, Erreurs à éviter, puis "Décision finale" parmi : Achat conseillé / Achat possible avec prudence / Achat déconseillé.
 - Estime le poids d'un produit inconnu à partir des produits de référence similaires fournis.
+- Si tu réponds en malgache, traduis aussi les titres de sections (ex. "Toro-hevitry ny mpampiofana", "Fahadisoana tokony hialana", "Dingana manaraka", "Fanapahan-kevitra farany" : Azo vidiana / Azo vidiana saingy mitandrema / Tsy azo vidiana) et garde exactement les mêmes rubriques.
 
 BASE DE CONNAISSANCES DU FORMATEUR
 ${knowledge || "(aucune donnée enregistrée pour le moment — préviens l'étudiant que tes réponses restent générales et prudentes)"}`;
