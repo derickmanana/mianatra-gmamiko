@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useStudentProfile } from "@/hooks/use-student-profile";
 import { SpeakButton } from "@/components/SpeakButton";
+import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
 
 export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
   head: () => ({
@@ -85,10 +86,13 @@ function AssistantThread() {
         <ArrowLeft className="size-4" /> Mes discussions
       </Link>
 
-      <h1 className="mb-3 flex items-center gap-2 text-lg font-semibold">
-        <Bot className="size-5 text-primary" />
-        {data?.title ?? "Assistant Import"}
-      </h1>
+      <div className="mb-3 flex items-center gap-2">
+        <h1 className="flex min-w-0 flex-1 items-center gap-2 text-lg font-semibold">
+          <Bot className="size-5 shrink-0 text-primary" />
+          <span className="truncate">{data?.title ?? "Assistant Import"}</span>
+        </h1>
+        <TtsSettingsDialog />
+      </div>
 
       <div
         className="flex-1 space-y-4 overflow-y-auto rounded-3xl border border-border bg-card p-4"

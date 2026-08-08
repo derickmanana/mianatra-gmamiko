@@ -5,6 +5,7 @@ import { ArrowLeft, Bot, Loader2, MessageSquarePlus, Trash2 } from "lucide-react
 import { fetchConversations, newConversation, removeConversation } from "@/lib/ai.functions";
 import { Button } from "@/components/ui/button";
 import { useStudentProfile } from "@/hooks/use-student-profile";
+import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
 
 export const Route = createFileRoute("/etudiant_/assistant")({
   head: () => ({
@@ -59,10 +60,11 @@ function AssistantList() {
         <div className="flex size-11 items-center justify-center rounded-2xl bg-accent text-primary">
           <Bot className="size-6" />
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold">Assistant Import</h1>
           <p className="text-sm text-muted-foreground">Spécialisé Chine → Madagascar</p>
         </div>
+        <TtsSettingsDialog />
       </div>
 
       <Button className="mt-5 w-full" onClick={() => create.mutate()} disabled={create.isPending || !name}>
