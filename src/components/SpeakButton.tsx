@@ -3,13 +3,15 @@ import { Loader2, Square, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { speakText } from "@/lib/tts.functions";
 import { Button } from "@/components/ui/button";
+import { useTtsSettings } from "@/hooks/use-tts-settings";
 
 /** Bouton de lecture audio (TTS) d'une réponse de l'assistant. */
 export function SpeakButton({ text }: { text: string }) {
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const cacheRef = useRef<string | null>(null);
+  const cacheRef = useRef<Record<string, string>>({});
+  const { settings } = useTtsSettings();
 
   useEffect(() => {
     return () => {
@@ -17,6 +19,11 @@ export function SpeakButton({ text }: { text: string }) {
       audioRef.current = null;
     };
   }, []);
+
+  // Applique le volume en direct pendant la lecture.
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = settings.volume;
+  }, [settings.volume]);
 
   const stop = () => {
     audioRef.current?.pause();
@@ -28,9 +35,13 @@ export function SpeakButton({ text }: { text: string }) {
     if (playing) return stop();
     try {
       setLoading(true);
-      const base64 = cacheRef.current ?? (await speakText({ data: { text } })).audio;
-      cacheRef.current = base64;
+      const key = `${settings.voice}|${settings.speed}`;
+      const base64 =
+        cacheRef.current[key] ??
+        (await speakText({ data: { text, voice: settings.voice, speed: settings.speed } })).audio;
+      cacheRef.current[key] = base64;
       const audio = new Audio(`data:audio/mpeg;base64,${base64}`);
+      audio.volume = settings.volume;
       audioRef.current = audio;
       audio.onended = () => setPlaying(false);
       audio.onerror = () => setPlaying(false);

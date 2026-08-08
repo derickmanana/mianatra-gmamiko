@@ -40,14 +40,22 @@ function cleanForSpeech(text: string) {
     .trim();
 }
 
-async function speakChunk(input: string, apiKey: string): Promise<Uint8Array> {
+const VOICES = ["alloy", "verse", "sage", "coral", "onyx", "nova", "ash", "ballad", "echo", "shimmer"];
+
+async function speakChunk(
+  input: string,
+  apiKey: string,
+  voice: string,
+  speed: number,
+): Promise<Uint8Array> {
   const response = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: MODEL,
       input,
-      voice: "alloy",
+      voice,
+      speed,
       response_format: "mp3",
       instructions:
         "Lis ce texte comme un formateur malgache : prononciation malgache naturelle pour les mots malgaches, française pour les mots français. Débit calme et pédagogique.",
@@ -63,15 +71,21 @@ async function speakChunk(input: string, apiKey: string): Promise<Uint8Array> {
 }
 
 /** Génère l'audio MP3 (base64) d'une réponse de l'assistant. */
-export async function synthesizeSpeech(text: string): Promise<string> {
+export async function synthesizeSpeech(
+  text: string,
+  options?: { voice?: string | undefined; speed?: number | undefined },
+): Promise<string> {
   const clean = cleanForSpeech(text).slice(0, 6000);
   if (!clean) throw new Error("Rien à lire.");
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("Lecture audio indisponible : clé IA manquante.");
 
+  const voice = options?.voice && VOICES.includes(options.voice) ? options.voice : "alloy";
+  const speed = Math.min(2, Math.max(0.5, Number(options?.speed) || 1));
+
   const parts: Uint8Array[] = [];
   for (const chunk of chunkForTTS(clean)) {
-    parts.push(await speakChunk(chunk, apiKey));
+    parts.push(await speakChunk(chunk, apiKey, voice, speed));
   }
   const total = parts.reduce((n, p) => n + p.length, 0);
   const merged = new Uint8Array(total);
