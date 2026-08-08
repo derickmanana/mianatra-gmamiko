@@ -8,6 +8,7 @@ import { askAi, fetchConversation } from "@/lib/ai.functions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useStudentProfile } from "@/hooks/use-student-profile";
+import { SpeakButton } from "@/components/SpeakButton";
 
 export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
   head: () => ({
@@ -127,9 +128,12 @@ function AssistantThread() {
                 {m.role === "user" ? (
                   <p className="whitespace-pre-wrap break-words">{m.content}</p>
                 ) : (
-                  <div className="prose prose-sm max-w-none break-words dark:prose-invert [&_h2]:mt-3 [&_h2]:text-base [&_li]:my-0.5 [&_table]:block [&_table]:overflow-x-auto">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
-                  </div>
+                  <>
+                    <div className="prose prose-sm max-w-none break-words dark:prose-invert [&_h2]:mt-3 [&_h2]:text-base [&_li]:my-0.5 [&_table]:block [&_table]:overflow-x-auto">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                    </div>
+                    <SpeakButton text={m.content} />
+                  </>
                 )}
               </div>
             </div>
