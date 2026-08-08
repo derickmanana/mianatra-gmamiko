@@ -73,7 +73,7 @@ async function speakChunk(
 /** Génère l'audio MP3 (base64) d'une réponse de l'assistant. */
 export async function synthesizeSpeech(
   text: string,
-  options?: { voice?: string; speed?: number },
+  options?: { voice?: string | undefined; speed?: number | undefined },
 ): Promise<string> {
   const clean = cleanForSpeech(text).slice(0, 6000);
   if (!clean) throw new Error("Rien à lire.");
