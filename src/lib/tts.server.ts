@@ -40,7 +40,14 @@ function cleanForSpeech(text: string) {
     .trim();
 }
 
-async function speakChunk(input: string, apiKey: string): Promise<Uint8Array> {
+const VOICES = ["alloy", "verse", "sage", "coral", "onyx", "nova", "ash", "ballad", "echo", "shimmer"];
+
+async function speakChunk(
+  input: string,
+  apiKey: string,
+  voice: string,
+  speed: number,
+): Promise<Uint8Array> {
   const response = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
