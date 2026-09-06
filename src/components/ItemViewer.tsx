@@ -11,9 +11,31 @@ export type ViewItem = {
   signedUrl?: string | null;
 };
 
+/** Extrait l'identifiant d'une vidéo YouTube depuis n'importe quel format d'URL. */
+export function youtubeId(raw: string): string | null {
+  if (!raw) return null;
+  let u: URL;
+  try {
+    u = new URL(raw.trim());
+  } catch {
+    return null;
+  }
+  const host = u.hostname.replace(/^www\.|^m\./, "").toLowerCase();
+  const ok = (id: string | undefined | null) => (id && /^[\w-]{11}$/.test(id) ? id : null);
+  if (host === "youtu.be") return ok(u.pathname.slice(1).split("/")[0]);
+  if (host !== "youtube.com" && host !== "youtube-nocookie.com") return null;
+  const v = u.searchParams.get("v");
+  if (v) return ok(v);
+  const parts = u.pathname.split("/").filter(Boolean);
+  if (parts.length >= 2 && ["embed", "shorts", "live", "v"].includes(parts[0] ?? "")) return ok(parts[1]);
+  return null;
+}
+
 export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?: number }) {
   const [zoomOpen, setZoomOpen] = useState(false);
   const src = item.signedUrl ?? item.url ?? "";
+  const ytId = item.type === "link" ? youtubeId(src) : null;
+
 
   return (
     <div className="rounded-2xl border border-border bg-card p-3 shadow-sm">
@@ -74,7 +96,31 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
         </div>
       ) : null}
 
-      {item.type === "link" && src ? (
+      {item.type === "link" && src && ytId ? (
+        <div className="overflow-hidden rounded-xl border border-border">
+          <div className="relative w-full bg-black" style={{ aspectRatio: "16 / 9" }}>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${ytId}?rel=0&modestbranding=1&playsinline=1`}
+              title={item.title ?? "Vidéo YouTube"}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              className="absolute inset-0 size-full border-0"
+            />
+          </div>
+          <a
+            href={src}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-center gap-2 bg-secondary py-2 text-sm font-medium text-secondary-foreground"
+          >
+            <ExternalLink className="size-4" /> Sokafy ao amin'ny YouTube
+          </a>
+        </div>
+      ) : null}
+
+      {item.type === "link" && src && !ytId ? (
         <a
           href={src}
           target="_blank"
@@ -86,6 +132,7 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
           <ExternalLink className="ml-auto size-4 shrink-0" />
         </a>
       ) : null}
+
 
       {item.content ? (
         <p
