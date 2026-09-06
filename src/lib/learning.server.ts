@@ -138,20 +138,41 @@ export type ProductInput = {
   purchasePrice: string;
   quantity: number | null;
   notes: string;
+  productUrl?: string;
+  weightKg?: number | null;
+  transportMode?: string;
 };
 
 export async function analyzeProduct(studentName: string, input: ProductInput) {
   const name = input.productName.trim();
-  if (!name) throw new Error("Nom du produit obligatoire.");
+  if (!name) throw new Error("Ilaina ny anaran'ny produit.");
 
-  const knowledge = await buildKnowledgeContext(`${name} ${input.platform} ${input.notes}`);
-  const prompt = `Analyse ce produit pour une importation Chine -> Madagascar et produis le rapport complet en markdown selon le format imposé.
+  const url = (input.productUrl ?? "").trim();
+  const [knowledge, pages] = await Promise.all([
+    buildKnowledgeContext(`${name} ${input.platform} ${input.notes}`),
+    url ? readLinksIn(url) : Promise.resolve([]),
+  ]);
+
+  const linkBlock = linksContext(pages);
+
+  const prompt = `Analyse ce produit pour une importation Chine -> Madagascar et produis le rapport complet en markdown selon le format imposé (en malgache).
 
 Nom du produit : ${name}
 Plateforme : ${input.platform || "non précisée"}
+Lien du produit : ${url || "non fourni"}
 Prix d'achat annoncé : ${input.purchasePrice || "non précisé"}
 Quantité envisagée : ${input.quantity ?? "non précisée"}
-Précisions de l'étudiant : ${input.notes || "aucune"}`;
+Poids indiqué par l'étudiant : ${input.weightKg != null ? `${input.weightKg} kg` : "non précisé"}
+Mode de transport souhaité : ${input.transportMode || "à conseiller"}
+Précisions de l'étudiant : ${input.notes || "aucune"}
+
+${linkBlock ? `CONTENU DES LIENS\n${linkBlock}\n` : ""}
+EXIGENCES SUPPLÉMENTAIRES
+- Si aucun poids n'est fourni, estime-le à partir des produits de référence de la base et précise "POIDS ESTIMÉ".
+- Compare au moins deux transitaires enregistrés (aérien Ar/kg vs maritime $/m³) et chiffre le coût de transport pour la quantité envisagée.
+- Chiffre : coût total débarqué, prix de vente conseillé à Madagascar, marge en Ar et en %.
+- Signale explicitement les contraintes : fragile, batterie, liquide, volume.
+- Termine par la décision finale.`;
 
   const report = await runModel(assistantSystemPrompt(knowledge.text), prompt);
 
@@ -161,12 +182,15 @@ Précisions de l'étudiant : ${input.notes || "aucune"}`;
     platform: input.platform || null,
     purchase_price: input.purchasePrice || null,
     quantity: input.quantity,
-    notes: input.notes || null,
+    notes: [input.notes, url ? `Lien: ${url}` : "", input.weightKg != null ? `Poids: ${input.weightKg} kg` : "", input.transportMode ? `Transport: ${input.transportMode}` : ""]
+      .filter(Boolean)
+      .join(" | ") || null,
     report,
   });
 
   return report;
 }
+
 
 export async function listAnalyses(studentName: string) {
   const { data, error } = await supabaseAdmin
