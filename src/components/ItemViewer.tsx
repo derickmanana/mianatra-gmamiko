@@ -11,9 +11,31 @@ export type ViewItem = {
   signedUrl?: string | null;
 };
 
+/** Extrait l'identifiant d'une vidéo YouTube depuis n'importe quel format d'URL. */
+export function youtubeId(raw: string): string | null {
+  if (!raw) return null;
+  let u: URL;
+  try {
+    u = new URL(raw.trim());
+  } catch {
+    return null;
+  }
+  const host = u.hostname.replace(/^www\.|^m\./, "").toLowerCase();
+  const ok = (id: string | undefined | null) => (id && /^[\w-]{11}$/.test(id) ? id : null);
+  if (host === "youtu.be") return ok(u.pathname.slice(1).split("/")[0]);
+  if (host !== "youtube.com" && host !== "youtube-nocookie.com") return null;
+  const v = u.searchParams.get("v");
+  if (v) return ok(v);
+  const parts = u.pathname.split("/").filter(Boolean);
+  if (parts.length >= 2 && ["embed", "shorts", "live", "v"].includes(parts[0] ?? "")) return ok(parts[1]);
+  return null;
+}
+
 export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?: number }) {
   const [zoomOpen, setZoomOpen] = useState(false);
   const src = item.signedUrl ?? item.url ?? "";
+  const ytId = item.type === "link" ? youtubeId(src) : null;
+
 
   return (
     <div className="rounded-2xl border border-border bg-card p-3 shadow-sm">
