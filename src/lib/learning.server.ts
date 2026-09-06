@@ -3,6 +3,8 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { assistantSystemPrompt, runModel } from "./ai.server";
 import { buildKnowledgeContext } from "./kb.server";
+import { linksContext, readLinksIn } from "./urlfetch.server";
+
 
 /* -------------------------------- QUIZ -------------------------------- */
 
