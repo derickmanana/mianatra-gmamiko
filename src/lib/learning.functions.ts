@@ -39,8 +39,12 @@ export const runProductAnalysis = createServerFn({ method: "POST" })
       purchasePrice: string;
       quantity: number | null;
       notes: string;
+      productUrl?: string;
+      weightKg?: number | null;
+      transportMode?: string;
     }) => d,
   )
+
   .handler(async ({ data }) => {
     const m = await import("./learning.server");
     const { studentName, ...input } = data;
