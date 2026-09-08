@@ -126,23 +126,60 @@ function AnalysePage() {
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label>Quantité envisagée</Label>
+          <Label>Lien du produit (facultatif)</Label>
           <Input
-            inputMode="numeric"
-            placeholder="Ex : 50"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value.replace(/\D/g, ""))}
+            inputMode="url"
+            placeholder="https://detail.1688.com/…"
+            value={productUrl}
+            onChange={(e) => setProductUrl(e.target.value)}
           />
+          <p className="text-xs text-muted-foreground">
+            L'assistant essaie de lire la page. S'il n'y arrive pas, il vous le dit au lieu d'inventer.
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="space-y-1.5">
+            <Label>Quantité</Label>
+            <Input
+              inputMode="numeric"
+              placeholder="Ex : 50"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value.replace(/\D/g, ""))}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Poids (kg)</Label>
+            <Input
+              inputMode="decimal"
+              placeholder="Ex : 0,4"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value.replace(/[^\d.,]/g, ""))}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Transport</Label>
+            <select
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={transportMode}
+              onChange={(e) => setTransportMode(e.target.value)}
+            >
+              <option value="">À conseiller</option>
+              <option value="Aérien">Aérien</option>
+              <option value="Maritime">Maritime</option>
+              <option value="Aérien express">Aérien express</option>
+            </select>
+          </div>
         </div>
         <div className="space-y-1.5">
           <Label>Précisions (facultatif)</Label>
           <Textarea
             rows={3}
-            placeholder="Dimensions, matière, batterie, lien du produit…"
+            placeholder="Dimensions, matière, batterie, liquide, fragile…"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
         </div>
+
         <Button type="submit" className="w-full" disabled={analyse.isPending || !productName.trim()}>
           {analyse.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
           Analyser ce produit
