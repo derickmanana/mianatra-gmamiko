@@ -36,8 +36,11 @@ function AnalysePage() {
 
   const [productName, setProductName] = useState("");
   const [platform, setPlatform] = useState("");
+  const [productUrl, setProductUrl] = useState("");
   const [purchasePrice, setPurchasePrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [weight, setWeight] = useState("");
+  const [transportMode, setTransportMode] = useState("");
   const [notes, setNotes] = useState("");
   const [report, setReport] = useState<string | null>(null);
 
@@ -57,8 +60,12 @@ function AnalysePage() {
           purchasePrice,
           quantity: quantity.trim() ? Number(quantity) : null,
           notes,
+          productUrl: productUrl.trim(),
+          weightKg: weight.trim() ? Number(weight.replace(",", ".")) : null,
+          transportMode,
         },
       }),
+
     onSuccess: (r) => {
       setReport(r.report);
       qc.invalidateQueries({ queryKey: ["analyses", name] });
