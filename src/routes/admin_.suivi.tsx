@@ -7,10 +7,10 @@ import { useAdminCode } from "@/hooks/use-admin-code";
 export const Route = createFileRoute("/admin_/suivi")({
   head: () => ({
     meta: [
-      { title: "Suivi des étudiants — Administration" },
-      { name: "description", content: "Suivez l'activité des étudiants : quiz, analyses, discussions et messages." },
-      { property: "og:title", content: "Suivi des étudiants — Administration" },
-      { property: "og:description", content: "Tableau de suivi de la progression des étudiants." },
+      { title: "Fanaraha-maso mpianatra — Fitantanana" },
+      { name: "description", content: "Araho ny hetsiky ny mpianatra: quiz, fandalinana, resadresaka ary hafatra." },
+      { property: "og:title", content: "Fanaraha-maso mpianatra — Fitantanana" },
+      { property: "og:description", content: "Tabilao fanaraha-maso ny fandrosoan'ny mpianatra." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -32,14 +32,14 @@ function AdminSuivi() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-4xl px-4 pb-12 pt-5">
       <Link to="/admin" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Tableau de bord
+        <ArrowLeft className="size-4" /> Tabilao fitantanana
       </Link>
 
       {!code ? (
         <p className="text-sm text-muted-foreground">
-          Accès administrateur requis.{" "}
+          Mila fidirana mpitantana.{" "}
           <Link to="/admin" className="font-medium text-primary">
-            Saisir le code
+            Ampidiro ny kaody
           </Link>
         </p>
       ) : (
@@ -49,8 +49,8 @@ function AdminSuivi() {
               <Users className="size-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Suivi des étudiants</h1>
-              <p className="text-sm text-muted-foreground">Progression et activité</p>
+              <h1 className="text-2xl font-bold">Fanaraha-maso mpianatra</h1>
+              <p className="text-sm text-muted-foreground">Fandrosoana sy hetsika</p>
             </div>
           </div>
 
@@ -62,10 +62,10 @@ function AdminSuivi() {
             <>
               <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {[
-                  { label: "Étudiants", value: data?.totals.students ?? 0 },
-                  { label: "Quiz passés", value: data?.totals.attempts ?? 0 },
-                  { label: "Analyses", value: data?.totals.analyses ?? 0 },
-                  { label: "Discussions IA", value: data?.totals.conversations ?? 0 },
+                  { label: "Mpianatra", value: data?.totals.students ?? 0 },
+                  { label: "Quiz natao", value: data?.totals.attempts ?? 0 },
+                  { label: "Fandalinana", value: data?.totals.analyses ?? 0 },
+                  { label: "Resadresaka IA", value: data?.totals.conversations ?? 0 },
                 ].map((s) => (
                   <div
                     key={s.label}
@@ -85,21 +85,21 @@ function AdminSuivi() {
                 <table className="w-full text-sm">
                   <thead className="bg-muted text-left text-xs text-muted-foreground">
                     <tr>
-                      <th className="p-3">Étudiant</th>
-                      <th className="p-3">Dossiers</th>
+                      <th className="p-3">Mpianatra</th>
+                      <th className="p-3">Dosie</th>
                       <th className="p-3">Quiz</th>
-                      <th className="p-3">Moyenne</th>
-                      <th className="p-3">Analyses</th>
+                      <th className="p-3">Antonony</th>
+                      <th className="p-3">Fandalinana</th>
                       <th className="p-3">IA</th>
-                      <th className="p-3">Messages</th>
-                      <th className="p-3">Dernière activité</th>
+                      <th className="p-3">Hafatra</th>
+                      <th className="p-3">Hetsika farany</th>
                     </tr>
                   </thead>
                   <tbody>
                     {(data?.rows ?? []).length === 0 ? (
                       <tr>
                         <td colSpan={8} className="p-6 text-center text-muted-foreground">
-                          Aucune activité pour le moment.
+                          Tsy misy hetsika ankehitriny.
                         </td>
                       </tr>
                     ) : (

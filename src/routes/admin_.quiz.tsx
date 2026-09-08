@@ -22,10 +22,10 @@ import { useAdminCode } from "@/hooks/use-admin-code";
 export const Route = createFileRoute("/admin_/quiz")({
   head: () => ({
     meta: [
-      { title: "Gestion des quiz — Administration" },
-      { name: "description", content: "Créez et modifiez les évaluations de la formation import Chine → Madagascar." },
-      { property: "og:title", content: "Gestion des quiz — Administration" },
-      { property: "og:description", content: "Créez les questions, réponses et explications des quiz." },
+      { title: "Fitantanana quiz — Fitantanana" },
+      { name: "description", content: "Mamoròna sy manova ny fitsapana amin'ny fampiofanana import Sina → Madagasikara." },
+      { property: "og:title", content: "Fitantanana quiz — Fitantanana" },
+      { property: "og:description", content: "Mamoròna ny fanontaniana, valiny ary fanazavana ao amin'ny quiz." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -120,14 +120,14 @@ function AdminQuiz() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/admin" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Tableau de bord
+        <ArrowLeft className="size-4" /> Tabilao fitantanana
       </Link>
 
       {!code ? (
         <p className="text-sm text-muted-foreground">
-          Accès administrateur requis.{" "}
+          Mila fidirana mpitantana.{" "}
           <Link to="/admin" className="font-medium text-primary">
-            Saisir le code
+            Ampidiro ny kaody
           </Link>
         </p>
       ) : (
@@ -137,8 +137,8 @@ function AdminQuiz() {
               <GraduationCap className="size-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Quiz et évaluations</h1>
-              <p className="text-sm text-muted-foreground">Créez les questions de la formation</p>
+              <h1 className="text-2xl font-bold">Quiz sy fitsapana</h1>
+              <p className="text-sm text-muted-foreground">Mamoròna ny fanontanian'ny fampiofanana</p>
             </div>
           </div>
 
@@ -146,7 +146,7 @@ function AdminQuiz() {
             className="mt-5 w-full"
             onClick={() => setOpenQuiz({ title: "", description: "", is_active: true })}
           >
-            <Plus className="mr-2 size-4" /> Nouveau quiz
+            <Plus className="mr-2 size-4" /> Quiz vaovao
           </Button>
 
           <div className="mt-5 space-y-2">
@@ -167,12 +167,12 @@ function AdminQuiz() {
                       onClick={() => setSelected(selected?.id === q.id ? null : { id: q.id, title: q.title })}
                     >
                       <p className="truncate font-medium">{q.title}</p>
-                      <p className="text-xs text-muted-foreground">{q.is_active ? "Publié" : "Masqué"}</p>
+                      <p className="text-xs text-muted-foreground">{q.is_active ? "Navoaka" : "Voafina"}</p>
                     </button>
                     <Button
                       variant="ghost"
                       size="icon"
-                      aria-label="Modifier le quiz"
+                      aria-label="Hanova ny quiz"
                       onClick={() =>
                         setOpenQuiz({
                           id: q.id,
@@ -184,7 +184,7 @@ function AdminQuiz() {
                     >
                       <Pencil className="size-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" aria-label="Supprimer le quiz" onClick={() => delQuiz.mutate(q.id)}>
+                    <Button variant="ghost" size="icon" aria-label="Fafao ny quiz" onClick={() => delQuiz.mutate(q.id)}>
                       <Trash2 className="size-4" />
                     </Button>
                   </div>
@@ -192,7 +192,7 @@ function AdminQuiz() {
                   {selected?.id === q.id && (
                     <div className="mt-3 border-t border-border pt-3">
                       <Button size="sm" variant="outline" onClick={() => setOpenQuestion({ ...emptyQuestion })}>
-                        <Plus className="mr-2 size-4" /> Ajouter une question
+                        <Plus className="mr-2 size-4" /> Ampio fanontaniana
                       </Button>
                       <ul className="mt-3 space-y-2">
                         {(questions.data ?? []).map((item, i) => (
@@ -202,13 +202,13 @@ function AdminQuiz() {
                                 {i + 1}. {item.question}
                               </span>
                               <span className="block text-xs text-muted-foreground">
-                                Bonne réponse : {item.choices[item.correct_index]}
+                                Valiny marina : {item.choices[item.correct_index]}
                               </span>
                             </span>
                             <Button
                               variant="ghost"
                               size="icon"
-                              aria-label="Modifier la question"
+                              aria-label="Hanova ny fanontaniana"
                               onClick={() =>
                                 setOpenQuestion({
                                   id: item.id,
@@ -224,7 +224,7 @@ function AdminQuiz() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              aria-label="Supprimer la question"
+                              aria-label="Fafao ny fanontaniana"
                               onClick={() => delQuestion.mutate(item.id)}
                             >
                               <Trash2 className="size-4" />
@@ -244,16 +244,16 @@ function AdminQuiz() {
       <Dialog open={!!openQuiz} onOpenChange={(o) => !o && setOpenQuiz(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{openQuiz?.id ? "Modifier le quiz" : "Nouveau quiz"}</DialogTitle>
+            <DialogTitle>{openQuiz?.id ? "Hanova ny quiz" : "Quiz vaovao"}</DialogTitle>
           </DialogHeader>
           {openQuiz && (
             <div className="space-y-3">
               <div className="space-y-1.5">
-                <Label>Titre</Label>
+                <Label>Lohateny</Label>
                 <Input value={openQuiz.title} onChange={(e) => setOpenQuiz({ ...openQuiz, title: e.target.value })} />
               </div>
               <div className="space-y-1.5">
-                <Label>Description</Label>
+                <Label>Famaritana</Label>
                 <Textarea
                   rows={2}
                   value={openQuiz.description}
@@ -261,7 +261,7 @@ function AdminQuiz() {
                 />
               </div>
               <div className="flex items-center justify-between rounded-xl border border-border p-3">
-                <Label>Visible par les étudiants</Label>
+                <Label>Hita amin'ny mpianatra</Label>
                 <Switch
                   checked={openQuiz.is_active}
                   onCheckedChange={(v) => setOpenQuiz({ ...openQuiz, is_active: v })}
@@ -275,7 +275,7 @@ function AdminQuiz() {
               onClick={() => openQuiz && saveQuiz.mutate(openQuiz)}
             >
               {saveQuiz.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-              Enregistrer
+              Tehirizo
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -284,12 +284,12 @@ function AdminQuiz() {
       <Dialog open={!!openQuestion} onOpenChange={(o) => !o && setOpenQuestion(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{openQuestion?.id ? "Modifier la question" : "Nouvelle question"}</DialogTitle>
+            <DialogTitle>{openQuestion?.id ? "Hanova ny fanontaniana" : "Fanontaniana vaovao"}</DialogTitle>
           </DialogHeader>
           {openQuestion && (
             <div className="space-y-3">
               <div className="space-y-1.5">
-                <Label>Question</Label>
+                <Label>Fanontaniana</Label>
                 <Textarea
                   rows={2}
                   value={openQuestion.question}
@@ -298,7 +298,7 @@ function AdminQuiz() {
               </div>
               {openQuestion.choices.map((c, i) => (
                 <div key={i} className="space-y-1.5">
-                  <Label>Réponse {i + 1}</Label>
+                  <Label>Valiny {i + 1}</Label>
                   <div className="flex items-center gap-2">
                     <Input
                       value={c}
@@ -314,13 +314,13 @@ function AdminQuiz() {
                       size="sm"
                       onClick={() => setOpenQuestion({ ...openQuestion, correctIndex: i })}
                     >
-                      Correcte
+                      Marina
                     </Button>
                   </div>
                 </div>
               ))}
               <div className="space-y-1.5">
-                <Label>Explication (affichée après correction)</Label>
+                <Label>Fanazavana (aseho aorian'ny fanitsiana)</Label>
                 <Textarea
                   rows={2}
                   value={openQuestion.explanation}
@@ -339,7 +339,7 @@ function AdminQuiz() {
               onClick={() => openQuestion && saveQuestion.mutate(openQuestion)}
             >
               {saveQuestion.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-              Enregistrer
+              Tehirizo
             </Button>
           </DialogFooter>
         </DialogContent>

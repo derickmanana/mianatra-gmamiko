@@ -11,7 +11,7 @@ export type ViewItem = {
   signedUrl?: string | null;
 };
 
-/** Extrait l'identifiant d'une vidéo YouTube depuis n'importe quel format d'URL. */
+/** Manala ny famantarana horonan-tsary YouTube na inona na inona endriky ny URL. */
 export function youtubeId(raw: string): string | null {
   if (!raw) return null;
   let u: URL;
@@ -50,14 +50,14 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
             onClick={() => setZoomOpen(true)}
             className="group relative block w-full overflow-hidden rounded-xl bg-muted"
           >
-            <img src={src} alt={item.title ?? "Image"} loading="lazy" className="w-full object-contain" />
+            <img src={src} alt={item.title ?? "Sary"} loading="lazy" className="w-full object-contain" />
             <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-foreground/70 px-2 py-1 text-xs text-background">
-              <Maximize2 className="size-3" /> Zoom
+              <Maximize2 className="size-3" /> Hozahozaina
             </span>
           </button>
           <ImageZoomViewer
             src={src}
-            alt={item.title ?? "Image"}
+            alt={item.title ?? "Sary"}
             open={zoomOpen}
             onClose={() => setZoomOpen(false)}
           />
@@ -73,7 +73,7 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
             rel="noreferrer"
             className="flex items-center justify-center gap-2 bg-secondary py-2 text-sm font-medium text-secondary-foreground"
           >
-            <FileText className="size-4" /> Ouvrir en plein écran
+            <FileText className="size-4" /> Sokafy amin'ny efijery feno
           </a>
         </div>
       ) : null}
@@ -82,7 +82,7 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
         <div className="overflow-hidden rounded-xl border border-border">
           <iframe
             src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(src)}`}
-            title={item.title ?? "Document Word"}
+            title={item.title ?? "Antontan-taratasy Word"}
             className="h-[70vh] w-full bg-muted"
           />
           <a
@@ -91,7 +91,7 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
             rel="noreferrer"
             className="flex items-center justify-center gap-2 bg-secondary py-2 text-sm font-medium text-secondary-foreground"
           >
-            <FileType2 className="size-4" /> Ouvrir le document
+            <FileType2 className="size-4" /> Sokafy ny antontan-taratasy
           </a>
         </div>
       ) : null}
@@ -101,7 +101,7 @@ export function ItemViewer({ item, fontScale = 1 }: { item: ViewItem; fontScale?
           <div className="relative w-full bg-black" style={{ aspectRatio: "16 / 9" }}>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${ytId}?rel=0&modestbranding=1&playsinline=1`}
-              title={item.title ?? "Vidéo YouTube"}
+              title={item.title ?? "Horonan-tsary YouTube"}
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
