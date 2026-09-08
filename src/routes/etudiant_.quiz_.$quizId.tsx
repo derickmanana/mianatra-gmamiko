@@ -10,10 +10,10 @@ import { useStudentProfile } from "@/hooks/use-student-profile";
 export const Route = createFileRoute("/etudiant_/quiz_/$quizId")({
   head: () => ({
     meta: [
-      { title: "Quiz de formation — Import Chine → Madagascar" },
-      { name: "description", content: "Répondez au quiz et obtenez la correction détaillée du formateur." },
-      { property: "og:title", content: "Quiz de formation — Import Chine → Madagascar" },
-      { property: "og:description", content: "Correction détaillée et explications du formateur." },
+      { title: "Fanadinam-pampiofanana — Fanafarana Shina → Madagasikara" },
+      { name: "description", content: "Valio ny fanadinana ary hahazoana ny valiny amin'ny antsipiriany avy amin'ny mpampiofana." },
+      { property: "og:title", content: "Fanadinam-pampiofanana — Fanafarana Shina → Madagasikara" },
+      { property: "og:description", content: "Valiny amin'ny antsipiriany sy fanazavana avy amin'ny mpampiofana." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -52,7 +52,7 @@ function QuizPlay() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/etudiant/quiz" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Évaluations
+        <ArrowLeft className="size-4" /> Fanadinana
       </Link>
 
       {isLoading ? (
@@ -60,7 +60,7 @@ function QuizPlay() {
           <Loader2 className="size-6 animate-spin text-primary" />
         </div>
       ) : !data ? (
-        <p className="text-sm text-muted-foreground">Quiz introuvable.</p>
+        <p className="text-sm text-muted-foreground">Tsy hita ny fanadinana.</p>
       ) : (
         <>
           <h1 className="text-2xl font-bold">{data.title}</h1>
@@ -75,7 +75,7 @@ function QuizPlay() {
                 {result.score}/{result.total}
               </p>
               <p className="text-sm text-muted-foreground">
-                {Math.round((result.score / result.total) * 100)}% de bonnes réponses
+                {Math.round((result.score / result.total) * 100)}% valiny marina
               </p>
             </div>
           )}
@@ -135,7 +135,7 @@ function QuizPlay() {
               onClick={() => submit.mutate()}
             >
               {submit.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-              Valider mes réponses
+              Hamarina ny valiko
             </Button>
           ) : (
             <Button
@@ -146,7 +146,7 @@ function QuizPlay() {
                 setAnswers({});
               }}
             >
-              Recommencer
+              Manomboka indray
             </Button>
           )}
         </>

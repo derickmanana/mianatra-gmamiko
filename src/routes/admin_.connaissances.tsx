@@ -22,13 +22,13 @@ import {
 export const Route = createFileRoute("/admin_/connaissances")({
   head: () => ({
     meta: [
-      { title: "Base de connaissances IA — Administration" },
+      { title: "Fototra fahalalana IA — Fitantanana" },
       {
         name: "description",
-        content: "Enregistrez les transitaires, produits, fournisseurs et conseils utilisés par l'assistant IA.",
+        content: "Raketo ao ny transitaire, vokatra, mpamatsy ary torohevitra ampiasain'ny mpanampy IA.",
       },
-      { property: "og:title", content: "Base de connaissances IA — Administration" },
-      { property: "og:description", content: "Alimentez l'assistant import Chine → Madagascar." },
+      { property: "og:title", content: "Fototra fahalalana IA — Fitantanana" },
+      { property: "og:description", content: "Amelo ny mpanampy import Sina → Madagasikara." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -64,14 +64,14 @@ const CATEGORIES = [
 
 const SCHEMAS: Record<Table, { label: string; titleKey: string; subtitle: (r: Row) => string; fields: Field[] }> = {
   kb_entries: {
-    label: "Connaissances",
+    label: "Fahalalana",
     titleKey: "title",
     subtitle: (r) => String(r["category"] ?? ""),
     fields: [
-      { key: "category", label: `Catégorie (${CATEGORIES.join(", ")})`, placeholder: "Conseils" },
-      { key: "title", label: "Titre" },
-      { key: "content", label: "Contenu", type: "textarea" },
-      { key: "is_active", label: "Utilisé par l'IA", type: "boolean" },
+      { key: "category", label: `Sokajy (${CATEGORIES.join(", ")})`, placeholder: "Torohevitra" },
+      { key: "title", label: "Lohateny" },
+      { key: "content", label: "Votoaty", type: "textarea" },
+      { key: "is_active", label: "Ampiasain'ny IA", type: "boolean" },
     ],
   },
   forwarders: {
@@ -79,50 +79,50 @@ const SCHEMAS: Record<Table, { label: string; titleKey: string; subtitle: (r: Ro
     titleKey: "name",
     subtitle: (r) => `${r["city"] ?? ""} · ${r["air_rate_ar_kg"] ?? "-"} Ar/kg · ${r["sea_rate_usd_m3"] ?? "-"} $/m³`,
     fields: [
-      { key: "name", label: "Nom du transitaire" },
-      { key: "address", label: "Adresse" },
-      { key: "phone", label: "Téléphone" },
+      { key: "name", label: "Anaran'ny transitaire" },
+      { key: "address", label: "Adiresy" },
+      { key: "phone", label: "Telefaonina" },
       { key: "whatsapp", label: "WhatsApp" },
       { key: "wechat", label: "WeChat" },
       { key: "facebook", label: "Facebook" },
-      { key: "website", label: "Site web" },
-      { key: "city", label: "Ville" },
-      { key: "departure_country", label: "Pays de départ", placeholder: "Chine" },
-      { key: "air_rate_ar_kg", label: "Transport aérien (Ar/kg)", type: "number" },
-      { key: "sea_rate_usd_m3", label: "Transport maritime ($/m³)", type: "number" },
-      { key: "delivery_standard", label: "Livraison standard" },
-      { key: "delivery_express", label: "Livraison express" },
-      { key: "avg_delay", label: "Délai moyen de livraison" },
-      { key: "notes", label: "Notes", type: "textarea" },
-      { key: "is_active", label: "Actif", type: "boolean" },
+      { key: "website", label: "Tranokala" },
+      { key: "city", label: "Tanàna" },
+      { key: "departure_country", label: "Firenena fiaingana", placeholder: "Sina" },
+      { key: "air_rate_ar_kg", label: "Fitaterana an-habakabaka (Ar/kg)", type: "number" },
+      { key: "sea_rate_usd_m3", label: "Fitaterana an-dranomasina ($/m³)", type: "number" },
+      { key: "delivery_standard", label: "Fandefasana mahazatra" },
+      { key: "delivery_express", label: "Fandefasana haingana" },
+      { key: "avg_delay", label: "Fotoana antonony fandefasana" },
+      { key: "notes", label: "Naoty", type: "textarea" },
+      { key: "is_active", label: "Mavitrika", type: "boolean" },
     ],
   },
   kb_products: {
-    label: "Produits",
+    label: "Vokatra",
     titleKey: "name",
     subtitle: (r) => `${r["category"] ?? "-"} · ${r["weight_kg"] ?? "-"} kg`,
     fields: [
-      { key: "name", label: "Nom du produit" },
-      { key: "category", label: "Catégorie" },
-      { key: "material", label: "Matière" },
-      { key: "dimensions", label: "Dimensions" },
-      { key: "weight_kg", label: "Poids réel (kg)", type: "number" },
-      { key: "is_fragile", label: "Produit fragile", type: "boolean" },
-      { key: "has_battery", label: "Contient une batterie", type: "boolean" },
-      { key: "is_liquid", label: "Liquide", type: "boolean" },
-      { key: "transport_advice", label: "Conseil de transport", type: "textarea" },
+      { key: "name", label: "Anaran'ny vokatra" },
+      { key: "category", label: "Sokajy" },
+      { key: "material", label: "Fanontana" },
+      { key: "dimensions", label: "Habe" },
+      { key: "weight_kg", label: "Lanja marina (kg)", type: "number" },
+      { key: "is_fragile", label: "Vokatra malemy", type: "boolean" },
+      { key: "has_battery", label: "Misy solika mihazona herinaratra", type: "boolean" },
+      { key: "is_liquid", label: "Rano", type: "boolean" },
+      { key: "transport_advice", label: "Torohevitra fitaterana", type: "textarea" },
     ],
   },
   kb_suppliers: {
-    label: "Fournisseurs",
+    label: "Mpamatsy",
     titleKey: "name",
     subtitle: (r) => `${r["platform"] ?? "-"} · ${r["status"] ?? ""}`,
     fields: [
-      { key: "name", label: "Nom du fournisseur / boutique" },
-      { key: "platform", label: "Plateforme (Pinduoduo, 1688, Taobao, SHEIN)" },
-      { key: "shop_url", label: "Lien de la boutique" },
-      { key: "status", label: "Statut (fiable, à éviter, recommandé)", placeholder: "fiable" },
-      { key: "notes", label: "Expériences et remarques", type: "textarea" },
+      { key: "name", label: "Anaran'ny mpamatsy / fivarotana" },
+      { key: "platform", label: "Sehatra (Pinduoduo, 1688, Taobao, SHEIN)" },
+      { key: "shop_url", label: "Rohin'ny fivarotana" },
+      { key: "status", label: "Sata (azo itokiana, hialana, ambara)", placeholder: "azo itokiana" },
+      { key: "notes", label: "Traikefa sy fanamarihana", type: "textarea" },
     ],
   },
 };
@@ -175,7 +175,7 @@ function KnowledgeAdmin() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/admin" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Administration
+        <ArrowLeft className="size-4" /> Fitantanana
       </Link>
 
       <div className="flex items-center gap-3">
@@ -183,8 +183,8 @@ function KnowledgeAdmin() {
           <BrainCircuit className="size-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Base de connaissances IA</h1>
-          <p className="text-sm text-muted-foreground">Ces données alimentent automatiquement l'assistant.</p>
+          <h1 className="text-2xl font-bold">Fototra fahalalana IA</h1>
+          <p className="text-sm text-muted-foreground">Ireo angona ireo dia mamelona avy hatrany ny mpanampy.</p>
         </div>
       </div>
 
@@ -203,12 +203,12 @@ function KnowledgeAdmin() {
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             className="pl-9"
-            placeholder="Rechercher"
+            placeholder="Tadiavo"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <Button size="icon" aria-label="Ajouter" onClick={() => setEditing({})}>
+        <Button size="icon" aria-label="Ampio" onClick={() => setEditing({})}>
           <Plus className="size-4" />
         </Button>
       </div>
@@ -220,7 +220,7 @@ function KnowledgeAdmin() {
           </div>
         ) : rows.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Aucune donnée enregistrée.
+            Tsy misy angona voarakitra.
           </p>
         ) : (
           rows.map((r) => (
@@ -230,13 +230,13 @@ function KnowledgeAdmin() {
               style={{ boxShadow: "var(--shadow-card)" }}
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{String(r[schema.titleKey] ?? "Sans titre")}</p>
+                <p className="truncate text-sm font-medium">{String(r[schema.titleKey] ?? "Tsy misy lohateny")}</p>
                 <p className="truncate text-xs text-muted-foreground">{schema.subtitle(r)}</p>
               </div>
-              <Button variant="ghost" size="icon" aria-label="Modifier" onClick={() => setEditing(r)}>
+              <Button variant="ghost" size="icon" aria-label="Hanova" onClick={() => setEditing(r)}>
                 <Pencil className="size-4" />
               </Button>
-              <Button variant="ghost" size="icon" aria-label="Supprimer" onClick={() => del.mutate(r.id)}>
+              <Button variant="ghost" size="icon" aria-label="Fafao" onClick={() => del.mutate(r.id)}>
                 <Trash2 className="size-4" />
               </Button>
             </div>
@@ -247,7 +247,7 @@ function KnowledgeAdmin() {
       <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editing?.["id"] ? "Modifier" : "Ajouter"} — {schema.label}</DialogTitle>
+            <DialogTitle>{editing?.["id"] ? "Hanova" : "Ampio"} — {schema.label}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             {schema.fields.map((f) => (
@@ -301,7 +301,7 @@ function KnowledgeAdmin() {
               }}
             >
               {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-              Enregistrer
+              Tehirizo
             </Button>
           </DialogFooter>
         </DialogContent>

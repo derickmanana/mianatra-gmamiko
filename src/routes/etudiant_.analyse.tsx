@@ -15,13 +15,13 @@ import { useStudentProfile } from "@/hooks/use-student-profile";
 export const Route = createFileRoute("/etudiant_/analyse")({
   head: () => ({
     meta: [
-      { title: "Analyse de produit — Import Chine → Madagascar" },
+      { title: "Famakafakana vokatra — Fanafarana avy any Shina ho any Madagasikara" },
       {
         name: "description",
-        content: "Analysez la rentabilité d'un produit chinois avant de l'importer à Madagascar : coût, marge, risque.",
+        content: "Diniho ny tombom-barotry ny vokatra sinoa alohan'ny hanafarana azy any Madagasikara : vidiny, tombony, loza mety hitranga.",
       },
-      { property: "og:title", content: "Analyse de produit — Import Chine → Madagascar" },
-      { property: "og:description", content: "Rapport complet : coût total, prix de vente conseillé, marge et décision." },
+      { property: "og:title", content: "Famakafakana vokatra — Fanafarana avy any Shina ho any Madagasikara" },
+      { property: "og:description", content: "Tatitra feno : vidiny rehetra, vidin'ny varotra tolorina, tombony ary fanapahan-kevitra." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -86,7 +86,7 @@ function AnalysePage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/etudiant" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Espace étudiant
+        <ArrowLeft className="size-4" /> Sehatry mpianatra
       </Link>
 
       <div className="flex items-center gap-3">
@@ -94,8 +94,8 @@ function AnalysePage() {
           <PackageSearch className="size-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Analyse de produit</h1>
-          <p className="text-sm text-muted-foreground">Rentabilité, transport, marge et décision finale</p>
+          <h1 className="text-2xl font-bold">Famakafakana vokatra</h1>
+          <p className="text-sm text-muted-foreground">Tombom-barotra, fitaterana, tombony ary fanapahan-kevitra farany</p>
         </div>
       </div>
 
@@ -108,25 +108,25 @@ function AnalysePage() {
         }}
       >
         <div className="space-y-1.5">
-          <Label>Nom du produit</Label>
+          <Label>Anaran'ny vokatra</Label>
           <Input
-            placeholder="Ex : montre connectée"
+            placeholder="Ohatra : famantaranandro connectée"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
           />
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label>Plateforme</Label>
+            <Label>Sehatra</Label>
             <Input placeholder="1688, Pinduoduo…" value={platform} onChange={(e) => setPlatform(e.target.value)} />
           </div>
           <div className="space-y-1.5">
-            <Label>Prix d'achat</Label>
-            <Input placeholder="Ex : 35 ¥" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
+            <Label>Vidin'ny fividianana</Label>
+            <Input placeholder="Ohatra : 35 ¥" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label>Lien du produit (facultatif)</Label>
+          <Label>Rohin'ny vokatra (tsy tsy maintsy)</Label>
           <Input
             inputMode="url"
             placeholder="https://detail.1688.com/…"
@@ -134,36 +134,36 @@ function AnalysePage() {
             onChange={(e) => setProductUrl(e.target.value)}
           />
           <p className="text-xs text-muted-foreground">
-            L'assistant essaie de lire la page. S'il n'y arrive pas, il vous le dit au lieu d'inventer.
+            Miezaka mamaky ny pejy ny mpanampy. Raha tsy vitany izany, dia lazainy aminao fa tsy hamorona valiny.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="space-y-1.5">
-            <Label>Quantité</Label>
+            <Label>Isa</Label>
             <Input
               inputMode="numeric"
-              placeholder="Ex : 50"
+              placeholder="Ohatra : 50"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value.replace(/\D/g, ""))}
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Poids (kg)</Label>
+            <Label>Lanja (kg)</Label>
             <Input
               inputMode="decimal"
-              placeholder="Ex : 0,4"
+              placeholder="Ohatra : 0,4"
               value={weight}
               onChange={(e) => setWeight(e.target.value.replace(/[^\d.,]/g, ""))}
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Transport</Label>
+            <Label>Fitaterana</Label>
             <select
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
               value={transportMode}
               onChange={(e) => setTransportMode(e.target.value)}
             >
-              <option value="">À conseiller</option>
+              <option value="">Tolorina</option>
               <option value="Aérien">Aérien</option>
               <option value="Maritime">Maritime</option>
               <option value="Aérien express">Aérien express</option>
@@ -171,10 +171,10 @@ function AnalysePage() {
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label>Précisions (facultatif)</Label>
+          <Label>Fanazavana fanampiny (tsy tsy maintsy)</Label>
           <Textarea
             rows={3}
-            placeholder="Dimensions, matière, batterie, liquide, fragile…"
+            placeholder="Habe, akora, bateria, rano, marefo…"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
@@ -182,7 +182,7 @@ function AnalysePage() {
 
         <Button type="submit" className="w-full" disabled={analyse.isPending || !productName.trim()}>
           {analyse.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-          Analyser ce produit
+          Hamakafaka ity vokatra ity
         </Button>
       </form>
 
@@ -197,7 +197,7 @@ function AnalysePage() {
 
       {(history ?? []).length > 0 && (
         <section className="mt-8">
-          <h2 className="mb-2 text-lg font-semibold">Mes analyses précédentes</h2>
+          <h2 className="mb-2 text-lg font-semibold">Ny famakafakako teo aloha</h2>
           <div className="space-y-2">
             {(history ?? []).map((a) => (
               <div
@@ -211,7 +211,7 @@ function AnalysePage() {
                     {a.platform ?? "—"} · {new Date(a.created_at).toLocaleDateString("fr-FR")}
                   </p>
                 </button>
-                <Button variant="ghost" size="icon" aria-label="Supprimer" onClick={() => del.mutate(a.id)}>
+                <Button variant="ghost" size="icon" aria-label="Fafao" onClick={() => del.mutate(a.id)}>
                   <Trash2 className="size-4" />
                 </Button>
               </div>

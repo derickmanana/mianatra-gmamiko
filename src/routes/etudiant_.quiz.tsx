@@ -7,10 +7,10 @@ import { useStudentProfile } from "@/hooks/use-student-profile";
 export const Route = createFileRoute("/etudiant_/quiz")({
   head: () => ({
     meta: [
-      { title: "Évaluations et quiz — Formation import Chine → Madagascar" },
-      { name: "description", content: "Testez vos connaissances en importation depuis la Chine vers Madagascar." },
-      { property: "og:title", content: "Évaluations et quiz" },
-      { property: "og:description", content: "Quiz de la formation import Chine → Madagascar, avec correction." },
+      { title: "Fanadinana — Fampiofanana fanafarana Shina → Madagasikara" },
+      { name: "description", content: "Andramo ny fahalalanao momba ny fanafarana avy any Shina ho any Madagasikara." },
+      { property: "og:title", content: "Fanadinana" },
+      { property: "og:description", content: "Fanadinan'ny fampiofanana fanafarana Shina → Madagasikara, misy valiny." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -43,7 +43,7 @@ function QuizList() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/etudiant" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Espace étudiant
+        <ArrowLeft className="size-4" /> Sehatry mpianatra
       </Link>
 
       <div className="flex items-center gap-3">
@@ -51,8 +51,8 @@ function QuizList() {
           <GraduationCap className="size-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Évaluations</h1>
-          <p className="text-sm text-muted-foreground">Vérifiez vos connaissances</p>
+          <h1 className="text-2xl font-bold">Fanadinana</h1>
+          <p className="text-sm text-muted-foreground">Diniho ny fahalalanao</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ function QuizList() {
           </div>
         ) : (data ?? []).length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Aucun quiz disponible pour le moment.
+            Mbola tsy misy fanadinana azo atao amin'izao.
           </p>
         ) : (
           (data ?? []).map((q) => (
@@ -77,7 +77,7 @@ function QuizList() {
               <p className="font-semibold">{q.title}</p>
               {q.description && <p className="text-sm text-muted-foreground">{q.description}</p>}
               {best.has(q.id) && (
-                <p className="mt-1 text-xs font-medium text-primary">Meilleur score : {best.get(q.id)}%</p>
+                <p className="mt-1 text-xs font-medium text-primary">Naoty tsara indrindra : {best.get(q.id)}%</p>
               )}
             </Link>
           ))
@@ -86,7 +86,7 @@ function QuizList() {
 
       {(attempts ?? []).length > 0 && (
         <section className="mt-8">
-          <h2 className="mb-2 text-lg font-semibold">Historique</h2>
+          <h2 className="mb-2 text-lg font-semibold">Tantara</h2>
           <ul className="space-y-2">
             {(attempts ?? []).map((a) => (
               <li

@@ -45,10 +45,10 @@ import {
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Administration — Import Chine → Madagascar" },
-      { name: "description", content: "Gérez les dossiers, la base de connaissances IA, les quiz, le suivi des étudiants et la messagerie." },
-      { property: "og:title", content: "Administration — Import Chine → Madagascar" },
-      { property: "og:description", content: "Dossiers, base IA, quiz, suivi des étudiants et messagerie." },
+      { title: "Fitantanana — Import Sina → Madagasikara" },
+      { name: "description", content: "Tantano ny dosie, ny fototra fahalalana IA, ny quiz, ny fanaraha-maso ny mpianatra ary ny hafatra." },
+      { property: "og:title", content: "Fitantanana — Import Sina → Madagasikara" },
+      { property: "og:description", content: "Dosie, fototra IA, quiz, fanaraha-maso mpianatra ary hafatra." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -77,20 +77,20 @@ function CodeGate({ onValid }: { onValid: (code: string) => void }) {
   const mutation = useMutation({
     mutationFn: (c: string) => checkAdminCode({ data: { code: c } }),
     onSuccess: (_d, c) => onValid(c),
-    onError: () => setError("Code administrateur incorrect."),
+    onError: () => setError("Kaody mpitantana diso."),
   });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-5">
       <Link to="/" className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Retour
+        <ArrowLeft className="size-4" /> Miverina
       </Link>
       <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
         <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-accent text-primary">
           <ShieldCheck className="size-6" />
         </div>
-        <h1 className="text-xl font-semibold">Accès administrateur</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Saisissez votre code d'accès.</p>
+        <h1 className="text-xl font-semibold">Fidirana mpitantana</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Ampidiro ny kaody fidiranao.</p>
         <form
           className="mt-5 space-y-3"
           onSubmit={(e) => {
@@ -103,13 +103,13 @@ function CodeGate({ onValid }: { onValid: (code: string) => void }) {
             type="password"
             inputMode="numeric"
             autoFocus
-            placeholder="Code administrateur"
+            placeholder="Kaody mpitantana"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
           {error ? <p className="text-sm font-medium text-destructive">{error}</p> : null}
           <Button type="submit" className="w-full" disabled={mutation.isPending || !value.trim()}>
-            {mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Entrer"}
+            {mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Miditra"}
           </Button>
         </form>
       </div>
@@ -133,7 +133,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
       saveFolder({ data: { adminCode, ...v } }),
 
     onSuccess: () => {
-      toast.success("Dossier enregistré");
+      toast.success("Voarakitra ny dosie");
       setEditing(null);
       qc.invalidateQueries({ queryKey: ["folders"] });
     },
@@ -143,7 +143,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteRow({ data: { adminCode, table: "folders", id } }),
     onSuccess: () => {
-      toast.success("Dossier supprimé");
+      toast.success("Voafafa ny dosie");
       setToDelete(null);
       qc.invalidateQueries({ queryKey: ["folders"] });
     },
@@ -153,16 +153,16 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
   const folders = (data ?? []).filter((f) => f.name.toLowerCase().includes(search.toLowerCase()));
 
   const tiles = [
-    { icon: BrainCircuit, label: "Base IA", hint: "Connaissances", go: () => navigate({ to: "/admin/connaissances" }) },
-    { icon: GraduationCap, label: "Quiz", hint: "Évaluations", go: () => navigate({ to: "/admin/quiz" }) },
-    { icon: Users, label: "Suivi", hint: "Étudiants", go: () => navigate({ to: "/admin/suivi" }) },
-    { icon: MessageCircle, label: "Messagerie", hint: "Groupe", go: () => navigate({ to: "/admin/messages" }) },
+    { icon: BrainCircuit, label: "Fototra IA", hint: "Fahalalana", go: () => navigate({ to: "/admin/connaissances" }) },
+    { icon: GraduationCap, label: "Quiz", hint: "Fitsapana", go: () => navigate({ to: "/admin/quiz" }) },
+    { icon: Users, label: "Fanaraha-maso", hint: "Mpianatra", go: () => navigate({ to: "/admin/suivi" }) },
+    { icon: MessageCircle, label: "Hafatra", hint: "Vondrona", go: () => navigate({ to: "/admin/messages" }) },
   ];
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-28 pt-5">
       <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Accueil
+        <ArrowLeft className="size-4" /> Fandraisana
       </Link>
 
       <header
@@ -170,14 +170,14 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
         style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
       >
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-wide opacity-80">Administration</p>
-          <h1 className="truncate text-2xl font-bold">Tableau de bord</h1>
+          <p className="text-xs uppercase tracking-wide opacity-80">Fitantanana</p>
+          <h1 className="truncate text-2xl font-bold">Tabilao fitantanana</h1>
         </div>
         <button
           onClick={onLogout}
           className="shrink-0 rounded-full bg-primary-foreground/15 px-3 py-1.5 text-xs font-medium"
         >
-          Quitter
+          Miala
         </button>
       </header>
 
@@ -202,14 +202,14 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
       </div>
 
       <h2 className="mt-7 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        Dossiers de formation
+        Dosie fampiofanana
       </h2>
 
       <div className="relative my-3">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="pl-9"
-          placeholder="Rechercher un dossier"
+          placeholder="Tadiavo ny dosie"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -220,7 +220,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
         <FullLoader />
       ) : folders.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          Aucun dossier pour le moment.
+          Tsy misy dosie ankehitriny.
         </p>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2">
@@ -242,10 +242,10 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">
                     {f.protected ? (
                       <>
-                        <Lock className="size-3" /> Protégé
+                        <Lock className="size-3" /> Voaaro
                       </>
                     ) : (
-                      "Public"
+                      "Ampahibemaso"
                     )}
                   </span>
                 </span>
@@ -253,7 +253,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Modifier"
+                aria-label="Hanova"
                 onClick={async () => {
                   try {
                     const sec = await fetchFolderSecurity({ data: { adminCode, folderId: f.id } });
@@ -274,7 +274,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Supprimer"
+                aria-label="Hamafa"
                 onClick={() => setToDelete({ id: f.id, name: f.name })}
               >
                 <Trash2 className="size-4 text-destructive" />
@@ -289,56 +289,56 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
         style={{ boxShadow: "var(--shadow-card)" }}
         onClick={() => setEditing({ name: "", accessCode: "", maxUsers: "" })}
       >
-        <Plus className="mr-1 size-5" /> Nouveau dossier
+        <Plus className="mr-1 size-5" /> Dosie vaovao
       </Button>
 
       <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editing?.id ? "Modifier le dossier" : "Créer un dossier"}</DialogTitle>
+            <DialogTitle>{editing?.id ? "Hanova ny dosie" : "Mamorona dosie"}</DialogTitle>
             <DialogDescription>
-              Laissez le code vide pour rendre le dossier public.
+              Avelao banga ny kaody raha te hanao ny dosie ho ampahibemaso.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>Nom du dossier</Label>
+              <Label>Anaran'ny dosie</Label>
               <Input
                 autoFocus
                 value={editing?.name ?? ""}
-                placeholder="Ex : Pinduoduo"
+                placeholder="Ohatra: Pinduoduo"
                 onChange={(e) => setEditing((s) => (s ? { ...s, name: e.target.value } : s))}
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Code d'accès (facultatif)</Label>
+              <Label>Kaody fidirana (tsy voatery)</Label>
               <Input
                 inputMode="numeric"
                 value={editing?.accessCode ?? ""}
-                placeholder="Ex : 123456"
+                placeholder="Ohatra: 123456"
                 onChange={(e) => setEditing((s) => (s ? { ...s, accessCode: e.target.value } : s))}
               />
             </div>
             {editing?.accessCode.trim() ? (
               <div className="space-y-1.5">
-                <Label>Nombre maximum d'étudiants (facultatif)</Label>
+                <Label>Isa mpianatra farany ambony (tsy voatery)</Label>
                 <Input
                   inputMode="numeric"
                   value={editing?.maxUsers ?? ""}
-                  placeholder="Ex : 12"
+                  placeholder="Ohatra: 12"
                   onChange={(e) =>
                     setEditing((s) => (s ? { ...s, maxUsers: e.target.value.replace(/[^0-9]/g, "") } : s))
                   }
                 />
                 <p className="text-xs text-muted-foreground">
-                  Laissez vide pour un nombre illimité d'étudiants.
+                  Avelao banga raha tsy voafetra ny isan'ny mpianatra.
                 </p>
               </div>
             ) : null}
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditing(null)}>
-              Annuler
+              Aoka
             </Button>
             <Button
               disabled={!editing?.name.trim() || saveMutation.isPending}
@@ -353,7 +353,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
               }
             >
 
-              {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Enregistrer"}
+              {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Tehirizo"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -362,15 +362,15 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
       <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer « {toDelete?.name} » ?</AlertDialogTitle>
+            <AlertDialogTitle>Hofafana « {toDelete?.name} » ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Tous les blocs et contenus de ce dossier seront définitivement supprimés.
+              Ho fafana tanteraka ny bloc sy ny votoaty rehetra ao amin'ity dosie ity.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>Aoka</AlertDialogCancel>
             <AlertDialogAction onClick={() => toDelete && deleteMutation.mutate(toDelete.id)}>
-              Supprimer
+              Fafao
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

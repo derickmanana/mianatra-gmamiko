@@ -6,10 +6,10 @@ import { useStudentProfile } from "@/hooks/use-student-profile";
 export const Route = createFileRoute("/etudiant_/messages")({
   head: () => ({
     meta: [
-      { title: "Messagerie du groupe — Espace étudiant" },
-      { name: "description", content: "Échangez avec l'administrateur et les autres étudiants." },
-      { property: "og:title", content: "Messagerie du groupe — Espace étudiant" },
-      { property: "og:description", content: "Groupe de discussion entre étudiants et administrateur." },
+      { title: "Hafatry ny vondrona — Sehatry mpianatra" },
+      { name: "description", content: "Mifandraisa amin'ny mpitantana sy ireo mpianatra hafa." },
+      { property: "og:title", content: "Hafatry ny vondrona — Sehatry mpianatra" },
+      { property: "og:description", content: "Vondrona fifanakalozan-kevitra eo amin'ny mpianatra sy ny mpitantana." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -24,14 +24,14 @@ function StudentMessages() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-8 pt-5">
       <Link to="/etudiant" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Dossiers
+        <ArrowLeft className="size-4" /> Dosie
       </Link>
-      <h1 className="mb-4 text-2xl font-bold">Messagerie du groupe</h1>
+      <h1 className="mb-4 text-2xl font-bold">Hafatry ny vondrona</h1>
       {!name ? (
         <p className="text-sm text-muted-foreground">
-          Créez d'abord votre profil dans{" "}
+          Mamoronà ny mombamomba anao aloha ao amin'ny{" "}
           <Link to="/etudiant" className="font-medium text-primary">
-            l'espace étudiant
+            sehatry mpianatra
           </Link>
           .
         </p>
