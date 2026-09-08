@@ -3,14 +3,14 @@ import { ArrowRight, Bot, GraduationCap, PackageSearch, ShieldCheck, Ship, Spark
 import heroAsset from "@/assets/gma-miko-hero.png.asset.json";
 
 const DESCRIPTION =
-  "Plateforme de formation à l'importation Chine → Madagascar : cours, assistant IA spécialisé, quiz, analyse de produits et communauté.";
+  "Sehatra fampiofanana amin'ny fanafarana Shina → Madagasikara : kojia, mpanampy IA manam-pahaizana manokana, fanadinana, famakafakana vokatra ary vondrona.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { title: "GMAMIKO33 — Fampiofanana Fanafarana Shina → Madagasikara" },
       { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: "GMAMIKO33 — Formation Import Chine → Madagascar" },
+      { property: "og:title", content: "GMAMIKO33 — Fampiofanana Fanafarana Shina → Madagasikara" },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,7 +28,7 @@ function Accueil() {
       >
         <img
           src={heroAsset.url}
-          alt="GMAMIKO33 — formation et accompagnement pour importer depuis la Chine vers Madagascar"
+          alt="GMAMIKO33 — fampiofanana sy fanampiana amin'ny fanafarana avy any Shina ho any Madagasikara"
           className="absolute inset-0 size-full object-cover"
         />
       </section>
@@ -42,22 +42,22 @@ function Accueil() {
         </div>
 
         <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
-          <Sparkles className="size-3.5 text-primary" /> Assistant IA spécialisé
+          <Sparkles className="size-3.5 text-primary" /> Mpanampy IA manam-pahaizana manokana
         </p>
         <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-foreground">
-          Import Chine
-          <span className="block text-primary">→ Madagascar</span>
+          Fanafarana Shina
+          <span className="block text-primary">→ Madagasikara</span>
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Formation complète, assistant IA, analyse de produits, quiz et communauté — dans une seule
-          application.
+          Fampiofanana feno, mpanampy IA, famakafakana vokatra, fanadinana ary vondrona — ao amin'ny
+          rindrankaja iray monja.
         </p>
 
         <div className="mt-6 grid grid-cols-3 gap-2">
           {[
-            { icon: Bot, label: "Assistant IA" },
-            { icon: PackageSearch, label: "Analyse produit" },
-            { icon: GraduationCap, label: "Évaluations" },
+            { icon: Bot, label: "Mpanampy IA" },
+            { icon: PackageSearch, label: "Famakafakana vokatra" },
+            { icon: GraduationCap, label: "Fanadinana" },
           ].map(({ icon: Icon, label }) => (
             <div
               key={label}
@@ -78,8 +78,8 @@ function Accueil() {
           >
             <GraduationCap className="size-7 shrink-0" />
             <span className="min-w-0 flex-1">
-              <span className="block text-lg font-semibold">Espace étudiant</span>
-              <span className="block text-sm opacity-85">Cours, IA, quiz et communauté</span>
+              <span className="block text-lg font-semibold">Sehatry mpianatra</span>
+              <span className="block text-sm opacity-85">Kojia, IA, fanadinana ary vondrona</span>
             </span>
             <ArrowRight className="size-5 shrink-0 opacity-80" />
           </Link>
@@ -90,8 +90,8 @@ function Accueil() {
           >
             <ShieldCheck className="size-7 shrink-0 text-primary" />
             <span className="min-w-0 flex-1">
-              <span className="block text-lg font-semibold">Administrateur</span>
-              <span className="block text-sm text-muted-foreground">Créer et gérer les contenus</span>
+              <span className="block text-lg font-semibold">Mpitantana</span>
+              <span className="block text-sm text-muted-foreground">Mamorona sy mitantana ny votoaty</span>
             </span>
             <ArrowRight className="size-5 shrink-0 text-muted-foreground" />
           </Link>

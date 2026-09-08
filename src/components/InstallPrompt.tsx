@@ -6,7 +6,7 @@ type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{
 
 const DISMISS_KEY = "install_prompt_dismissed";
 
-/** Invite à installer l'application (Android : bannière native, iPhone : instructions). */
+/** Manasa hametraka ny rindrankajy (Android: baniera voajanahary, iPhone: torolàlana). */
 export function InstallPrompt() {
   const [deferred, setDeferred] = useState<InstallEvent | null>(null);
   const [iosHint, setIosHint] = useState(false);
@@ -50,13 +50,13 @@ export function InstallPrompt() {
         <Download className="size-5" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold">Installer l'application</p>
+        <p className="text-sm font-semibold">Hametraka ny rindrankajy</p>
         {iosHint ? (
           <p className="flex items-center gap-1 text-xs text-muted-foreground">
-            Appuyez sur <Share className="size-3" /> puis « Sur l'écran d'accueil ».
+            Tsindrio ny <Share className="size-3" /> ary avy eo « Ho amin'ny efijery fandraisana ».
           </p>
         ) : (
-          <p className="text-xs text-muted-foreground">Accès rapide et utilisation hors connexion.</p>
+          <p className="text-xs text-muted-foreground">Fidirana haingana sy fampiasana tsy misy aterineto.</p>
         )}
       </div>
       {!iosHint && (
@@ -69,10 +69,10 @@ export function InstallPrompt() {
             close();
           }}
         >
-          Installer
+          Ametraho
         </Button>
       )}
-      <Button variant="ghost" size="icon" aria-label="Fermer" onClick={close}>
+      <Button variant="ghost" size="icon" aria-label="Hidio" onClick={close}>
         <X className="size-4" />
       </Button>
     </div>

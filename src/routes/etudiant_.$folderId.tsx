@@ -14,10 +14,10 @@ export const Route = createFileRoute("/etudiant_/$folderId")({
   }),
   head: () => ({
     meta: [
-      { title: "Consultation du dossier — Cours & Documents" },
-      { name: "description", content: "Lisez les cours, images zoomables, PDF, documents Word et liens du dossier." },
-      { property: "og:title", content: "Consultation du dossier — Cours & Documents" },
-      { property: "og:description", content: "Lecture confortable des contenus de formation sur mobile." },
+      { title: "Fijerena ny dosie — Kojia sy Antontan-taratasy" },
+      { name: "description", content: "Vakio ny kojia, sary azo halehibiazina, PDF, antontan-taratasy Word ary rohin'ny dosie." },
+      { property: "og:title", content: "Fijerena ny dosie — Kojia sy Antontan-taratasy" },
+      { property: "og:description", content: "Famakiana mora ny votoatin'ny fampiofanana amin'ny finday." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -50,7 +50,7 @@ function StudentFolder() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-16 pt-5">
       <Link to="/etudiant" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Dossiers
+        <ArrowLeft className="size-4" /> Dosie
       </Link>
 
       {isLoading || !ready ? (
@@ -61,7 +61,7 @@ function StudentFolder() {
         <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6 text-center">
           <p className="font-medium text-destructive">{(error as Error).message}</p>
           <Link to="/etudiant" className="mt-3 inline-block text-sm text-primary">
-            Retour aux dossiers
+            Hiverina any amin'ny dosie
           </Link>
         </div>
       ) : (
@@ -73,7 +73,7 @@ function StudentFolder() {
                 <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   className="pl-9"
-                  placeholder="Rechercher dans le dossier"
+                  placeholder="Hitady ao anatin'ny dosie"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -81,7 +81,7 @@ function StudentFolder() {
               <Button
                 variant="secondary"
                 size="icon"
-                aria-label="Réduire le texte"
+                aria-label="Hakelezina ny soratra"
                 onClick={() => setFontScale((s) => Math.max(0.85, +(s - 0.15).toFixed(2)))}
               >
                 <Minus className="size-4" />
@@ -89,7 +89,7 @@ function StudentFolder() {
               <Button
                 variant="secondary"
                 size="icon"
-                aria-label="Agrandir le texte"
+                aria-label="Halehibiazina ny soratra"
                 onClick={() => setFontScale((s) => Math.min(2.5, +(s + 0.15).toFixed(2)))}
               >
                 <Plus className="size-4" />
@@ -99,7 +99,7 @@ function StudentFolder() {
 
           {blocks.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-              Aucun contenu pour le moment.
+              Mbola tsy misy votoaty amin'izao.
             </p>
           ) : (
             <div className="space-y-6">

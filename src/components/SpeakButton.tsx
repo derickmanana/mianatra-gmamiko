@@ -5,7 +5,7 @@ import { speakText } from "@/lib/tts.functions";
 import { Button } from "@/components/ui/button";
 import { useTtsSettings } from "@/hooks/use-tts-settings";
 
-/** Bouton de lecture audio (TTS) d'une réponse de l'assistant. */
+/** Bokotra fandrenesana feo (TTS) an'ny valin-tenin'ny mpanampy. */
 export function SpeakButton({ text }: { text: string }) {
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -20,7 +20,7 @@ export function SpeakButton({ text }: { text: string }) {
     };
   }, []);
 
-  // Applique le volume en direct pendant la lecture.
+  // Mampihatra ny feo mivantana mandritra ny famakiana.
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = settings.volume;
   }, [settings.volume]);
@@ -48,7 +48,7 @@ export function SpeakButton({ text }: { text: string }) {
       await audio.play();
       setPlaying(true);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Lecture audio impossible.");
+      toast.error(e instanceof Error ? e.message : "Tsy afaka mihaino feo.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ export function SpeakButton({ text }: { text: string }) {
       className="mt-1 h-7 gap-1.5 px-2 text-xs text-muted-foreground"
       onClick={play}
       disabled={loading}
-      aria-label={playing ? "Arrêter la lecture" : "Écouter la réponse"}
+      aria-label={playing ? "Ajanony ny famakiana" : "Henoy ny valiny"}
     >
       {loading ? (
         <Loader2 className="size-3.5 animate-spin" />
@@ -71,7 +71,7 @@ export function SpeakButton({ text }: { text: string }) {
       ) : (
         <Volume2 className="size-3.5" />
       )}
-      {playing ? "Arrêter" : "Écouter"}
+      {playing ? "Ajanony" : "Henoy"}
     </Button>
   );
 }

@@ -48,7 +48,7 @@ export function GroupChat({ authorName, adminCode }: { authorName: string; admin
   const clearAll = useMutation({
     mutationFn: () => clearAllMessages({ data: { adminCode: adminCode! } }),
     onSuccess: () => {
-      toast.success("Discussion effacée");
+      toast.success("Voafafa ny resadresaka");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -59,7 +59,7 @@ export function GroupChat({ authorName, adminCode }: { authorName: string; admin
       {adminCode ? (
         <div className="mb-2 flex justify-end">
           <Button variant="ghost" size="sm" onClick={() => clearAll.mutate()}>
-            Effacer la discussion
+            Fafao ny resadresaka
           </Button>
         </div>
       ) : null}
@@ -71,7 +71,7 @@ export function GroupChat({ authorName, adminCode }: { authorName: string; admin
           </div>
         ) : messages.length === 0 ? (
           <p className="py-10 text-center text-sm text-muted-foreground">
-            Aucun message. Démarrez la discussion !
+            Tsy misy hafatra. Anomboy ny resadresaka !
           </p>
         ) : (
           messages.map((m) => {
@@ -86,10 +86,10 @@ export function GroupChat({ authorName, adminCode }: { authorName: string; admin
                   }`}
                 >
                   <div className="mb-0.5 flex items-center gap-2 text-xs opacity-75">
-                    <span className="font-semibold">{m.is_admin ? "Administrateur" : m.author_name}</span>
+                    <span className="font-semibold">{m.is_admin ? "Mpitantana" : m.author_name}</span>
                     <span>{timeLabel(m.created_at)}</span>
                     {adminCode ? (
-                      <button aria-label="Supprimer le message" onClick={() => del.mutate(m.id)}>
+                      <button aria-label="Fafao ny hafatra" onClick={() => del.mutate(m.id)}>
                         <Trash2 className="size-3" />
                       </button>
                     ) : null}
@@ -111,12 +111,12 @@ export function GroupChat({ authorName, adminCode }: { authorName: string; admin
         }}
       >
         <Input
-          placeholder="Écrire un message…"
+          placeholder="Manorata hafatra…"
           value={text}
           maxLength={2000}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button type="submit" size="icon" disabled={!text.trim() || send.isPending} aria-label="Envoyer">
+        <Button type="submit" size="icon" disabled={!text.trim() || send.isPending} aria-label="Alefaso">
           {send.isPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </Button>
       </form>

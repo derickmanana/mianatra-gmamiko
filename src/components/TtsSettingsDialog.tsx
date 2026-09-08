@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { TTS_VOICES, useTtsSettings } from "@/hooks/use-tts-settings";
 
-/** Paramètres de lecture audio : voix (malgache/français), vitesse et volume. */
+/** Fikirakirana famakiana feo: feo (malagasy/frantsay), hafainganam-pandeha ary feo. */
 export function TtsSettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
   const { settings, update, reset } = useTtsSettings();
   const [open, setOpen] = useState(false);
@@ -30,26 +30,26 @@ export function TtsSettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
       <DialogTrigger asChild>
         {trigger ?? (
           <Button variant="outline" size="sm" className="gap-2">
-            <Settings2 className="size-4" /> Voix
+            <Settings2 className="size-4" /> Feo
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Volume2 className="size-5 text-primary" /> Paramètres de lecture audio
+            <Volume2 className="size-5 text-primary" /> Fikirakirana famakiana feo
           </DialogTitle>
           <DialogDescription>
-            Choisissez la voix, la vitesse et le volume de la lecture des réponses.
+            Fidio ny feo, hafainganam-pandeha ary feon'ny famakiana ny valiny.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 py-1">
           <div className="space-y-2">
-            <Label>Voix</Label>
+            <Label>Feo</Label>
             <Select value={settings.voice} onValueChange={(v) => update({ voice: v })}>
               <SelectTrigger>
-                <SelectValue placeholder="Choisir une voix" />
+                <SelectValue placeholder="Fidio ny feo" />
               </SelectTrigger>
               <SelectContent>
                 {TTS_VOICES.map((v) => (
@@ -63,7 +63,7 @@ export function TtsSettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>Vitesse</Label>
+              <Label>Hafainganam-pandeha</Label>
               <span className="text-sm text-muted-foreground">{settings.speed.toFixed(2)}×</span>
             </div>
             <Slider
@@ -77,7 +77,7 @@ export function TtsSettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>Volume</Label>
+              <Label>Feo</Label>
               <span className="text-sm text-muted-foreground">{Math.round(settings.volume * 100)}%</span>
             </div>
             <Slider
@@ -90,7 +90,7 @@ export function TtsSettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
           </div>
 
           <Button variant="ghost" size="sm" className="gap-2" onClick={reset}>
-            <RotateCcw className="size-4" /> Réinitialiser
+            <RotateCcw className="size-4" /> Averina
           </Button>
         </div>
       </DialogContent>

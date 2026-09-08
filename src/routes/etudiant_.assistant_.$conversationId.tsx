@@ -14,14 +14,14 @@ import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
 export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
   head: () => ({
     meta: [
-      { title: "Assistant IA import Chine → Madagascar" },
+      { title: "Mpanampy IA fanafarana Shina → Madagasikara" },
       {
         name: "description",
         content:
-          "Posez vos questions sur l'importation depuis la Chine vers Madagascar : produits, transitaires, transport, paiement et rentabilité.",
+          "Apetraho ny fanontanianao momba ny fanafarana avy any Shina ho any Madagasikara : vokatra, mpandefa entana, fitaterana, fandoavam-bola ary tombom-barotra.",
       },
-      { property: "og:title", content: "Assistant IA import Chine → Madagascar" },
-      { property: "og:description", content: "Un formateur virtuel spécialisé en importation Chine → Madagascar." },
+      { property: "og:title", content: "Mpanampy IA fanafarana Shina → Madagasikara" },
+      { property: "og:description", content: "Mpampiofana an-tserasera manam-pahaizana manokana amin'ny fanafarana Shina → Madagasikara." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -30,9 +30,9 @@ export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
 });
 
 const SUGGESTIONS = [
-  "Analyse ce produit : montre connectée à 45 Ar… sur 1688",
-  "Comment payer un achat sur Pinduoduo depuis Madagascar ?",
-  "Aérien ou maritime pour 30 kg de vêtements ?",
+  "Diniho ity vokatra ity : famantaranandro connectée eo amin'ny 45 Ar… ao amin'ny 1688",
+  "Ahoana no fandoavam-bola amin'ny fividianana ao Pinduoduo avy any Madagasikara ?",
+  "Fiaramanidina sa an-dranomasina ho an'ny akanjo 30 kg ?",
 ];
 
 function AssistantThread() {
@@ -83,13 +83,13 @@ function AssistantThread() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-6 pt-5">
       <Link to="/etudiant/assistant" className="mb-3 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Mes discussions
+        <ArrowLeft className="size-4" /> Ny resako
       </Link>
 
       <div className="mb-3 flex items-center gap-2">
         <h1 className="flex min-w-0 flex-1 items-center gap-2 text-lg font-semibold">
           <Bot className="size-5 shrink-0 text-primary" />
-          <span className="truncate">{data?.title ?? "Assistant Import"}</span>
+          <span className="truncate">{data?.title ?? "Mpanampy Fanafarana"}</span>
         </h1>
         <TtsSettingsDialog />
       </div>
@@ -107,7 +107,7 @@ function AssistantThread() {
         ) : messages.length === 0 ? (
           <div className="py-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Posez votre question sur l'importation Chine → Madagascar.
+              Apetraho ny fanontanianao momba ny fanafarana Shina → Madagasikara.
             </p>
             <div className="mt-4 space-y-2">
               {SUGGESTIONS.map((s) => (
@@ -146,7 +146,7 @@ function AssistantThread() {
 
         {ask.isPending ? (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin text-primary" /> L'assistant analyse…
+            <Loader2 className="size-4 animate-spin text-primary" /> Mamakafaka ny mpanampy…
           </div>
         ) : null}
         {ask.error ? <p className="text-sm text-destructive">{(ask.error as Error).message}</p> : null}
@@ -164,7 +164,7 @@ function AssistantThread() {
           ref={inputRef}
           rows={2}
           className="min-h-[52px] resize-none"
-          placeholder="Ex : Ce produit est-il rentable à Madagascar ?"
+          placeholder="Ohatra : Mahasoa ve ity vokatra ity any Madagasikara ?"
           value={text}
           maxLength={4000}
           onChange={(e) => setText(e.target.value)}
@@ -175,7 +175,7 @@ function AssistantThread() {
             }
           }}
         />
-        <Button type="submit" size="icon" disabled={!text.trim() || ask.isPending} aria-label="Envoyer">
+        <Button type="submit" size="icon" disabled={!text.trim() || ask.isPending} aria-label="Alefaso">
           {ask.isPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </Button>
       </form>

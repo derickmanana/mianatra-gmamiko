@@ -10,13 +10,13 @@ import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
 export const Route = createFileRoute("/etudiant_/assistant")({
   head: () => ({
     meta: [
-      { title: "Mes discussions avec l'assistant IA — Import Chine → Madagascar" },
+      { title: "Ny resako amin'ny mpanampy IA — Fanafarana avy any Shina ho any Madagasikara" },
       {
         name: "description",
-        content: "Retrouvez toutes vos discussions avec l'assistant spécialisé en importation Chine → Madagascar.",
+        content: "Jereo indray ny resakao rehetra tamin'ny mpanampy manam-pahaizana manokana amin'ny fanafarana Shina → Madagasikara.",
       },
-      { property: "og:title", content: "Mes discussions avec l'assistant IA" },
-      { property: "og:description", content: "Assistant de formation en importation Chine → Madagascar." },
+      { property: "og:title", content: "Ny resako amin'ny mpanampy IA" },
+      { property: "og:description", content: "Mpanampy fampiofanana amin'ny fanafarana Shina → Madagasikara." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -53,7 +53,7 @@ function AssistantList() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/etudiant" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Espace étudiant
+        <ArrowLeft className="size-4" /> Sehatry mpianatra
       </Link>
 
       <div className="flex items-center gap-3">
@@ -61,15 +61,15 @@ function AssistantList() {
           <Bot className="size-6" />
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold">Assistant Import</h1>
-          <p className="text-sm text-muted-foreground">Spécialisé Chine → Madagascar</p>
+          <h1 className="text-2xl font-bold">Mpanampy Fanafarana</h1>
+          <p className="text-sm text-muted-foreground">Manam-pahaizana manokana Shina → Madagasikara</p>
         </div>
         <TtsSettingsDialog />
       </div>
 
       <Button className="mt-5 w-full" onClick={() => create.mutate()} disabled={create.isPending || !name}>
         {create.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : <MessageSquarePlus className="mr-2 size-4" />}
-        Nouvelle discussion
+        Resaka vaovao
       </Button>
 
       <div className="mt-6 space-y-2">
@@ -79,7 +79,7 @@ function AssistantList() {
           </div>
         ) : (data ?? []).length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Aucune discussion pour le moment.
+            Mbola tsy misy resaka amin'izao.
           </p>
         ) : (
           (data ?? []).map((c) => (
@@ -106,7 +106,7 @@ function AssistantList() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Supprimer la discussion"
+                aria-label="Fafao ny resaka"
                 onClick={() => del.mutate(c.id)}
               >
                 <Trash2 className="size-4" />

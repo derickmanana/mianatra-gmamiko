@@ -19,10 +19,10 @@ import {
 export const Route = createFileRoute("/etudiant")({
   head: () => ({
     meta: [
-      { title: "Espace étudiant — Import Chine → Madagascar" },
-      { name: "description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie de la formation import." },
-      { property: "og:title", content: "Espace étudiant — Import Chine → Madagascar" },
-      { property: "og:description", content: "Cours, assistant IA, analyse de produits, quiz et messagerie." },
+      { title: "Sehatry mpianatra — Fanafarana avy any Shina ho any Madagasikara" },
+      { name: "description", content: "Kojia, mpanampy IA, famakafakana vokatra, fanadinana ary fifandraisana amin'ny fampiofanana fanafarana." },
+      { property: "og:title", content: "Sehatry mpianatra — Fanafarana avy any Shina ho any Madagasikara" },
+      { property: "og:description", content: "Kojia, mpanampy IA, famakafakana vokatra, fanadinana ary hafatra." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -52,9 +52,9 @@ function StudentHome() {
           <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-accent text-primary">
             <UserRound className="size-6" />
           </div>
-          <h1 className="text-xl font-semibold">Créer votre profil</h1>
+          <h1 className="text-xl font-semibold">Mamorona ny mombamomba anao</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Votre nom devient votre identifiant dans l'application.
+            Ny anaranao no ho anaram-piditrao ao amin'ny rindrankaja.
           </p>
           <form
             className="mt-5 space-y-3"
@@ -63,16 +63,16 @@ function StudentHome() {
               if (profileInput.trim()) save(profileInput);
             }}
           >
-            <Label>Nom ou pseudo</Label>
+            <Label>Anarana na anaram-pihaonana</Label>
             <Input
               autoFocus
-              placeholder="Ex : Miora"
+              placeholder="Ohatra : Miora"
               value={profileInput}
               maxLength={60}
               onChange={(e) => setProfileInput(e.target.value)}
             />
             <Button type="submit" className="w-full" disabled={!profileInput.trim()}>
-              Continuer
+              Manohy
             </Button>
           </form>
         </div>
@@ -104,26 +104,26 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
   const tiles = [
     {
       icon: Bot,
-      label: "Assistant Import",
-      hint: "Vos questions Chine → Mada",
+      label: "Mpanampy Fanafarana",
+      hint: "Ny fanontanianao Shina → Mada",
       go: () => navigate({ to: "/etudiant/assistant" }),
     },
     {
       icon: PackageSearch,
-      label: "Analyse produit",
-      hint: "Rentabilité et décision",
+      label: "Famakafakana vokatra",
+      hint: "Tombom-barotra sy fanapahan-kevitra",
       go: () => navigate({ to: "/etudiant/analyse" }),
     },
     {
       icon: GraduationCap,
-      label: "Évaluations",
-      hint: "Testez vos connaissances",
+      label: "Fanadinana",
+      hint: "Andramo ny fahalalanao",
       go: () => navigate({ to: "/etudiant/quiz" }),
     },
     {
       icon: MessageCircle,
-      label: "Messagerie",
-      hint: "Groupe de la formation",
+      label: "Hafatra",
+      hint: "Vondron'ny fampiofanana",
       go: () => navigate({ to: "/etudiant/messages" }),
     },
   ];
@@ -131,7 +131,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-12 pt-5">
       <Link to="/" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Accueil
+        <ArrowLeft className="size-4" /> Fandraisana
       </Link>
 
       <header
@@ -139,14 +139,14 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
         style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
       >
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-wide opacity-80">Espace étudiant</p>
-          <h1 className="truncate text-2xl font-bold">Bonjour {studentName}</h1>
+          <p className="text-xs uppercase tracking-wide opacity-80">Sehatry mpianatra</p>
+          <h1 className="truncate text-2xl font-bold">Manao ahoana {studentName}</h1>
         </div>
         <button
           onClick={onSwitchProfile}
           className="shrink-0 rounded-full bg-primary-foreground/15 px-3 py-1.5 text-xs font-medium"
         >
-          Changer
+          Ovay
         </button>
       </header>
 
@@ -171,14 +171,14 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
       </div>
 
       <h2 className="mt-7 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        Mes formations
+        Ny fampiofanako
       </h2>
 
       <div className="relative my-3">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="pl-9"
-          placeholder="Rechercher un dossier"
+          placeholder="Hitady dosie"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -190,10 +190,10 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
           <Loader2 className="size-7 animate-spin text-primary" />
         </div>
       ) : error ? (
-        <p className="text-sm text-destructive">Impossible de charger les dossiers.</p>
+        <p className="text-sm text-destructive">Tsy afaka naka ny dosie.</p>
       ) : folders.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          Aucun dossier disponible.
+          Tsy misy dosie azo jerena.
         </p>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2">
@@ -212,10 +212,10 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">
                     {f.protected ? (
                       <>
-                        <Lock className="size-3" /> Code requis
+                        <Lock className="size-3" /> Mila kaody
                       </>
                     ) : (
-                      "Accès libre"
+                      "Tsy misy fameperana"
                     )}
                   </span>
                 </span>
@@ -228,20 +228,20 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
       <Dialog open={!!locked} onOpenChange={(o) => !o && setLocked(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Saisissez le code d'accès</DialogTitle>
-            <DialogDescription>Dossier protégé : {locked?.name}</DialogDescription>
+            <DialogTitle>Ampidiro ny kaody fidirana</DialogTitle>
+            <DialogDescription>Dosie voaro : {locked?.name}</DialogDescription>
           </DialogHeader>
           <Input
             autoFocus
             type="password"
             inputMode="numeric"
-            placeholder="Code du dossier"
+            placeholder="Kaodin'ny dosie"
             value={codeValue}
             onChange={(e) => setCodeValue(e.target.value)}
           />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setLocked(null)}>
-              Annuler
+              Aoka ihany
             </Button>
             <Button
               disabled={!codeValue.trim()}
@@ -254,7 +254,7 @@ function StudentFolders({ studentName, onSwitchProfile }: { studentName: string;
                 })
               }
             >
-              Ouvrir
+              Sokafy
             </Button>
           </DialogFooter>
         </DialogContent>

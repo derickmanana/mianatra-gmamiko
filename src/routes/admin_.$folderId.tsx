@@ -55,20 +55,20 @@ import {
 type ItemType = "image" | "pdf" | "word" | "link" | "text";
 
 const TYPES: { value: ItemType; label: string; icon: typeof ImageIcon }[] = [
-  { value: "image", label: "Image", icon: ImageIcon },
+  { value: "image", label: "Sary", icon: ImageIcon },
   { value: "pdf", label: "PDF", icon: FileText },
   { value: "word", label: "Word", icon: FileType2 },
-  { value: "link", label: "Lien", icon: Link2 },
-  { value: "text", label: "Texte", icon: Type },
+  { value: "link", label: "Rohy", icon: Link2 },
+  { value: "text", label: "Lahatsoratra", icon: Type },
 ];
 
 export const Route = createFileRoute("/admin_/$folderId")({
   head: () => ({
     meta: [
-      { title: "Gestion du dossier — Cours & Documents" },
-      { name: "description", content: "Ajoutez des blocs, images, PDF, documents Word, liens et descriptions." },
-      { property: "og:title", content: "Gestion du dossier — Cours & Documents" },
-      { property: "og:description", content: "Organisez le contenu pédagogique de votre dossier de formation." },
+      { title: "Fitantanana dosie — Kokorontsika sy Antontan-taratasy" },
+      { name: "description", content: "Ampio bloc, sary, PDF, antontan-taratasy Word, rohy ary famaritana." },
+      { property: "og:title", content: "Fitantanana dosie — Kokorontsika sy Antontan-taratasy" },
+      { property: "og:description", content: "Alamino ny votoaty fampianarana ao amin'ny dosie fampiofananao." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -106,7 +106,7 @@ function AdminFolderPage() {
     mutationFn: (v: { id?: string; name: string }) =>
       saveBlock({ data: { adminCode: code!, ...v, folderId } }),
     onSuccess: () => {
-      toast.success("Bloc enregistré");
+      toast.success("Voarakitra ny bloc");
       setBlockDialog(null);
       invalidate();
     },
@@ -125,7 +125,7 @@ function AdminFolderPage() {
         },
       }),
     onSuccess: () => {
-      toast.success("Contenu enregistré");
+      toast.success("Voarakitra ny votoaty");
       setItemDialog(null);
       invalidate();
     },
@@ -136,7 +136,7 @@ function AdminFolderPage() {
     mutationFn: (v: { table: "blocks" | "items"; id: string }) =>
       deleteRow({ data: { adminCode: code!, ...v } }),
     onSuccess: () => {
-      toast.success("Supprimé");
+      toast.success("Voafafa");
       setConfirm(null);
       invalidate();
     },
@@ -157,7 +157,7 @@ function AdminFolderPage() {
       const { error: upErr } = await supabase.storage.from("media").uploadToSignedUrl(path, token, file);
       if (upErr) throw new Error(upErr.message);
       setItemDialog((s) => (s ? { ...s, url: path } : s));
-      toast.success("Fichier téléversé");
+      toast.success("Voatondraka ny rakitra");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -177,9 +177,9 @@ function AdminFolderPage() {
   if (!code)
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-3 px-5 text-center">
-        <p className="text-muted-foreground">Accès administrateur requis.</p>
+        <p className="text-muted-foreground">Mila fidirana mpitantana.</p>
         <Link to="/admin" className="font-medium text-primary">
-          Saisir le code
+          Ampidiro ny kaody
         </Link>
       </main>
     );
@@ -197,15 +197,15 @@ function AdminFolderPage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 pb-28 pt-5">
       <Link to="/admin" className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <ArrowLeft className="size-4" /> Dossiers
+        <ArrowLeft className="size-4" /> Dosie
       </Link>
-      <h1 className="text-2xl font-bold">{data?.folder.name ?? "Dossier"}</h1>
+      <h1 className="text-2xl font-bold">{data?.folder.name ?? "Dosie"}</h1>
 
       <SecurityPanel folderId={folderId} adminCode={code} />
 
       <Input
         className="mt-4"
-        placeholder="Rechercher un bloc ou un contenu"
+        placeholder="Tadiavo bloc na votoaty"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -225,19 +225,19 @@ function AdminFolderPage() {
               <section key={block.id} className="rounded-3xl border border-border bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
                 <div className="flex items-center gap-1">
                   <h2 className="min-w-0 flex-1 truncate text-lg font-semibold">{block.name}</h2>
-                  <Button variant="ghost" size="icon" aria-label="Monter" onClick={() => move("blocks", blockIds, index, -1)}>
+                  <Button variant="ghost" size="icon" aria-label="Miakatra" onClick={() => move("blocks", blockIds, index, -1)}>
                     <ChevronUp className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" aria-label="Descendre" onClick={() => move("blocks", blockIds, index, 1)}>
+                  <Button variant="ghost" size="icon" aria-label="Midina" onClick={() => move("blocks", blockIds, index, 1)}>
                     <ChevronDown className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" aria-label="Renommer" onClick={() => setBlockDialog({ id: block.id, name: block.name })}>
+                  <Button variant="ghost" size="icon" aria-label="Manova anarana" onClick={() => setBlockDialog({ id: block.id, name: block.name })}>
                     <Pencil className="size-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
-                    aria-label="Supprimer le bloc"
+                    aria-label="Famafana ny bloc"
                     onClick={() => setConfirm({ table: "blocks", id: block.id, label: block.name })}
                   >
                     <Trash2 className="size-4 text-destructive" />
@@ -249,16 +249,16 @@ function AdminFolderPage() {
                     <div key={item.id}>
                       <ItemViewer item={item} />
                       <div className="mt-1 flex items-center justify-end gap-1">
-                        <Button variant="ghost" size="icon" aria-label="Monter" onClick={() => move("items", itemIds, i, -1)}>
+                        <Button variant="ghost" size="icon" aria-label="Miakatra" onClick={() => move("items", itemIds, i, -1)}>
                           <ChevronUp className="size-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" aria-label="Descendre" onClick={() => move("items", itemIds, i, 1)}>
+                        <Button variant="ghost" size="icon" aria-label="Midina" onClick={() => move("items", itemIds, i, 1)}>
                           <ChevronDown className="size-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          aria-label="Modifier"
+                          aria-label="Hanova"
                           onClick={() =>
                             setItemDialog({
                               id: item.id,
@@ -275,8 +275,8 @@ function AdminFolderPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          aria-label="Supprimer"
-                          onClick={() => setConfirm({ table: "items", id: item.id, label: item.title ?? "ce contenu" })}
+                          aria-label="Fafao"
+                          onClick={() => setConfirm({ table: "items", id: item.id, label: item.title ?? "ity votoaty ity" })}
                         >
                           <Trash2 className="size-4 text-destructive" />
                         </Button>
@@ -310,23 +310,23 @@ function AdminFolderPage() {
         style={{ boxShadow: "var(--shadow-card)" }}
         onClick={() => setBlockDialog({ name: "" })}
       >
-        <Plus className="mr-1 size-5" /> Nouveau bloc
+        <Plus className="mr-1 size-5" /> Bloc vaovao
       </Button>
 
       <Dialog open={!!blockDialog} onOpenChange={(o) => !o && setBlockDialog(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{blockDialog?.id ? "Renommer le bloc" : "Créer un bloc"}</DialogTitle>
+            <DialogTitle>{blockDialog?.id ? "Manova ny anaran'ny bloc" : "Mamorona bloc"}</DialogTitle>
           </DialogHeader>
           <Input
             autoFocus
-            placeholder="Ex : Tutoriel 1"
+            placeholder="Ohatra: Tutoriel 1"
             value={blockDialog?.name ?? ""}
             onChange={(e) => setBlockDialog((s) => (s ? { ...s, name: e.target.value } : s))}
           />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setBlockDialog(null)}>
-              Annuler
+              Aoka
             </Button>
             <Button
               disabled={!blockDialog?.name.trim() || blockMutation.isPending}
@@ -337,7 +337,7 @@ function AdminFolderPage() {
                 )
               }
             >
-              {blockMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Enregistrer"}
+              {blockMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Tehirizo"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -347,12 +347,12 @@ function AdminFolderPage() {
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {itemDialog?.id ? "Modifier le contenu" : `Ajouter : ${TYPES.find((t) => t.value === itemDialog?.type)?.label}`}
+              {itemDialog?.id ? "Hanova ny votoaty" : `Ampio : ${TYPES.find((t) => t.value === itemDialog?.type)?.label}`}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>Titre (facultatif)</Label>
+              <Label>Lohateny (tsy voatery)</Label>
               <Input
                 value={itemDialog?.title ?? ""}
                 onChange={(e) => setItemDialog((s) => (s ? { ...s, title: e.target.value } : s))}
@@ -361,7 +361,7 @@ function AdminFolderPage() {
 
             {itemDialog && ["image", "pdf", "word"].includes(itemDialog.type) && !itemDialog.id ? (
               <div className="space-y-1.5">
-                <Label>Fichier</Label>
+                <Label>Rakitra</Label>
                 <Input
                   type="file"
                   accept={
@@ -378,17 +378,17 @@ function AdminFolderPage() {
                 />
                 {uploading ? (
                   <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="size-4 animate-spin" /> Téléversement…
+                    <Loader2 className="size-4 animate-spin" /> Fandondranana…
                   </p>
                 ) : itemDialog.url ? (
-                  <p className="text-sm font-medium text-primary">Fichier prêt ✓</p>
+                  <p className="text-sm font-medium text-primary">Vonona ny rakitra ✓</p>
                 ) : null}
               </div>
             ) : null}
 
             {itemDialog?.type === "link" ? (
               <div className="space-y-1.5">
-                <Label>Adresse du lien</Label>
+                <Label>Adiresin'ny rohy</Label>
                 <Input
                   placeholder="https://..."
                   value={itemDialog.url}
@@ -398,10 +398,10 @@ function AdminFolderPage() {
             ) : null}
 
             <div className="space-y-1.5">
-              <Label>Description / texte</Label>
+              <Label>Famaritana / lahatsoratra</Label>
               <Textarea
                 rows={8}
-                placeholder="Explications, cours, notes, astuces…"
+                placeholder="Fanazavana, kokorontsika, naoty, torohevitra…"
                 value={itemDialog?.content ?? ""}
                 onChange={(e) => setItemDialog((s) => (s ? { ...s, content: e.target.value } : s))}
               />
@@ -409,7 +409,7 @@ function AdminFolderPage() {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setItemDialog(null)}>
-              Annuler
+              Aoka
             </Button>
             <Button
               disabled={
@@ -423,7 +423,7 @@ function AdminFolderPage() {
               }
               onClick={() => itemDialog && itemMutation.mutate(itemDialog)}
             >
-              {itemMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Enregistrer"}
+              {itemMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Tehirizo"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -432,15 +432,15 @@ function AdminFolderPage() {
       <AlertDialog open={!!confirm} onOpenChange={(o) => !o && setConfirm(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer « {confirm?.label} » ?</AlertDialogTitle>
-            <AlertDialogDescription>Cette action est définitive.</AlertDialogDescription>
+            <AlertDialogTitle>Hofafana « {confirm?.label} » ?</AlertDialogTitle>
+            <AlertDialogDescription>Tsy azo averina io hetsika io.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>Aoka</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => confirm && deleteMutation.mutate({ table: confirm.table, id: confirm.id })}
             >
-              Supprimer
+              Fafao
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -464,7 +464,7 @@ function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: s
   const removeOne = useMutation({
     mutationFn: (id: string) => removeStudent({ data: { adminCode, id } }),
     onSuccess: () => {
-      toast.success("Étudiant retiré, place libérée");
+      toast.success("Voaisotra ny mpianatra, afaka toerana");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -473,7 +473,7 @@ function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: s
   const resetAll = useMutation({
     mutationFn: () => resetStudents({ data: { adminCode, folderId } }),
     onSuccess: () => {
-      toast.success("Compteur réinitialisé");
+      toast.success("Naverina tamin'ny voalohany ny isa");
       setConfirmReset(false);
       invalidate();
     },
@@ -482,46 +482,46 @@ function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: s
 
   if (!data) return null;
   if (!data.accessCode)
-    return <p className="text-sm text-muted-foreground">Dossier public — aucun code d'accès.</p>;
+    return <p className="text-sm text-muted-foreground">Dosie ampahibemaso — tsy misy kaody fidirana.</p>;
 
   return (
     <section className="mt-3 rounded-3xl border border-border bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Sécurité du dossier</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Fiarovana ny dosie</h2>
       <dl className="mt-2 grid grid-cols-2 gap-2 text-sm">
         <div>
-          <dt className="text-muted-foreground">Code</dt>
+          <dt className="text-muted-foreground">Kaody</dt>
           <dd className="font-semibold">{data.accessCode}</dd>
         </div>
         <div>
-          <dt className="text-muted-foreground">Limite</dt>
-          <dd className="font-semibold">{data.maxUsers === null ? "Illimitée" : `${data.maxUsers} étudiants`}</dd>
+          <dt className="text-muted-foreground">Fetra</dt>
+          <dd className="font-semibold">{data.maxUsers === null ? "Tsy voafetra" : `${data.maxUsers} mpianatra`}</dd>
         </div>
         <div>
-          <dt className="text-muted-foreground">Déjà inscrits</dt>
+          <dt className="text-muted-foreground">Efa voasoratra</dt>
           <dd className="font-semibold">{data.used}</dd>
         </div>
         <div>
-          <dt className="text-muted-foreground">Places restantes</dt>
+          <dt className="text-muted-foreground">Toerana sisa</dt>
           <dd className="font-semibold">{data.remaining === null ? "—" : data.remaining}</dd>
         </div>
       </dl>
       <div className="mt-3 flex flex-wrap gap-2">
         <Button variant="secondary" size="sm" onClick={() => setShowList(true)}>
-          Voir la liste des étudiants
+          Jereo ny lisitry ny mpianatra
         </Button>
         <Button variant="ghost" size="sm" onClick={() => setConfirmReset(true)}>
-          Réinitialiser le compteur
+          Averina amin'ny voalohany ny isa
         </Button>
       </div>
 
       <Dialog open={showList} onOpenChange={setShowList}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Étudiants autorisés ({data.students.length})</DialogTitle>
+            <DialogTitle>Mpianatra manana alalana ({data.students.length})</DialogTitle>
           </DialogHeader>
           <ul className="max-h-[60vh] space-y-2 overflow-y-auto">
             {data.students.length === 0 ? (
-              <li className="text-sm text-muted-foreground">Aucun étudiant n'a encore activé ce dossier.</li>
+              <li className="text-sm text-muted-foreground">Mbola tsy misy mpianatra namoha ity dosie ity.</li>
             ) : (
               data.students.map((st) => (
                 <li key={st.id} className="flex items-center justify-between gap-3 rounded-xl border border-border p-3">
@@ -531,7 +531,7 @@ function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: s
                       {new Date(st.created_at).toLocaleString("fr-FR")}
                     </p>
                   </div>
-                  <Button variant="ghost" size="icon" aria-label="Retirer" onClick={() => removeOne.mutate(st.id)}>
+                  <Button variant="ghost" size="icon" aria-label="Esory" onClick={() => removeOne.mutate(st.id)}>
                     <Trash2 className="size-4 text-destructive" />
                   </Button>
                 </li>
@@ -544,14 +544,14 @@ function SecurityPanel({ folderId, adminCode }: { folderId: string; adminCode: s
       <AlertDialog open={confirmReset} onOpenChange={setConfirmReset}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Réinitialiser la liste des étudiants ?</AlertDialogTitle>
+            <AlertDialogTitle>Averina amin'ny voalohany ny lisitry ny mpianatra ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Tous les étudiants devront saisir à nouveau le code pour accéder au dossier.
+              Ny mpianatra rehetra dia tsy maintsy hampiditra indray ny kaody mba hidirana amin'ny dosie.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
-            <AlertDialogAction onClick={() => resetAll.mutate()}>Réinitialiser</AlertDialogAction>
+            <AlertDialogCancel>Aoka</AlertDialogCancel>
+            <AlertDialogAction onClick={() => resetAll.mutate()}>Averina</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

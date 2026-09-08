@@ -98,23 +98,23 @@ export function ImageZoomViewer({ src, alt, open, onClose }: Props) {
         <span className="truncate text-sm opacity-80">{alt}</span>
         <div className="flex items-center gap-1">
           <button
-            aria-label="Zoom arrière"
+            aria-label="Kely kokoa"
             onClick={() => zoomAt(zoom / 1.4, 0, 0)}
             className="rounded-full p-2 hover:bg-background/15"
           >
             <ZoomOut className="size-5" />
           </button>
           <button
-            aria-label="Zoom avant"
+            aria-label="Lehibe kokoa"
             onClick={() => zoomAt(zoom * 1.4, 0, 0)}
             className="rounded-full p-2 hover:bg-background/15"
           >
             <ZoomIn className="size-5" />
           </button>
-          <button aria-label="Réinitialiser" onClick={reset} className="rounded-full p-2 hover:bg-background/15">
+          <button aria-label="Averina" onClick={reset} className="rounded-full p-2 hover:bg-background/15">
             <RotateCcw className="size-5" />
           </button>
-          <button aria-label="Fermer" onClick={onClose} className="rounded-full p-2 hover:bg-background/15">
+          <button aria-label="Hidio" onClick={onClose} className="rounded-full p-2 hover:bg-background/15">
             <X className="size-6" />
           </button>
         </div>
@@ -140,7 +140,7 @@ export function ImageZoomViewer({ src, alt, open, onClose }: Props) {
         />
       </div>
       <p className="pb-3 text-center text-xs text-background/70">
-        Pincez ou utilisez la molette pour zoomer • glissez pour vous déplacer
+        Kihony na ampiasao ny molette hanakelezana/hanalehibiazana • tosino hifindra
       </p>
     </div>
   );
