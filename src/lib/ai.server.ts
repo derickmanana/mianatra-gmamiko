@@ -4,6 +4,7 @@ import { streamText } from "ai";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { buildKnowledgeContext } from "./kb.server";
 import { linksContext, readLinksIn } from "./urlfetch.server";
+import { IMPORT_MODEL_BLOCK } from "./import-model.server";
 
 const MODEL = "google/gemini-3.6-flash";
 
