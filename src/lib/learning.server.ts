@@ -170,12 +170,12 @@ Mode de transport souhaité : ${input.transportMode || "à conseiller"}
 Précisions de l'étudiant : ${input.notes || "aucune"}
 
 ${linkBlock ? `CONTENU DES LIENS\n${linkBlock}\n` : ""}
+${IMPORT_MODEL_BLOCK}
+
 EXIGENCES SUPPLÉMENTAIRES
-- Si aucun poids n'est fourni, estime-le à partir des produits de référence de la base et précise "POIDS ESTIMÉ".
-- Compare au moins deux transitaires enregistrés (aérien Ar/kg vs maritime $/m³) et chiffre le coût de transport pour la quantité envisagée.
-- Chiffre : coût total débarqué, prix de vente conseillé à Madagascar, marge en Ar et en %.
-- Signale explicitement les contraintes : fragile, batterie, liquide, volume.
-- Termine par la décision finale.`;
+- Suis le gabarit ci-dessus section par section, sans en sauter aucune.
+- Si aucun poids n'est fourni, estime-le à partir des produits de référence de la base et précise "LANJA VINAVINA".
+- Compare au moins deux transitaires enregistrés (aérien Ar/kg vs maritime $/m³) et chiffre le coût pour la quantité envisagée.`;
 
   const report = await runModel(assistantSystemPrompt(knowledge.text), prompt);
 
