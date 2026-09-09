@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { assistantSystemPrompt, runModel } from "./ai.server";
 import { buildKnowledgeContext } from "./kb.server";
 import { linksContext, readLinksIn } from "./urlfetch.server";
+import { IMPORT_MODEL_BLOCK } from "./import-model.server";
 
 
 /* -------------------------------- QUIZ -------------------------------- */
