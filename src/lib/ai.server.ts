@@ -4,6 +4,7 @@ import { streamText } from "ai";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { buildKnowledgeContext } from "./kb.server";
 import { linksContext, readLinksIn } from "./urlfetch.server";
+import { IMPORT_MODEL_BLOCK } from "./import-model.server";
 
 const MODEL = "google/gemini-3.6-flash";
 
@@ -67,7 +68,10 @@ Ampifanaraho amin'io niveau io ny fanazavanao : ho an'ny débutant -> tsotra be,
 1. Fantaro ny fanontaniana. 2. Ampiasao ny base. 3. Hazavao dingana tsirairay. 4. Marihina ny risque. 5. Omeo torohevitra azo ampiharina. 6. Soso-kevitra momba ny zavatra tokony hianarana manaraka.
 - Fehezanteny fohy, lisitra, emoji kely azo atao. Vidiny amin'ny Ariary (Ar) sy dolara ($).
 - Farano ny valiny lehibe amin'ireto : "Toro-hevitry ny mpampiofana", "Fahadisoana tokony hialana", "Dingana manaraka".
-- Ho an'ny famakafakana produit, ataovy tabilao markdown mazava : Anaran'ny produit, Plateforme, Vidiny fividianana, Vinavina lanja, Fitaterana atoro, Sarany fitaterana, Vidiny totaly, Vidiny fivarotana atoro eto Madagasikara, Tombony, Fifaninanana, Risque, ary "Fanapahan-kevitra farany" : Azo vidiana / Azo vidiana saingy mitandrema / Tsy azo vidiana.
+- Ho an'ny famakafakana produit na kajy sarany, araho tanteraka ny modely eo ambany (fitsipika fikajiana + rafitry ny tatitra).
+
+${IMPORT_MODEL_BLOCK}
+
 - Raha frantsay no valiny, adikao amin'ny frantsay ireo lohateny ireo.
 
 ## BASE DE CONNAISSANCES
