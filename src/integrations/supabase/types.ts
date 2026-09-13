@@ -406,6 +406,84 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_methods: {
+        Row: {
+          created_at: string
+          holder: string | null
+          id: string
+          instructions: string | null
+          is_active: boolean
+          label: string
+          number: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          holder?: string | null
+          id?: string
+          instructions?: string | null
+          is_active?: boolean
+          label: string
+          number: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          holder?: string | null
+          id?: string
+          instructions?: string | null
+          is_active?: boolean
+          label?: string
+          number?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payment_requests: {
+        Row: {
+          admin_note: string | null
+          amount_ar: number
+          created_at: string
+          id: string
+          messages: number
+          plan_id: string
+          proof_path: string
+          reviewed_at: string | null
+          status: string
+          student_name: string
+          updated_at: string
+        }
+        Insert: {
+          admin_note?: string | null
+          amount_ar: number
+          created_at?: string
+          id?: string
+          messages: number
+          plan_id: string
+          proof_path: string
+          reviewed_at?: string | null
+          status?: string
+          student_name: string
+          updated_at?: string
+        }
+        Update: {
+          admin_note?: string | null
+          amount_ar?: number
+          created_at?: string
+          id?: string
+          messages?: number
+          plan_id?: string
+          proof_path?: string
+          reviewed_at?: string | null
+          status?: string
+          student_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       product_analyses: {
         Row: {
           created_at: string
@@ -548,12 +626,42 @@ export type Database = {
         }
         Relationships: []
       }
+      student_accounts: {
+        Row: {
+          created_at: string
+          credits_messages: number
+          free_used: boolean
+          id: string
+          statut_paiement: string
+          student_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          credits_messages?: number
+          free_used?: boolean
+          id?: string
+          statut_paiement?: string
+          student_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          credits_messages?: number
+          free_used?: boolean
+          id?: string
+          statut_paiement?: string
+          student_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      consume_message_credit: { Args: { p_student: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
