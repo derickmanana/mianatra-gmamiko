@@ -173,10 +173,16 @@ export async function listAiMessages(conversationId: string, studentName: string
   return { title: conv.title, messages: data ?? [] };
 }
 
-/** Pose une question à l'assistant et enregistre l'échange. */
+/** Pose une question à l'assistant et enregistre l'échange (1 crédit). */
 export async function askAssistant(conversationId: string, studentName: string, question: string) {
+  const { withCredit } = await import("./billing.server");
+  return withCredit(studentName, () => askAssistantInner(conversationId, studentName, question));
+}
+
+async function askAssistantInner(conversationId: string, studentName: string, question: string) {
   const text = question.trim().slice(0, 4000);
   if (!text) throw new Error("Tsy misy fanontaniana.");
+
 
   const [history, knowledge, pages, level] = await Promise.all([
     listAiMessages(conversationId, studentName),

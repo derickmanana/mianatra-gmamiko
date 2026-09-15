@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useStudentProfile } from "@/hooks/use-student-profile";
 import { SpeakButton } from "@/components/SpeakButton";
 import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
+import { CreditBadge } from "@/components/CreditBadge";
+import { PaywallDialog, isPaywallError } from "@/components/PaywallDialog";
 
 export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
   head: () => ({
@@ -41,6 +43,7 @@ function AssistantThread() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [text, setText] = useState("");
+  const [paywall, setPaywall] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +66,11 @@ function AssistantThread() {
       setText("");
       qc.invalidateQueries({ queryKey: ["ai-conversation", conversationId, name] });
       qc.invalidateQueries({ queryKey: ["ai-conversations", name] });
+      qc.invalidateQueries({ queryKey: ["my-account", name] });
       inputRef.current?.focus();
+    },
+    onError: (e: Error) => {
+      if (isPaywallError(e)) setPaywall(true);
     },
   });
 
@@ -91,8 +98,10 @@ function AssistantThread() {
           <Bot className="size-5 shrink-0 text-primary" />
           <span className="truncate">{data?.title ?? "Mpanampy Fanafarana"}</span>
         </h1>
+        {name ? <CreditBadge studentName={name} onClick={() => setPaywall(true)} /> : null}
         <TtsSettingsDialog />
       </div>
+      {name ? <PaywallDialog studentName={name} open={paywall} onOpenChange={setPaywall} /> : null}
 
       <div
         className="flex-1 space-y-4 overflow-y-auto rounded-3xl border border-border bg-card p-4"
@@ -149,7 +158,9 @@ function AssistantThread() {
             <Loader2 className="size-4 animate-spin text-primary" /> Mamakafaka ny mpanampy…
           </div>
         ) : null}
-        {ask.error ? <p className="text-sm text-destructive">{(ask.error as Error).message}</p> : null}
+        {ask.error && !isPaywallError(ask.error) ? (
+          <p className="text-sm text-destructive">{(ask.error as Error).message}</p>
+        ) : null}
         <div ref={bottomRef} />
       </div>
 
