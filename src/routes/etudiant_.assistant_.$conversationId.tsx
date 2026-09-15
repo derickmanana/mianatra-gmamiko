@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useStudentProfile } from "@/hooks/use-student-profile";
 import { SpeakButton } from "@/components/SpeakButton";
 import { TtsSettingsDialog } from "@/components/TtsSettingsDialog";
+import { CreditBadge } from "@/components/CreditBadge";
+import { PaywallDialog, isPaywallError } from "@/components/PaywallDialog";
 
 export const Route = createFileRoute("/etudiant_/assistant_/$conversationId")({
   head: () => ({
