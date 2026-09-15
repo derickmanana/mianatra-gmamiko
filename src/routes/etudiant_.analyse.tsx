@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useStudentProfile } from "@/hooks/use-student-profile";
+import { CreditBadge } from "@/components/CreditBadge";
+import { PaywallDialog, isPaywallError } from "@/components/PaywallDialog";
 
 export const Route = createFileRoute("/etudiant_/analyse")({
   head: () => ({
@@ -43,6 +45,7 @@ function AnalysePage() {
   const [transportMode, setTransportMode] = useState("");
   const [notes, setNotes] = useState("");
   const [report, setReport] = useState<string | null>(null);
+  const [paywall, setPaywall] = useState(false);
 
   const { data: history } = useQuery({
     queryKey: ["analyses", name],
@@ -69,8 +72,12 @@ function AnalysePage() {
     onSuccess: (r) => {
       setReport(r.report);
       qc.invalidateQueries({ queryKey: ["analyses", name] });
+      qc.invalidateQueries({ queryKey: ["my-account", name] });
     },
-    onError: (e: Error) => toast.error(e.message),
+    onError: (e: Error) => {
+      if (isPaywallError(e)) setPaywall(true);
+      else toast.error(e.message);
+    },
   });
 
   const del = useMutation({
@@ -93,11 +100,13 @@ function AnalysePage() {
         <div className="flex size-11 items-center justify-center rounded-2xl bg-accent text-primary">
           <PackageSearch className="size-6" />
         </div>
-        <div>
+        <div className="flex-1">
           <h1 className="text-2xl font-bold">Famakafakana vokatra</h1>
           <p className="text-sm text-muted-foreground">Tombom-barotra, fitaterana, tombony ary fanapahan-kevitra farany</p>
         </div>
+        {name ? <CreditBadge studentName={name} onClick={() => setPaywall(true)} /> : null}
       </div>
+      {name ? <PaywallDialog studentName={name} open={paywall} onOpenChange={setPaywall} /> : null}
 
       <form
         className="mt-5 space-y-3 rounded-3xl border border-border bg-card p-4"

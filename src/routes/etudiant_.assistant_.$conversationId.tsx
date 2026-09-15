@@ -158,7 +158,9 @@ function AssistantThread() {
             <Loader2 className="size-4 animate-spin text-primary" /> Mamakafaka ny mpanampy…
           </div>
         ) : null}
-        {ask.error ? <p className="text-sm text-destructive">{(ask.error as Error).message}</p> : null}
+        {ask.error && !isPaywallError(ask.error) ? (
+          <p className="text-sm text-destructive">{(ask.error as Error).message}</p>
+        ) : null}
         <div ref={bottomRef} />
       </div>
 
