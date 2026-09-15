@@ -11,6 +11,8 @@ import {
   GraduationCap,
   Users,
   MessageCircle,
+  Wallet,
+
 
   Pencil,
   Plus,
@@ -157,6 +159,7 @@ function Dashboard({ adminCode, onLogout }: { adminCode: string; onLogout: () =>
     { icon: GraduationCap, label: "Quiz", hint: "Fitsapana", go: () => navigate({ to: "/admin/quiz" }) },
     { icon: Users, label: "Fanaraha-maso", hint: "Mpianatra", go: () => navigate({ to: "/admin/suivi" }) },
     { icon: MessageCircle, label: "Hafatra", hint: "Vondrona", go: () => navigate({ to: "/admin/messages" }) },
+    { icon: Wallet, label: "Fandoavam-bola", hint: "Crédit", go: () => navigate({ to: "/admin/paiements" }) },
   ];
 
   return (
