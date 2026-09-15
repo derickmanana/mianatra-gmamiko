@@ -147,6 +147,11 @@ export type ProductInput = {
 };
 
 export async function analyzeProduct(studentName: string, input: ProductInput) {
+  const { withCredit } = await import("./billing.server");
+  return withCredit(studentName, () => analyzeProductInner(studentName, input));
+}
+
+async function analyzeProductInner(studentName: string, input: ProductInput) {
   const name = input.productName.trim();
   if (!name) throw new Error("Ilaina ny anaran'ny produit.");
 
